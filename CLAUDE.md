@@ -38,8 +38,24 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - `src/lib/` — shared logic: schema, normalize, forecast, flags
 - `scripts/` — CLI scripts for testing pieces without the UI
 - `api/` — serverless functions (later)
+- `prompts/` — phase instructions given to Claude Code (documentation only; do not modify).
 
 ## Conventions
 - TypeScript strict. Small pure functions with a one-line comment saying what they do.
-- Comment any line whose purpose isn't obvious from reading it.
+- Comment extensively for a reader learning the codebase: a header comment at the top of every file explaining what it does and how it fits into the system; a doc comment on every function (what it does, inputs, outputs, why it exists); and inline comments on any line using a library API, a regex, a type trick, or a non-obvious decision. Comments explain why, not just what. Never change logic while commenting.
 - When a phase is done, stop and summarize what changed. Do not start the next phase unasked.
+- At the end of every phase, rewrite the Current state section (replace it, don't append).
+
+## Current state
+- **Status:** Phase 1 complete (extraction spike). What works: extract → verify → saved JSON for one
+  Crew 147 report (`2015-01-13-engineering.txt`); diesel ¾, propane 40%, static 15cm extracted; all quotes verified.
+- **Decisions made:**
+  - Date normalization (e.g. "01/13/2015" → YYYY-MM-DD) happens in TypeScript, not the prompt.
+  - `.npmrc` sets `legacy-peer-deps=true` to work around an npm 10 install crash ("reading 'edgesOut'").
+  - Template images removed in the compliance audit: no image/media files remain; favicon is an inline SVG circle in `index.html`.
+  - `.gitignore` `lib/` (Python template) was anchored to `/lib/` — it had been silently ignoring `src/lib/`.
+- **Known gaps for Phase 2:**
+  - `questions_to_mission_support` have no `source_quote` yet — add one so they verify.
+  - Water readings lack `measured_from` and tank capacity, so normalization must not guess.
+  - Only one report exists so far — forecasting needs the full Crew 147 rotation.
+- **Next:** Phase 2 (normalization + forecasting), waiting on the remaining Crew 147 engineering reports in `data/reports/crew-147/`.

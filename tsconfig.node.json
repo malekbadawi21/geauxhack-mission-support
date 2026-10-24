@@ -1,3 +1,5 @@
+// tsconfig.node.json — TypeScript settings for code that runs in Node, not the browser.
+// Mostly Vite template defaults; non-default settings are commented below.
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
@@ -14,11 +16,14 @@
     "noEmit": true,
 
     /* Linting */
+    // strict: turns on all of TypeScript's safety checks. Required by CLAUDE.md.
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
+  // Template only included vite.config.ts. We added scripts/ (CLI tools) and src/lib/extract.ts
+  // (uses process.env + the Gemini SDK) because they run in Node and need Node's types.
   "include": ["vite.config.ts", "scripts", "src/lib/extract.ts"]
 }

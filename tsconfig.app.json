@@ -1,3 +1,5 @@
+// tsconfig.app.json — TypeScript settings for browser code (the React app in src/).
+// Mostly Vite template defaults; non-default settings are commented below.
 {
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
@@ -17,6 +19,8 @@
     "jsx": "react-jsx",
 
     /* Linting */
+    // strict: turns on all of TypeScript's safety checks (e.g. null must be handled explicitly).
+    // Required by CLAUDE.md; it is what forces us to deal with missing readings instead of ignoring them.
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -24,5 +28,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
+  // extract.ts reads the secret API key via process.env, so it must never be part of the browser
+  // build. It is type-checked by tsconfig.node.json instead.
   "exclude": ["src/lib/extract.ts"]
 }
