@@ -1,0 +1,31 @@
+Engineering Report
+01/15/2015
+Rebeca Rodriguez
+Resources:
+Diesel: ¾
+Propane: 40%
+Static tank: Less than 10cm
+Trash: 5 bags awaiting pick up
+Water:
+Filled up loft tank in the morning. We have continued water conservation. We are awaiting your updates.
+Water temperature:
+The hot water has still not been attained. Two proposed checks will be performed once the water supply ship arrives.  Check 1:
+Proposed on 1/13/2015. The plan involves us running the hot water while looking at the heater display and seeing if a fan and
+showerhead icon appear. Check 2: Proposed 1/14/2015 Verify outlet temperature increases to be equal to or near the setpoint when
+water is running.
+ATV:
+During our EVA today, the oil of ATV 3 and 5 were checked. Both were nominal with the oil being filled to the maximum level line.
+On an engineering excursion ATV’s 1-5 were thoroughly examined. The Yahama Griz450 ATV manual from HAL was used to develop
+an ATV Check procedure. ATV 1,2, and 4 started smoothly.
+ATV 3 started, but it immediately shut down as soon as the throttle was released. In order to avoid this scenario, the throttle was
+closed and immediately the gear was shifted to reverse. The same was done to shift the gear to drive. Three warm up laps brought
+the ATV to a more stable condition.
+We were not able to start ATV 5. A check was done with the fuel cock lever in the ON and RES position. However, this brought about
+no changes and ATV 5 is still not functioning.
+Do you have additional mitigation strategies for us to try? We are looking forward to seeing ATV 5 up and running. Is the ATV 5
+manual available? The make is Honda. The manual on HAL (Yahama Griz450 ATV) matches the design of ATV 1,2, and 4.
+Radio and Headset:
+A thorough check was done on the radio and headsets after repeating issues with communication during EVA’s. Manual and
+automatic modes were tested on each radio. The communication quality was tested with a sender without a headset and a receiver
+with a headset. They were also tested with headsets for both sender and receiver. In conclusion, three of the headset microphones
+were found to be defective and not functioning.

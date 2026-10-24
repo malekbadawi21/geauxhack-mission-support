@@ -1,0 +1,16 @@
+Engineering Report
+01/12/2015
+Rebeca Rodriguez
+Resources:
+Diesel  ¾ 
+Propane  45% 
+Water well  ¼   
+Filled up water tank on upper floor of the hab.
+The main water tank is empty. Please refuel at the earliest convenience.
+ATV’s 3 and 5 are not starting. A light in the shape of a droplet symbol is coming on ATV 3. Please advise on how to check the fuel 
+level.
+Water is very cold. The water heater was checked. The water is still not heating up. The temperature is set to 130deg F. Please advise. 
+Activities:
+SIM started today. We began preparing for the quadcopter experiment by analyzing maps in HAL, calibrating compass on quadcopter, 
+and testing reception between the controller and quadcopter. The rover team prepared for an upcoming EVA by verifying the 
+compass worked and checking the route path synchronized between the server and Android application.

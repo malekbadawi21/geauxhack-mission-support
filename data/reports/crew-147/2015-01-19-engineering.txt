@@ -1,0 +1,23 @@
+Engineering Report
+01/19/2015
+Rebeca Rodriguez
+Resources:
+Diesel: 60%
+Propane: 35%
+Static tank: 20 cm from the top
+Water:
+The loft tank was filled in the afternoon.
+Continuing the discussion from last night:
+1. Can you verify the valve from the loft tank to the pump is full open?
+Yes, it is fully open.
+2. Can you take pictures of the pump, the pump electrical, the pipes running to and from the pump.
+Photos can be found at: https://app.box.com/s/thgx4byu5rhtt1j1jqvg1pf915ejpds6
+The pump housing was inspected for cracks and none were found.
+Water temperature:
+Proposed tests will commence once the pump is back to normal operation.
+Gasoline: Two tanks of gasoline were delivered to the hab. What is the recommended storing procedure?
+ATV:
+We had trouble starting ATV 2 during today’s EVA. This issue was resolved by switching the fuel cock to the RES position. During the
+engineering EVA, ATV 2 was tested. At that time, the fuel cock was switched to the ON position. All systems were back to nominal.
+The fuel level was checked on all ATV’s. ATV 2 had the lowest level of fuel. An orange cylinder with white vertical bars was
+protruding. This cylinder was covered in the other ATV’s. The ATV’s will be refueled during tomorrow’s EVA.

@@ -1,0 +1,110 @@
+Engineering Report
+01/21/2015
+Rebeca Rodriguez
+Resources:
+Diesel: 60%
+Propane: 32%
+Static tank: 20 cm from the top
+Water:
+The loft tank was filled in the morning and in the afternoon.
+Performed water pump test steps 1-13. Photos documenting the process can be found at:
+https://app.box.com/s/7kos59wo9mxztkaf4x7eosgsya0d11ex
+We narrowed down the issue to an area between the loft tank valve and the pump. These photos are labeled as areas 1-3.
+Removed the water flow meter and found the blocked filter. Removed blockage and installed the meter once again. The pump is now
+less stressed and we have better water flow.
+Water temperature:
+We now have hot water. Proposed tests were completed now that the pump is operational. The display on the heater showed all of
+the screen symbols described in the mitigation plan. The flow icon, blower icon, and power bars (full power) were displayed. Please
+find a picture in the link above.
+ATV:
+During today’s EVA, ATV 1-4 performed nominal.  After refueling the ATV’s, both containers of gasoline are now empty.
+-----------------------------------
+The following is the SIM suit assessment report.
+Rebeca Rodriguez
+------------------------------
+Suit 1
+Suit 1 with ATV helmet
+Ease of use: 4
+Comfort: 3
+What is good? Nothing stands out.
+Improvements: The waist and shoulder straps are very difficult to adjust. The majority of the weight of the pack goes to the shoulders, as it cannot be redistributed to the waist.
+Suit 2
+Suit 2 with helmet 2/3
+Ease of use: 8
+Comfort: 5
+What is good? No fogging issues. Good airflow.
+Improvements: The helmet was too small. The helmet sits forward and forces you to have a slouched posture. It would be a great improvement to have a way to pull back the helmet so the person is not slouched over. The rear latch on the helmet does not snap into place. It is loose and therefore has to be taped in order to ensure a secure connection. Please fix the latch on the back of the helmet so that it snaps into place.
+Suit 2 with helmet 1/4
+Ease of use: 8
+Comfort: 8
+What is good? Well balanced for crewmember’s frame. When used with helmet 1/4, the helmet fell in such a way the crewmember had relatively less fog when compared to others who used the same helmet.
+Suit 2 with helmet 2/3
+Ease of use: 8
+Comfort: 8
+What is good? The straps are highly adjustable. The waistband can be tightened and has a snug fit. This helps transfer the stress of the pack from the shoulders to the waist.
+Improvements: The back of the helmet pushes on the back of the head. One has to continuously push back on the pack to stand up straight.
+Suit 2 with helmet 4
+Ease of use: 8 The helmet is the most difficult part of donning the spacesuit.
+Comfort: 8
+What is good? Nothing stands out.
+Improvements: An improved design so hoses do not move around while donning the suit. The strength and direction of the airflow needs to be improved for most of the helmets.
+Suit 3
+Suit 3 with helmet 2/3
+Ease of use: 4
+Comfort: 8
+What is good? Well balanced for crewmember’s frame.
+Improvements: The airflow on helmet 1/4 was directly into the right eye of the crewmember. This made wearing contacts very difficult.
+Suit 3 with helmet 2/3
+Ease of use: 9
+Comfort: 9
+What is good?
+This suit is reliable, has consistent airflow, and no battery shortage.
+Improvements: New fabric covering for backpack.
+Suit 3 with helmet 2/3
+Ease of use: 8
+Comfort: 8
+What is good? The airflow was good. Never felt as wanting for air. There was enough airflow to keep you comfortable.
+Improvements: A way to combat the fog. For taller people, it would be helpful to ensure the pack fits well on the shoulders so the helmet is not resting on their head. Fogging issue needs to be mitigated.
+Suit 5
+Suit 5 with wood trim helmet
+Ease of use: 9
+Comfort: 5
+What is good? Nothing stands out.
+Improvements: There was lots of fogging on the helmet with the wood trim. Please develop a mitigation strategy for the fogging. Some of the latches on the helmets do not properly attach to the suit. Please work on replacing the latches for more consistent enclosures.
+Suit 6
+Suit 6 used with ATV helmet
+Ease of use: 8
+Comfort: 7
+What is good? Nothing stands out.
+Improvements: The crewmember reported a sore back after the EVA. Please resolve fogging issues.
+Suit 6 with helmet 2/3
+Ease of use: 8
+Comfort: 8
+What is good? Nothing stands out.
+Improvements: A way to keep the helmets free from fog. Put a new fabric covering on the backpacks.
+Suit 6 with ATV helmet
+Ease of use: 6 The helmet is the most difficult part of donning the spacesuit.
+Comfort: 8
+What is good? Nothing stands out.
+Improvements: None.
+Suit 6 with helmet 6
+Ease of use: 5
+Comfort: 5
+What is good? Nothing stands out.
+Improvements: The build up of the fog is very bad. Airflow is ok. The latch on the back of the helmet is broken.
+Suit 7
+Suit 7
+Ease of use: 5 More difficult to use than suit 2 and suit 6. This suit has a backpack and helmet that are integrated into one whole unit. It is more difficult to use since you need to put on everything at once.
+Comfort: 6 The pack is heavier than the others.
+What is good? The fog only builds up near the bottom of the helmet.
+Improvements: Additional straps. This pack only has one set of straps, while the other packs have two straps. The two sets of straps help distribute the load.
+Suit 7
+Ease of use: 7
+Comfort: 3
+What is good? Nothing stands out.
+Improvements: Liked this pack the least. The aspect of the pack being one whole unit felt like it restrained your range of motion. The helmet glass was also too close to the face.
+Suit 7
+Ease of use: 7
+Comfort: 6
+What is good? The helmet fog build up is less than others because it is open at the neck. One can inhale and exhale through the opening and not directly into the helmet.
+Improvements:  The helmet glass is very close to the crewmember’s face. Sometimes the helmet hits the back of the head.

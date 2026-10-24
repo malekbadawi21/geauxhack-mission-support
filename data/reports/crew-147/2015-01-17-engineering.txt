@@ -1,0 +1,45 @@
+Engineering Report
+01/17/2015
+Rebeca Rodriguez
+Resources:
+Diesel: less than ¾
+Propane: 37%
+Static tank: Full
+Water:
+Today the water supply ship arrived. The ship filled up the static 
+tank and at that time the loft tank was filled.
+Water temperature:
+The hot water has still not been attained. DG checked the water heater 
+and has deemed it non-operational. He has proposed for it to
+be replaced.
+ATV:
+ATV 3 was used during today’s EVA. The ATV performed well throughout 
+the excursion. The proposed check on ATV 5 will be
+performed on an upcoming EVA.
+----------------
+EngSupWater Report
+01/17/2015
+Rebeca Rodriguez
+Water Logging Date And Time:
+1/17/2015 1:30 PM
+Static Tank Level Before:
+85
+Water Meter Reading Before:
+901893
+Loft Tank Level Before:
+25
+Water Used During Fill:
+no
+Water Meter Reading After:
+902338
+Loft Tank Level After:
+50
+Static Tank Level After:
+95
+Static Tank Refilled:
+yes
+Trailer Tank Level Before:
+140
+Trailer Tank Level After:
+15
+Final Static Tank Level:

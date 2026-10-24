@@ -1,0 +1,20 @@
+Engineering Report
+01/18/2015
+Rebeca Rodriguez
+Resources:
+Diesel: less than ¾
+Propane: 36%
+Static tank: 13 cm from the top
+Water:
+Filled up loft tank in the afternoon. The water pump started behaving differently yesterday afternoon. Before, when a faucet was
+opened or the toilet flushed, the water pump turned on and emitted a loud noise. This noise lasted a couple of seconds to 30
+seconds maximum. Since yesterday afternoon, when a faucet is opened or the toilet is flushed, the water pump turns on and emits a
+loud noise that lasts anything from one minute to half an hour. During this time water does not come out of the faucet. Therefore, if
+someone flushes the bathroom, we cannot get water from any faucet for another 15 minutes. Two changes were made yesterday
+including the refilling of the static tank and a change in generator. During his visit, DG mentioned he switched to the backup
+generator because of maintenance to replace a part. Is this lack in water pressure due to the backup generator?  If it is, can we go
+ahead and switch back to the main generator?
+Water temperature:
+DG has proposed for the water heater to be replaced.
+ATV:
+The proposed check on ATV 5 will be performed on an upcoming EVA.
