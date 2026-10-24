@@ -1,0 +1,61 @@
+{
+  "report_date": "01/16/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "less than ¾",
+      "value": null,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Diesel: less than ¾",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "39%",
+      "value": 39,
+      "unit": "percent",
+      "measured_from": null,
+      "source_quote": "Propane: 39%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "Less than 10 cm",
+      "value": null,
+      "unit": "cm",
+      "measured_from": null,
+      "source_quote": "Static tank: Less than 10 cm",
+      "verified": true
+    },
+    {
+      "resource": "other",
+      "raw_text": "5 bags",
+      "value": 5,
+      "unit": "other",
+      "measured_from": null,
+      "source_quote": "Trash: 5 bags awaiting pick up",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "The hot water has still not been attained.",
+      "source_quote": "The hot water has still not been attained.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "Do you have additional mitigation strategies for us to try?",
+      "source_quote": "Do you have additional mitigation strategies for us to try?",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-16",
+  "date_from_filename": false,
+  "source_file": "2015-01-16-engineering.txt"
+}

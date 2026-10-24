@@ -1,0 +1,308 @@
+{
+  "asOf": "2015-01-13",
+  "reportCount": 2,
+  "latestReportDate": "2015-01-13",
+  "latestReadings": [
+    {
+      "date": "2015-01-13",
+      "resource": "diesel",
+      "value": 75,
+      "unit": "percent",
+      "measured_from": null,
+      "raw_text": "¾",
+      "source_quote": "Diesel: ¾",
+      "verified": true,
+      "reason": null
+    },
+    {
+      "date": "2015-01-13",
+      "resource": "propane",
+      "value": 40,
+      "unit": "percent",
+      "measured_from": null,
+      "raw_text": "40%",
+      "source_quote": "Propane: 40%",
+      "verified": true,
+      "reason": null
+    },
+    {
+      "date": "2015-01-13",
+      "resource": "water_static",
+      "value": 15,
+      "unit": "cm",
+      "measured_from": null,
+      "raw_text": "15cm",
+      "source_quote": "Static tank: 15cm",
+      "verified": true,
+      "reason": null
+    }
+  ],
+  "series": [
+    {
+      "resource": "diesel",
+      "points": [
+        {
+          "date": "2015-01-12",
+          "value": 75,
+          "unit": "percent",
+          "measured_from": null,
+          "raw_text": "¾",
+          "source_quote": "Diesel  ¾",
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        },
+        {
+          "date": "2015-01-13",
+          "value": 75,
+          "unit": "percent",
+          "measured_from": null,
+          "raw_text": "¾",
+          "source_quote": "Diesel: ¾",
+          "change_from_previous": 0,
+          "change_per_day": 0,
+          "refill": false
+        }
+      ]
+    },
+    {
+      "resource": "propane",
+      "points": [
+        {
+          "date": "2015-01-12",
+          "value": 45,
+          "unit": "percent",
+          "measured_from": null,
+          "raw_text": "45%",
+          "source_quote": "Propane  45%",
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        },
+        {
+          "date": "2015-01-13",
+          "value": 40,
+          "unit": "percent",
+          "measured_from": null,
+          "raw_text": "40%",
+          "source_quote": "Propane: 40%",
+          "change_from_previous": -5,
+          "change_per_day": -5,
+          "refill": false
+        }
+      ]
+    },
+    {
+      "resource": "water_static",
+      "points": [
+        {
+          "date": "2015-01-12",
+          "value": null,
+          "unit": null,
+          "measured_from": null,
+          "raw_text": "¼",
+          "source_quote": "Water well  ¼",
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        },
+        {
+          "date": "2015-01-13",
+          "value": 15,
+          "unit": "cm",
+          "measured_from": null,
+          "raw_text": "15cm",
+          "source_quote": "Static tank: 15cm",
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        }
+      ]
+    }
+  ],
+  "forecasts": [
+    {
+      "resource": "diesel",
+      "latest": {
+        "date": "2015-01-13",
+        "resource": "diesel",
+        "value": 75,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "¾",
+        "source_quote": "Diesel: ¾",
+        "verified": true,
+        "reason": null
+      },
+      "first": {
+        "date": "2015-01-12",
+        "resource": "diesel",
+        "value": 75,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "¾",
+        "source_quote": "Diesel  ¾",
+        "verified": true,
+        "reason": null
+      },
+      "points_used": 2,
+      "rate_per_day": 0,
+      "days_to_empty": null,
+      "reason": "level is not falling"
+    },
+    {
+      "resource": "propane",
+      "latest": {
+        "date": "2015-01-13",
+        "resource": "propane",
+        "value": 40,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "40%",
+        "source_quote": "Propane: 40%",
+        "verified": true,
+        "reason": null
+      },
+      "first": {
+        "date": "2015-01-12",
+        "resource": "propane",
+        "value": 45,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "45%",
+        "source_quote": "Propane  45%",
+        "verified": true,
+        "reason": null
+      },
+      "points_used": 2,
+      "rate_per_day": -5,
+      "days_to_empty": 8,
+      "reason": null
+    },
+    {
+      "resource": "water_static",
+      "latest": {
+        "date": "2015-01-13",
+        "resource": "water_static",
+        "value": 15,
+        "unit": "cm",
+        "measured_from": null,
+        "raw_text": "15cm",
+        "source_quote": "Static tank: 15cm",
+        "verified": true,
+        "reason": null
+      },
+      "first": {
+        "date": "2015-01-13",
+        "resource": "water_static",
+        "value": 15,
+        "unit": "cm",
+        "measured_from": null,
+        "raw_text": "15cm",
+        "source_quote": "Static tank: 15cm",
+        "verified": true,
+        "reason": null
+      },
+      "points_used": 1,
+      "rate_per_day": null,
+      "days_to_empty": null,
+      "reason": "only 1 comparable reading"
+    }
+  ],
+  "flags": [
+    {
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "critical",
+      "resource": null,
+      "message": "crew reported: Trailer tank ruptured",
+      "evidence": [
+        "At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured."
+      ]
+    },
+    {
+      "type": "RUNS_OUT_BEFORE_MISSION_END",
+      "severity": "critical",
+      "resource": "propane",
+      "message": "propane empty in ~8 days at -5 percent/day, before mission end 2015-01-23 (10 days away) — based on 2 readings",
+      "evidence": [
+        "Propane  45%",
+        "Propane: 40%"
+      ]
+    },
+    {
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "warning",
+      "resource": null,
+      "message": "crew reported: ATV 3 powered on, but after 20 seconds shut down",
+      "evidence": [
+        "ATV 3 powered on, but after 20 seconds shut down."
+      ]
+    },
+    {
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "warning",
+      "resource": null,
+      "message": "crew reported: ATV 5 failed to start completely",
+      "evidence": [
+        "ATV 5 failed to start completely."
+      ]
+    },
+    {
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "info",
+      "resource": null,
+      "message": "crew reported: Hot water has not been attained",
+      "evidence": [
+        "The hot water has still not been attained."
+      ]
+    }
+  ],
+  "events": [
+    {
+      "type": "leak",
+      "description": "Trailer tank ruptured",
+      "source_quote": "At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Hot water has not been attained",
+      "source_quote": "The hot water has still not been attained.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATV 3 powered on, but after 20 seconds shut down",
+      "source_quote": "ATV 3 powered on, but after 20 seconds shut down.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATV 5 failed to start completely",
+      "source_quote": "ATV 5 failed to start completely.",
+      "verified": true
+    }
+  ],
+  "questions": [
+    {
+      "text": "Which water tank is this referring to? Please advise.",
+      "source_quote": "Which water tank is this referring to? Please advise.",
+      "verified": true
+    },
+    {
+      "text": "Please advise on additional procedures we can try.",
+      "source_quote": "Please advise on additional procedures we can try.",
+      "verified": true
+    },
+    {
+      "text": "Please advise on proper use and capacity.",
+      "source_quote": "Please advise on proper use and capacity.",
+      "verified": true
+    },
+    {
+      "text": "We request to change this setup and cover with an extra mattress, as it is difficult with gloves to properly secure the ties after removing them.",
+      "source_quote": "We request to change this setup and cover with an extra mattress, as it is difficult with gloves to properly secure the ties after removing them.",
+      "verified": true
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "report_date": "01/12/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "¾",
+      "value": 0.75,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Diesel  ¾",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "45%",
+      "value": 45,
+      "unit": "percent",
+      "measured_from": null,
+      "source_quote": "Propane  45%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "¼",
+      "value": 0.25,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Water well  ¼",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "resupply_issue",
+      "description": "The main water tank is empty.",
+      "source_quote": "The main water tank is empty.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATVs 3 and 5 are not starting.",
+      "source_quote": "ATV’s 3 and 5 are not starting.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "The water heater was checked but the water is still not heating up.",
+      "source_quote": "The water is still not heating up.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "Please refuel at the earliest convenience.",
+      "source_quote": "Please refuel at the earliest convenience.",
+      "verified": true
+    },
+    {
+      "text": "Please advise on how to check the fuel level.",
+      "source_quote": "Please advise on how to check the fuel level.",
+      "verified": true
+    },
+    {
+      "text": "Please advise.",
+      "source_quote": "Please advise.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-12",
+  "date_from_filename": false,
+  "source_file": "2015-01-12-engineering.txt"
+}

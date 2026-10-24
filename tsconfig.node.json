@@ -23,7 +23,7 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  // Template only included vite.config.ts. We added scripts/ (CLI tools) and src/lib/extract.ts
-  // (uses process.env + the Gemini SDK) because they run in Node and need Node's types.
-  "include": ["vite.config.ts", "scripts", "src/lib/extract.ts"]
+  // Template only included vite.config.ts. We added scripts/ (CLI tools), tests/ (vitest runs in
+  // Node) and src/lib/extract.ts (uses process.env + the Gemini SDK) because they run in Node.
+  "include": ["vite.config.ts", "scripts", "tests", "src/lib/extract.ts"]
 }

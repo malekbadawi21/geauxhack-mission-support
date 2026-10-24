@@ -1,23 +1,14 @@
 // verify.ts — checks that every quote Gemini returned actually appears in the original report.
 //
 // Anti-hallucination design: an LLM can produce a plausible reading that isn't in the report.
-// Because we make Gemini attach a `source_quote` to every reading and event, we can catch that with
-// a plain substring check — no AI involved. Anything that fails is marked `verified: false` so the
-// UI and later phases can flag it instead of silently using a number that might be invented.
+// Because we make Gemini attach a `source_quote` to every reading, event and question, we can catch
+// that with a plain substring check — no AI involved. Anything that fails is marked
+// `verified: false` so later code can flag it instead of silently using a number that might be invented.
 //
 // Pure function, no network or file access: the same inputs always give the same output.
 
 // `import type` brings in TypeScript types only; nothing is imported at runtime.
-import type { Extraction, Reading, ReportEvent } from "./schema.ts";
-
-// `A & { verified: boolean }` is an intersection type: "everything in A, plus a verified field".
-export type VerifiedReading = Reading & { verified: boolean };
-export type VerifiedEvent = ReportEvent & { verified: boolean };
-// Omit<T, keys> copies type T without the listed keys; we then add them back with verified versions.
-export type VerifiedExtraction = Omit<Extraction, "readings" | "events"> & {
-  readings: VerifiedReading[];
-  events: VerifiedEvent[];
-};
+import type { Extraction, VerifiedExtraction } from "./schema.ts";
 
 /**
  * Turns every run of spaces, tabs, and newlines into a single space and trims the ends.
@@ -33,10 +24,10 @@ function collapseWhitespace(s: string): string {
 }
 
 /**
- * Marks each reading and event verified only if its source_quote appears verbatim in the report.
+ * Marks each reading, event and question verified only if its source_quote appears verbatim in the report.
  * @param text        The original report text that was sent to Gemini.
  * @param extraction  Gemini's validated output from extractReport().
- * @returns           The same extraction, with `verified: boolean` added to every reading and event.
+ * @returns           The same extraction, with `verified: boolean` added to every item.
  * Why it exists: it is the code-side guarantee that no number reaches forecasting unless the crew
  * actually wrote it. The match is case-sensitive and exact apart from whitespace.
  */
@@ -49,10 +40,14 @@ export function verifyQuotes(text: string, extraction: Extraction): VerifiedExtr
   };
 
   return {
-    ...extraction, // spread: copy report_date, crew, author, questions unchanged
+    ...extraction, // spread: copy report_date, crew, author unchanged
     // .map builds a new array; { ...r, verified } copies each item and adds the flag
     // (we never mutate Gemini's original objects).
     readings: extraction.readings.map((r) => ({ ...r, verified: isVerbatim(r.source_quote) })),
     events: extraction.events.map((e) => ({ ...e, verified: isVerbatim(e.source_quote) })),
+    questions_to_mission_support: extraction.questions_to_mission_support.map((q) => ({
+      ...q,
+      verified: isVerbatim(q.source_quote),
+    })),
   };
 }

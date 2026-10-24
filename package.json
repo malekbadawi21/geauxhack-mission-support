@@ -8,7 +8,11 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "extract": "tsx scripts/extract.ts"
+    "extract": "tsx scripts/extract.ts",
+    "extract-all": "tsx scripts/extract-all.ts",
+    "test": "vitest run",
+    "analyze": "tsx scripts/analyze.ts",
+    "typecheck": "tsc -b"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",
@@ -24,6 +28,7 @@
     "oxlint": "^1.88.0",
     "tsx": "^4.23.15",
     "typescript": "~6.0.3",
-    "vite": "^8.3.4"
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
   }
 }

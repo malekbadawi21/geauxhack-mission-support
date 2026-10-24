@@ -1,0 +1,225 @@
+{
+  "asOf": "2015-01-12",
+  "reportCount": 1,
+  "latestReportDate": "2015-01-12",
+  "latestReadings": [
+    {
+      "date": "2015-01-12",
+      "resource": "diesel",
+      "value": 75,
+      "unit": "percent",
+      "measured_from": null,
+      "raw_text": "¾",
+      "source_quote": "Diesel  ¾",
+      "verified": true,
+      "reason": null
+    },
+    {
+      "date": "2015-01-12",
+      "resource": "propane",
+      "value": 45,
+      "unit": "percent",
+      "measured_from": null,
+      "raw_text": "45%",
+      "source_quote": "Propane  45%",
+      "verified": true,
+      "reason": null
+    },
+    {
+      "date": "2015-01-12",
+      "resource": "water_static",
+      "value": null,
+      "unit": null,
+      "measured_from": null,
+      "raw_text": "¼",
+      "source_quote": "Water well  ¼",
+      "verified": true,
+      "reason": "quote \"Water well ¼\" doesn't name this tank; Gemini's label is unconfirmed"
+    }
+  ],
+  "series": [
+    {
+      "resource": "diesel",
+      "points": [
+        {
+          "date": "2015-01-12",
+          "value": 75,
+          "unit": "percent",
+          "measured_from": null,
+          "raw_text": "¾",
+          "source_quote": "Diesel  ¾",
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        }
+      ]
+    },
+    {
+      "resource": "propane",
+      "points": [
+        {
+          "date": "2015-01-12",
+          "value": 45,
+          "unit": "percent",
+          "measured_from": null,
+          "raw_text": "45%",
+          "source_quote": "Propane  45%",
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        }
+      ]
+    },
+    {
+      "resource": "water_static",
+      "points": [
+        {
+          "date": "2015-01-12",
+          "value": null,
+          "unit": null,
+          "measured_from": null,
+          "raw_text": "¼",
+          "source_quote": "Water well  ¼",
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        }
+      ]
+    }
+  ],
+  "forecasts": [
+    {
+      "resource": "diesel",
+      "latest": {
+        "date": "2015-01-12",
+        "resource": "diesel",
+        "value": 75,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "¾",
+        "source_quote": "Diesel  ¾",
+        "verified": true,
+        "reason": null
+      },
+      "first": {
+        "date": "2015-01-12",
+        "resource": "diesel",
+        "value": 75,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "¾",
+        "source_quote": "Diesel  ¾",
+        "verified": true,
+        "reason": null
+      },
+      "points_used": 1,
+      "rate_per_day": null,
+      "days_to_empty": null,
+      "reason": "only 1 comparable reading"
+    },
+    {
+      "resource": "propane",
+      "latest": {
+        "date": "2015-01-12",
+        "resource": "propane",
+        "value": 45,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "45%",
+        "source_quote": "Propane  45%",
+        "verified": true,
+        "reason": null
+      },
+      "first": {
+        "date": "2015-01-12",
+        "resource": "propane",
+        "value": 45,
+        "unit": "percent",
+        "measured_from": null,
+        "raw_text": "45%",
+        "source_quote": "Propane  45%",
+        "verified": true,
+        "reason": null
+      },
+      "points_used": 1,
+      "rate_per_day": null,
+      "days_to_empty": null,
+      "reason": "only 1 comparable reading"
+    },
+    {
+      "resource": "water_static",
+      "latest": null,
+      "first": null,
+      "rate_per_day": null,
+      "days_to_empty": null,
+      "points_used": 0,
+      "reason": "no numeric readings"
+    }
+  ],
+  "flags": [
+    {
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "warning",
+      "resource": null,
+      "message": "crew reported: The main water tank is empty.",
+      "evidence": [
+        "The main water tank is empty."
+      ]
+    },
+    {
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "warning",
+      "resource": null,
+      "message": "crew reported: ATVs 3 and 5 are not starting.",
+      "evidence": [
+        "ATV’s 3 and 5 are not starting."
+      ]
+    },
+    {
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "info",
+      "resource": null,
+      "message": "crew reported: The water heater was checked but the water is still not heating up.",
+      "evidence": [
+        "The water is still not heating up."
+      ]
+    }
+  ],
+  "events": [
+    {
+      "type": "resupply_issue",
+      "description": "The main water tank is empty.",
+      "source_quote": "The main water tank is empty.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATVs 3 and 5 are not starting.",
+      "source_quote": "ATV’s 3 and 5 are not starting.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "The water heater was checked but the water is still not heating up.",
+      "source_quote": "The water is still not heating up.",
+      "verified": true
+    }
+  ],
+  "questions": [
+    {
+      "text": "Please refuel at the earliest convenience.",
+      "source_quote": "Please refuel at the earliest convenience.",
+      "verified": true
+    },
+    {
+      "text": "Please advise on how to check the fuel level.",
+      "source_quote": "Please advise on how to check the fuel level.",
+      "verified": true
+    },
+    {
+      "text": "Please advise.",
+      "source_quote": "Please advise.",
+      "verified": true
+    }
+  ]
+}

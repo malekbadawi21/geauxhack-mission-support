@@ -1,0 +1,58 @@
+{
+  "report_date": "01/18/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "less than ¾",
+      "value": null,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Diesel: less than ¾",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "36%",
+      "value": 36,
+      "unit": "percent",
+      "measured_from": null,
+      "source_quote": "Propane: 36%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "13 cm",
+      "value": 13,
+      "unit": "cm",
+      "measured_from": "top",
+      "source_quote": "Static tank: 13 cm from the top",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "The water pump started behaving differently.",
+      "source_quote": "The water pump started behaving differently yesterday afternoon.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Water heater proposed to be replaced.",
+      "source_quote": "DG has proposed for the water heater to be replaced.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "Is this lack in water pressure due to the backup generator?",
+      "source_quote": "Is this lack in water pressure due to the backup generator?",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-18",
+  "date_from_filename": false,
+  "source_file": "2015-01-18-engineering.txt"
+}

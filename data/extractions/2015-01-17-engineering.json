@@ -1,0 +1,118 @@
+{
+  "report_date": "01/17/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "less than ¾",
+      "value": null,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Diesel: less than ¾",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "37%",
+      "value": 37,
+      "unit": "percent",
+      "measured_from": null,
+      "source_quote": "Propane: 37%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "Full",
+      "value": null,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Static tank: Full",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "85",
+      "value": 85,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Static Tank Level Before:\n85",
+      "verified": true
+    },
+    {
+      "resource": "other",
+      "raw_text": "901893",
+      "value": 901893,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Water Meter Reading Before:\n901893",
+      "verified": true
+    },
+    {
+      "resource": "water_loft",
+      "raw_text": "25",
+      "value": 25,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Loft Tank Level Before:\n25",
+      "verified": true
+    },
+    {
+      "resource": "other",
+      "raw_text": "902338",
+      "value": 902338,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Water Meter Reading After:\n902338",
+      "verified": true
+    },
+    {
+      "resource": "water_loft",
+      "raw_text": "50",
+      "value": 50,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Loft Tank Level After:\n50",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "95",
+      "value": 95,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Static Tank Level After:\n95",
+      "verified": true
+    },
+    {
+      "resource": "water_trailer",
+      "raw_text": "140",
+      "value": 140,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Trailer Tank Level Before:\n140",
+      "verified": true
+    },
+    {
+      "resource": "water_trailer",
+      "raw_text": "15",
+      "value": 15,
+      "unit": null,
+      "measured_from": null,
+      "source_quote": "Trailer Tank Level After:\n15",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "The water heater is non-operational and proposed to be replaced.",
+      "source_quote": "The hot water has still not been attained. DG checked the water heater \nand has deemed it non-operational. He has proposed for it to\nbe replaced.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [],
+  "date": "2015-01-17",
+  "date_from_filename": false,
+  "source_file": "2015-01-17-engineering.txt"
+}

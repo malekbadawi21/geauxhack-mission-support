@@ -1,0 +1,75 @@
+{
+  "report_date": "01/15/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "¾",
+      "value": 0.75,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Diesel: ¾",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "40%",
+      "value": 40,
+      "unit": "percent",
+      "measured_from": null,
+      "source_quote": "Propane: 40%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "Less than 10cm",
+      "value": null,
+      "unit": "cm",
+      "measured_from": null,
+      "source_quote": "Static tank: Less than 10cm",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Hot water has still not been attained.",
+      "source_quote": "The hot water has still not been attained.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATV 3 started, but immediately shut down when the throttle was released.",
+      "source_quote": "ATV 3 started, but it immediately shut down as soon as the throttle was released.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Unable to start ATV 5, which is not functioning.",
+      "source_quote": "We were not able to start ATV 5.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Three headset microphones were found to be defective and not functioning.",
+      "source_quote": "In conclusion, three of the headset microphones were found to be defective and not functioning.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "Do you have additional mitigation strategies for us to try?",
+      "source_quote": "Do you have additional mitigation strategies for us to try?",
+      "verified": true
+    },
+    {
+      "text": "Is the ATV 5 manual available?",
+      "source_quote": "Is the ATV 5 manual available?",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-15",
+  "date_from_filename": false,
+  "source_file": "2015-01-15-engineering.txt"
+}

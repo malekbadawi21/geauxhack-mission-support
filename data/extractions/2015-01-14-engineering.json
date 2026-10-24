@@ -1,0 +1,68 @@
+{
+  "report_date": "01/14/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "¾",
+      "value": 0.75,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Diesel: ¾",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "40%",
+      "value": 40,
+      "unit": "percent",
+      "measured_from": null,
+      "source_quote": "Propane: 40%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "15cm",
+      "value": 15,
+      "unit": "cm",
+      "measured_from": null,
+      "source_quote": "Static tank: 15cm",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Hot water has still not been attained.",
+      "source_quote": "The hot water has still not been attained.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATVs (ATV 3 and 5) need oil level check and mitigation strategies to get up and running.",
+      "source_quote": "We will check the oil level of ATV 3 and 5 on the EVA conducted tomorrow (1/15/2015). Do you have additional mitigation strategies\nfor us to try? We are looking forward to seeing them up and running.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "This gauge has remained steady since our arrival. Is this a normal situation?",
+      "source_quote": "This gauge has remained steady since our arrival. Is this a normal situation?",
+      "verified": true
+    },
+    {
+      "text": "Please advise on additional procedures we can try.",
+      "source_quote": "Please advise on additional procedures we can try.",
+      "verified": true
+    },
+    {
+      "text": "Do you have additional mitigation strategies for us to try?",
+      "source_quote": "Do you have additional mitigation strategies\nfor us to try?",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-14",
+  "date_from_filename": false,
+  "source_file": "2015-01-14-engineering.txt"
+}
