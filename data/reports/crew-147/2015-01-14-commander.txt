@@ -1,0 +1,43 @@
+114-CommandersReport
+Commander report
+01/14/2015
+Romain Charles
+We were greeted this morning by an overwhelming sun which shined the whole
+day. Our 3 crewmembers doing their planned EVA made the rest of us
+jealous!
+EVA - Andrew (EVA Lead), Danielle, Scott
+With the experience gained from yesterday's EVA, the morning preparation
+went smoothly. To react efficiently to any kind of contingency, we added
+to our existing procedures, a "hand sign" training. Now we can communicate
+with our EVA team members without a word and, most importantly, we can
+understand them if they use some specific gesture!
+The EVA lasted from 10:30 to 13:00 and here are a few highlights:
+• Engineering activity to review the status of our external systems
+• Test of the EVA Planning Tool on foot
+• Test of the EVA Planning Tool with ATV
+The experiment led by Andrew and Danielle was reported to be highly
+successful. Nevertheless we all participated in the debriefing of the EVA2
+so we could identify some new actions for the future ones.
+More details in Andrew's EVA report and Danielle's Science report.
+Water contingency
+We received notice from Mission control at 10:30 that a resupply mission
+of the Static Tank will be done in the near future. However we don't have
+yet a clear schedule for its resolution.
+We'll monitor daily the level of this tank and communicate any new status.
+In the meantime, our crew 147 is still following the "Water saving" scenario.
+Data contingency
+Yesterday, we finished with only 86Mb of data available for our
+communications. The counter went back to 500Mb in the morning and, after
+the EVA, we confirmed our first assessment: The astronomy computer had
+windows update still active. The problem is solved.
+Crew Biography
+We cleared some time this afternoon between our difference scientific
+activities for a photo session. We'll be tranferring tonight our crew
+pictures for the MDRS website.
+Upcoming EVAs
+We're requesting approval of an EVA on Jan 15th 2015. Wissam (EVA Lead),
+Rebeca, Scott & Romain are planning an EVA for quadcopter experiment to
+identify low and medium risk terrain.
+Tonight we have a clear sky and our two astronomers disappeared in the
+observatory. It's strange to have additional space in the hab… we feel at
+ease!

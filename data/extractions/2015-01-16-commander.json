@@ -1,0 +1,56 @@
+{
+  "report_date": "2015-01-16",
+  "crew": "147",
+  "author": "Romain Charles",
+  "readings": [
+    {
+      "resource": "water_static",
+      "raw_text": "empty",
+      "value": null,
+      "unit": null,
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "The situation that we feared is upon us: The trailer tank has ruptured, the static tank is empty and the loft tank is half-empty and we will run out of water tomorrow, even with our \"water saving\" techniques.",
+      "verified": true
+    },
+    {
+      "resource": "water_loft",
+      "raw_text": "half-empty",
+      "value": null,
+      "unit": null,
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "The situation that we feared is upon us: The trailer tank has ruptured, the static tank is empty and the loft tank is half-empty and we will run out of water tomorrow, even with our \"water saving\" techniques.",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "The trailer tank has ruptured.",
+      "source_quote": "The situation that we feared is upon us: The trailer tank has ruptured, the static tank is empty and the loft tank is half-empty and we will run out of water tomorrow, even with our \"water saving\" techniques.",
+      "verified": true
+    },
+    {
+      "type": "resupply_issue",
+      "description": "The static tank level is too low to refill the loft tank, prompting an urgent water resupply request and entry into a critical water contingency plan.",
+      "source_quote": "The static tank is now too low to refill the loft tank. Tomorrow we will enter into a critical water contingency plan. A water resupply is now urgently requested.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "A water resupply is now urgently requested.",
+      "source_quote": "A water resupply is now urgently requested.",
+      "verified": true
+    },
+    {
+      "text": "Request for approval of an EVA on Jan 17th, 2015.",
+      "source_quote": "We are sending a request for approval of an EVA on Jan 17th, 2015.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-16",
+  "date_from_filename": false,
+  "source_file": "2015-01-16-commander.txt"
+}

@@ -22,7 +22,10 @@ if (!crew || !asOf) {
   process.exit(1);
 }
 
-const extractions = loadSavedForReports(join("data", "reports", crew));
+// Engineering reports only for now: analyzeCrew keeps one report per date, so a commander report
+// for the same day would replace the engineering report (and its tank readings). Merging the two
+// kinds is a later decision.
+const extractions = loadSavedForReports(join("data", "reports", crew), "engineering");
 const a = analyzeCrew(extractions, asOf);
 
 /** Rounds for display only (the JSON keeps full precision); null prints as "—". */

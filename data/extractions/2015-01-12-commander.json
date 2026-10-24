@@ -1,0 +1,17 @@
+{
+  "report_date": "01/12/2015",
+  "crew": "147",
+  "author": "Romain Charles",
+  "readings": [],
+  "events": [],
+  "questions_to_mission_support": [
+    {
+      "text": "We are requesting approval of an EVA on Jan 13th 2015 Rebeca, Renee, Wissam and Romain are planning an EVA in the morning.",
+      "source_quote": "We are requesting approval of an EVA on Jan 13th 2015 Rebeca, Renee,\nWissam and Romain are planning an EVA in the morning.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-12",
+  "date_from_filename": false,
+  "source_file": "2015-01-12-commander.txt"
+}

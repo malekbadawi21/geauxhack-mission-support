@@ -1,0 +1,94 @@
+{
+  "report_date": "2015-01-21",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "60%",
+      "value": 60,
+      "unit": "percent",
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "Diesel: 60%",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "32%",
+      "value": 32,
+      "unit": "percent",
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "Propane: 32%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "20 cm",
+      "value": 20,
+      "unit": "cm",
+      "measured_from": "top",
+      "approximate": false,
+      "source_quote": "Static tank: 20 cm from the top",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Blocked filter found in the water flow meter between the loft tank valve and the pump.",
+      "source_quote": "Removed the water flow meter and found the blocked filter.",
+      "verified": true
+    },
+    {
+      "type": "resupply_issue",
+      "description": "Both containers of gasoline are empty after refueling the ATVs.",
+      "source_quote": "After refueling the ATV’s, both containers of gasoline are now empty.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Rear latch on helmet 2/3 does not snap into place and is loose.",
+      "source_quote": "The rear latch on the helmet does not snap into place. It is loose and therefore has to be taped in order to ensure a secure connection.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Some latches on the helmets do not properly attach to the suit.",
+      "source_quote": "Some of the latches on the helmets do not properly attach to the suit.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Latch on the back of helmet 6 is broken.",
+      "source_quote": "The latch on the back of the helmet is broken.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "Please fix the latch on the back of the helmet so that it snaps into place.",
+      "source_quote": "Please fix the latch on the back of the helmet so that it snaps into place.",
+      "verified": true
+    },
+    {
+      "text": "Please develop a mitigation strategy for the fogging.",
+      "source_quote": "Please develop a mitigation strategy for the fogging.",
+      "verified": true
+    },
+    {
+      "text": "Please work on replacing the latches for more consistent enclosures.",
+      "source_quote": "Please work on replacing the latches for more consistent enclosures.",
+      "verified": true
+    },
+    {
+      "text": "Please resolve fogging issues.",
+      "source_quote": "Please resolve fogging issues.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-21",
+  "date_from_filename": false,
+  "source_file": "2015-01-21-engineering.txt"
+}

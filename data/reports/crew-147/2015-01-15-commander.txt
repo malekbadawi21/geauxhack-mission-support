@@ -1,0 +1,48 @@
+115-CommandersReport
+Commander report
+01/15/2015
+Romain Charles
+We started our day with the promise of a new EVA under the sun. It's
+always good for the moral.
+EVA - Wissam (EVA Lead), Rebeca, Scott, Romain
+Like yesterday, the debriefings that we had together helped to work
+efficiently during the EVA preparation. We could tests a draft "EVA
+Checklist" which will  help each EVA Lead to be ready and efficient.
+The EVA lasted from 10:10 to 12:40 and here are a few highlights:
+• Engineering activity to review the status of our external systems
+• Quadcopter experiment in 2 different locations
+Upon return to the Hab, we did a debriefing of this 3rd EVA and one of the
+main topic was the high rate of communication issues.
+Communication issues
+Soon after our lunch we started an extensive check of all our
+communication devices (radios & headsets) in all the different
+configurations. You will receive more details about the testing in
+Rebeca's Engineering report but the conclusion is that the microphones of
+3 headsets (out of 6) are not working.
+From our different tests, we now assume that the humidity of the helmet
+could be the cause of this high rate of failure amongst the microphones.
+We would like to request a near-future resupply of EVA microphone
+equipment with a minimum of 3 new headsets so we can continue our
+exploration of the Martian surface safely.
+Engineering EVA
+The ATV situation was evaluated again during the Engineering activities of
+our morning EVA but to no avail. An Engineering EVA was then planned from
+17h30 to 18h to have a clear understanding of the situation. Rebeca was
+able to start 4 ATVs (out of 5) with success but the ATV5 is still a
+problem. You will find all the details in her Engineering report.
+Water contingency
+We monitored the Static tank status during our EVA's Engineering
+activities at 10:30 and also during the Engineering EVA at 18:10 but it
+didn't change. The tank is still low with water. Our crew continues to
+follow the "Water saving" scenario but, as explained on the 13th of
+January, tomorrow is the last day when we have enough water supplies.
+We urgently request the status of the water resupply. Shall we schedule a
+"water recovery" activity during our planned EVA tomorrow?
+Upcoming EVA
+We are sending a request for approval of an EVA on Jan 16th 2015. As the
+weather conditions improved for the last couple of days, Danielle (EVA
+Lead), Andrew, Renee and Scott are planning an EVA to conduct a test of
+the Phoenix Rover.
+I finish this report a bit abruptly as, for the 3rd day in a row, we
+caught a glimpse of our new mascot, Marvin the mouse, and we're starting a
+hunt!

@@ -1,0 +1,30 @@
+{
+  "report_date": "2015-01-22",
+  "crew": null,
+  "author": "Romain Charles",
+  "readings": [],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Quadcopter had a contingency and will not be able to fly again before the end of the mission.",
+      "source_quote": "Unfortunately, on a high risk terrain, the quadcopter had a contingency and will not be able to fly again before the end of our stay on Mars.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Impossible to pump water from the static tank to the loft tank due to freezing temperatures.",
+      "source_quote": "This morning it was impossible to pump the water from the static tank to the loft tank.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "It's still unclear to us if cleaning supplies should be provided, like the food, by the Mars Society or if each crew should be responsible for their own cleaning supplies.",
+      "source_quote": "It's still unclear to us if cleaning supplies should be provided, like the food, by the Mars Society or if each crew should be responsible for their own cleaning supplies. We request feedback from Mission Support on this issue ASAP as this information will also be important for the Crew 148 arriving in 2 days.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-22",
+  "date_from_filename": false,
+  "source_file": "2015-01-22-commander.txt"
+}

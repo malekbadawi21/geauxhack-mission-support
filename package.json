@@ -12,7 +12,8 @@
     "extract-all": "tsx scripts/extract-all.ts",
     "test": "vitest run",
     "analyze": "tsx scripts/analyze.ts",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "fetch-reports": "tsx scripts/fetch-reports.ts"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",

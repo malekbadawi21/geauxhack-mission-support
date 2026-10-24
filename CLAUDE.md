@@ -62,37 +62,52 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - At the end of every phase, rewrite the Current state section (replace it, don't append).
 
 ## Current state
-- **Status:** Phase 2 complete except 3 extractions (deterministic pipeline, CLI only). `npm run extract-all`,
-  `npm run analyze -- crew-147 --as-of <date>`, `npm test`, and the build all work. Saved extractions exist
-  for Jan 12–19 (8 of 11 reports). **Jan 21, 22, 23 are NOT extracted:** the Gemini free tier allows
-  20 requests/day and it ran out. Re-run `npm run extract-all -- data/reports/crew-147` (no `--force`) after
-  the quota resets; it extracts only the missing three and rewrites the survey.
-- **Demo before/after works:** as of Jan 12 → only "main water tank is empty" (warning). As of Jan 13 →
+- **Status:** Phase 2 complete, plus a data pass for commander reports. All 11 Crew 147 engineering
+  reports (Jan 12–19, 21–23) and 10 commander reports (Jan 12–19, 22, 23) are extracted with every quote
+  verified. `npm run analyze`, `npm test`, type check, build and lint all pass.
+- **Gemini API:** paid tier, prepaid credits, auto-reload off.
+- **Demo before/after works:** as of Jan 12 → "main water tank is empty" (warning). As of Jan 13 →
   CRITICAL trailer-tank rupture flag with its quote, plus CRITICAL "propane runs out before mission end"
-  (45% → 40% in one day; based on only 2 readings, and the flag says so).
-- **What the survey revealed:** diesel is "¾" then "less than ¾" (a bound → null) then "60%"; propane is
-  always "NN%". The static tank is "15cm" (no top/bottom) through Jan 14, then "Less than 10cm" (bound), "Full"
-  on Jan 17 (refill, no cm value), then "N cm from the top" from Jan 18. Jan 12's "Water well ¼" was labeled
-  static tank by Gemini but the quote never names it, so normalize rejects it. The Jan 17 refill form gives
-  bare numbers (85/95, 25/50, 140/15) with no units → null. Loft tank is only ever "filled"; gasoline is
-  never a level.
+  (45% → 40% in one day; based on only 2 readings, and the flag says so). By Jan 23: diesel and propane
+  ~22 days from empty; static tank trend -5 cm/day.
+- **Data sources:** `npm run fetch-reports` (scripts/fetch-reports.ts, dev-only, never imported by the
+  app) downloads the commander reports and `final-mission-report.txt` (reference only, never extracted)
+  and logs each URL in data/SOURCES.md. Its HTML→text output matched the hand-saved Jan 13 engineering
+  report line for line (only the page-title line is extra). Engineering reports other than Jan 13 were
+  saved by hand and have no URL in SOURCES.md yet.
+- **What the surveys revealed:**
+  - Engineering: diesel "¾" → "less than ¾" (bound → null) → "60%"…"50%"; propane always "NN%". Static
+    tank "15cm" (no top/bottom) to Jan 14, "Less than 10cm" (bound), "Full" Jan 17 (refill, no cm value), then
+    "N cm from the top" Jan 18–23. Jan 12 "Water well ¼" is rejected (quote never names the static tank).
+    The Jan 17 refill form has unitless numbers → null. Loft is only "filled"; gasoline never a level.
+  - Commander: the ONLY water quantity is Jan 13 "~360l" (water_total, approximate). Jan 16 "empty" /
+    "half-empty" and Jan 17 "full" are words for static/loft. "350l" on Jan 13 is a proposed bottle drop, not
+    a reading. So there is no water volume time series. Gemini's `crew` field read "115"/"117" from page
+    titles on two commander reports — don't trust or use it.
+  - Crew roster (Final Mission Report table): Romain Charles (Commander), Renee Garifi (XO), Wissam
+    Rammo (HSO), Andrew Henry (Journalist), Rebeca Rodriguez (Engineer), Danielle DeLatte (Scientist),
+    Scott MacPhee (Astronomer). No report states the crew size as a number; the table has 7 rows.
 - **Not forecastable, and why:**
-  - water_static: days-to-empty undefined. Early readings don't say top/bottom; later ones are "from the
-    top" with no total tank depth. A trend (cm/day) only.
-  - water_loft, water_trailer: no numeric reading with a unit (only "filled", or unitless form numbers).
+  - water_static: days-to-empty undefined (early readings don't say top/bottom; later ones are "from the
+    top" with no total tank depth). Trend only.
+  - water_loft, water_trailer: no numeric reading with a unit.
   - gasoline: never reported as a level.
-  - Water use in liters can't be computed (no capacity or volume anywhere), so `baselines.ts` is unused.
+  - water_total: one data point (Jan 13 "~360l"). normalize.ts currently returns null for it because "~"
+    makes it an estimate. Liters per crewmember (baselines.ts) is therefore still not computed.
 - **Decisions made:**
-  - Rates are AMOUNT change per day (negative = used up). "From the top" depths flip sign, so a refill
-    there is a big drop in the number.
-  - Normalize parses raw_text itself and ignores Gemini's value/unit; measured_from comes from the quote's
-    wording. Unverified quotes, a raw_text not inside its quote, or a tank quote that doesn't name the tank → null.
+  - Schema: resource `water_total`; reading field `approximate` (required from Gemini; optional on saved
+    files, because Jan 12–19 engineering extractions predate it — missing means "not assessed").
+  - extract-all extracts only `YYYY-MM-DD-<kind>.txt`, stops the batch on a quota/billing error, and splits
+    the survey by kind. Retries cover 429/503/504 (2s/4s/8s), 60s request timeout.
+  - `npm run analyze` loads engineering reports only: analyzeCrew keeps one report per date, so a commander
+    report would replace that day's engineering report. Merging the kinds is an open decision.
+  - Rates are AMOUNT change per day (negative = used up); "from the top" depths flip sign.
+  - Normalize parses raw_text itself; measured_from comes from the quote's wording. Unverified quotes,
+    raw_text not inside its quote, or a tank quote that doesn't name the tank → null.
   - Event severity comes from keyword rules on the verified quote (constants.ts), never Gemini's `type`.
-  - MISSION_END_DATE = 2015-01-23, the date of the last Crew 147 report we have (not an official end date).
-  - Retry also covers 504 (seen in the batch run). Daily-quota 429s still burn their 3 retries (harmless).
-  - Date normalization (e.g. "01/13/2015" → YYYY-MM-DD) happens in TypeScript, not the prompt.
-  - `.npmrc` sets `legacy-peer-deps=true` to work around an npm 10 install crash ("reading 'edgesOut'").
-  - No image/media files; favicon is an inline SVG. `.gitignore` `lib/` anchored to `/lib/`.
-- **Known gaps:** `data/SOURCES.md` lists a URL only for the Jan 13 report. "other" readings (trash
-  bags, water meter) are shown but not charted or forecast.
-- **Next:** extract Jan 21–23 once quota resets, then Phase 3 (UI) when asked.
+  - MISSION_END_DATE = 2015-01-23, the date of the last Crew 147 report (not an official end date).
+  - Dates normalized in TypeScript. `.npmrc` legacy-peer-deps (npm 10 crash). No image/media files.
+    `.gitignore` `lib/` anchored to `/lib/`.
+- **Open questions for Malek:** should approximate values ("~360l") be used with an "approximate" mark
+  instead of null? How should commander reports merge with same-day engineering reports in analyzeCrew?
+- **Next:** Phase 3 (UI) when asked.

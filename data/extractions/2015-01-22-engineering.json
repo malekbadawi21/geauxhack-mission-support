@@ -1,0 +1,55 @@
+{
+  "report_date": "01/22/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "55%",
+      "value": 55,
+      "unit": "percent",
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "Diesel: 55%",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "31%",
+      "value": 31,
+      "unit": "percent",
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "Propane: 31%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "38 cm",
+      "value": 38,
+      "unit": "cm",
+      "measured_from": "top",
+      "approximate": false,
+      "source_quote": "Static tank: 38 cm from the top",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Water did not flow from the static tank when attempting to fill the loft tank.",
+      "source_quote": "We attempted to fill the loft tank before the EVA at 10am, but water did not flow from the static tank.",
+      "verified": true
+    },
+    {
+      "type": "resupply_issue",
+      "description": "The crew is awaiting additional fuel for the ATVs.",
+      "source_quote": "We are awaiting additional fuel.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [],
+  "date": "2015-01-22",
+  "date_from_filename": false,
+  "source_file": "2015-01-22-engineering.txt"
+}

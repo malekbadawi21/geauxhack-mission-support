@@ -1,0 +1,30 @@
+116-CommandersReport
+Commander report
+01/16/2015
+Romain Charles
+ 
+Last night and this morning, Renee and Wissam reduced their sleeping time to cook a "Lava cake" (with Martian craters) and blueberry pancakes for Danielle's birthday. The best part of this gift for Danielle is that we could share it all together. Needless to say, our breakfast was great & joyful!
+Happy Birthday, Danielle!
+ 
+EVA - Danielle (EVA Lead), Scott, Renee
+We're now going through a well defined check-list before each EVA and, as our debriefing revealed later, the preparation was more efficeint for this EVA than for the past three.
+The main highlights of this EVA were:
+·       Engineering activities
+·       Successful test of the Phoenix Rover
+ 
+Science - All
+The beginning of the afternoon was quiet in the Hab as we were all working on our different experiments. You will find more details in Danielle's Science report.
+ 
+Water contingency
+Reviewing the pictures of the EVA "Engineering activities", we realized that the pipe going from the static tank to the loft tank was at the same height as the water inside the static tank.
+Soon after realizing that, we planned an Engineering EVA to confirm the situation:
+The static tank is now too low to refill the loft tank. Tomorrow we will enter into a critical water contingency plan. A water resupply is now urgently requested.
+ 
+In a nominal situation, the MDRS has 3 tanks (Trailer, Static & Loft). The situation that we feared is upon us: The trailer tank has ruptured, the static tank is empty and the loft tank is half-empty and we will run out of water tomorrow, even with our "water saving" techniques. 
+ 
+If the static tank is not filled before 12:00pm on Jan 17th, we'll have to break the SIM and take the Hab car into town to purchase jugs of water.
+ 
+Upcoming EVAs
+We are sending a request for approval of an EVA on Jan 17th, 2015. Renee (EVA Lead), Rebeca, Scott & Romain are planning an EVA to do some outreach videos with the Quadcopter.
+ 
+Even if the spirit in our crew 147 is still good (Happy Birthday Danielle!), the water situation is weighing on us. It kept degrading for a week and we have now to consider breaking our Martian simulation. This is something that we want to avoid and it won't be an easy decision.

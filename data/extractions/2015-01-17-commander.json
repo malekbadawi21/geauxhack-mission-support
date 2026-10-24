@@ -1,0 +1,32 @@
+{
+  "report_date": "01/17/2015",
+  "crew": "117",
+  "author": "Romain Charles",
+  "readings": [
+    {
+      "resource": "water_loft",
+      "raw_text": "full",
+      "value": null,
+      "unit": null,
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "By the time he was finished, the loft tank & the static tank were full.",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "full",
+      "value": null,
+      "unit": null,
+      "measured_from": null,
+      "approximate": false,
+      "source_quote": "By the time he was finished, the loft tank & the static tank were full.",
+      "verified": true
+    }
+  ],
+  "events": [],
+  "questions_to_mission_support": [],
+  "date": "2015-01-17",
+  "date_from_filename": false,
+  "source_file": "2015-01-17-commander.txt"
+}

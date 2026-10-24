@@ -16,6 +16,20 @@ import { SavedExtractionSchema, type SavedExtraction } from "../src/lib/schema.t
 export const EXTRACTIONS_DIR = join("data", "extractions");
 
 /**
+ * True for report files we extract: "YYYY-MM-DD-<kind>.txt". Reference files without a date prefix
+ * (e.g. final-mission-report.txt) are skipped. Regex: 4-2-2 digits, a dash, a word, ".txt".
+ */
+export function isDatedReport(file: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}-[a-z]+\.txt$/.test(file);
+}
+
+/** The report kind from its filename: "2015-01-13-commander.txt" -> "commander". */
+export function reportKind(file: string): string {
+  // Regex: skip the date and dash, capture the letters before ".txt".
+  return file.match(/^\d{4}-\d{2}-\d{2}-([a-z]+)\.txt$/)?.[1] ?? "unknown"; // ?.[1] = capture group, if matched
+}
+
+/**
  * Where the saved JSON for a report goes: data/extractions/<report name>.json.
  * basename(path, ext) strips the folder and the extension: ".../2015-01-13-engineering.txt" -> "2015-01-13-engineering".
  */
@@ -57,13 +71,15 @@ export function loadSaved(path: string): SavedExtraction {
 }
 
 /**
- * Loads the saved extraction for every report in a folder (reports without one are skipped).
+ * Loads the saved extraction for every dated report in a folder (reports without one are skipped).
  * @param reportsDir  e.g. data/reports/crew-147
+ * @param kind        Only this report kind (e.g. "engineering"); omit for all kinds.
  * @returns           SavedExtractions in filename order (filenames start with the date).
  */
-export function loadSavedForReports(reportsDir: string): SavedExtraction[] {
+export function loadSavedForReports(reportsDir: string, kind?: string): SavedExtraction[] {
   return readdirSync(reportsDir)
-    .filter((f) => f.endsWith(".txt"))
+    .filter(isDatedReport)
+    .filter((f) => kind === undefined || reportKind(f) === kind)
     .sort()
     .map((f) => savedPathFor(f))
     .filter((p) => existsSync(p))

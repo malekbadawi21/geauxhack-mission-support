@@ -29,6 +29,9 @@ export const ReadingSchema = z.object({
     "water_loft",
     "water_trailer",
     "gasoline",
+    // A total amount of water the crew states they have across all tanks (commander reports,
+    // e.g. "~360l"), as opposed to one tank's level.
+    "water_total",
     "other",
   ]),
   raw_text: z.string(), // the value exactly as written, e.g. "¾", "15cm"
@@ -38,6 +41,9 @@ export const ReadingSchema = z.object({
   // Whether a tank depth is measured from the top or bottom changes its meaning completely,
   // so we only record it when the report says so; otherwise null (no guessing).
   measured_from: z.enum(["top", "bottom"]).nullable(), // only if the report says so
+  // true when the report marks the value as approximate ("~360l", "about 40%"). Gemini fills it;
+  // normalize.ts still reads raw_text itself, so this is a second signal, not the only one.
+  approximate: z.boolean(),
   source_quote: z.string(), // verbatim span from the report containing this reading
 });
 
@@ -69,7 +75,9 @@ export const ExtractionSchema = z.object({
 // .extend({...}) makes a new schema with every field of the original plus (or overriding) these.
 // `verified` is set by verify.ts, never by Gemini.
 const verifiedFlag = { verified: z.boolean() };
-export const VerifiedReadingSchema = ReadingSchema.extend(verifiedFlag);
+// `approximate` is optional in SAVED readings only: the Jan 12–19 engineering extractions were made
+// before the field existed. Missing means "not assessed", not false. New extractions always have it.
+export const VerifiedReadingSchema = ReadingSchema.extend({ ...verifiedFlag, approximate: z.boolean().optional() });
 export const VerifiedEventSchema = EventSchema.extend(verifiedFlag);
 export const VerifiedQuestionSchema = QuestionSchema.extend(verifiedFlag);
 

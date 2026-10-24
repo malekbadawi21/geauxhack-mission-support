@@ -1,0 +1,46 @@
+{
+  "report_date": "01/15/2015",
+  "crew": "115",
+  "author": "Romain Charles",
+  "readings": [],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Microphones of 3 headsets out of 6 are not working.",
+      "source_quote": "the conclusion is that the microphones of\n3 headsets (out of 6) are not working.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATV5 is still a problem and could not be started.",
+      "source_quote": "Rebeca was\nable to start 4 ATVs (out of 5) with success but the ATV5 is still a\nproblem.",
+      "verified": true
+    },
+    {
+      "type": "resupply_issue",
+      "description": "The static water tank remains low and tomorrow is the last day with sufficient water supplies.",
+      "source_quote": "The tank is still low with water. Our crew continues to follow the \"Water saving\" scenario but, as explained on the 13th of January, tomorrow is the last day when we have enough water supplies.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "We would like to request a near-future resupply of EVA microphone equipment with a minimum of 3 new headsets so we can continue our exploration of the Martian surface safely.",
+      "source_quote": "We would like to request a near-future resupply of EVA microphone\nequipment with a minimum of 3 new headsets so we can continue our\nexploration of the Martian surface safely.",
+      "verified": true
+    },
+    {
+      "text": "We urgently request the status of the water resupply.",
+      "source_quote": "We urgently request the status of the water resupply.",
+      "verified": true
+    },
+    {
+      "text": "Shall we schedule a \"water recovery\" activity during our planned EVA tomorrow?",
+      "source_quote": "Shall we schedule a\n\"water recovery\" activity during our planned EVA tomorrow?",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-15",
+  "date_from_filename": false,
+  "source_file": "2015-01-15-commander.txt"
+}

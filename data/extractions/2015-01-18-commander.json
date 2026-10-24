@@ -1,0 +1,24 @@
+{
+  "report_date": "01/18/2015",
+  "crew": null,
+  "author": "Romain Charles",
+  "readings": [],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "A technical issue prevents using any tap for long periods of time.",
+      "source_quote": "However we experience since yesterday a technical issue which prevents us from using any tap for long periods of time.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "Please advise.",
+      "source_quote": "Please advise.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-18",
+  "date_from_filename": false,
+  "source_file": "2015-01-18-commander.txt"
+}

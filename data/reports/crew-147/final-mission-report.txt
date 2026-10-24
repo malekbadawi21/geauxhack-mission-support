@@ -1,0 +1,75 @@
+Final Mission Report
+Mars Desert Research Station Crew 147 Files Final Report
+January 24, 2015
+For further information about the Mars Society, visit our website at
+www.marssociety.org
+The following is the final report of MDRS Crew 147. A full review of this year's activity at the Mars Desert Research Station will be given at the 18th International Mars Society Convention, which will be held August 13-16, 2015 at the Catholic University of America, Washington DC.  Registration is now open at www.marssociety.org.
+Mars Desert Research Station Crew 147 Final Report
+ 
+Team Member Home Country Position(s)
+ 
+Crew Member | Country | MDRS Role
+Romain Charles | France | Commander
+Renee Garifi | USA | Executive Officer
+Wissam Rammo | Germany | Health & Safety Officer
+Andrew Henry | United Kingdom | Crew Journalist
+Rebeca Rodriguez | USA | Crew Engineer
+Danielle DeLatte | USA | Crew Scientist
+Scott MacPhee | Canada | Crew Astronomer
+ 
+Team ISU has successfully closed out their first rotation at MDRS, comprised of two weeks of intense research, team building and simulation training on Mars. Our team of highly motivated scientists, engineers and thinkers from around the world were well prepared for a variety of contingencies and dealt extremely well with water conservation, limited supplies and with the absence of a functioning GreenHab for additional biology research.
+ 
+Our team holds unique graduate degrees from the International Space University Masters and Space Studies Programs. This distinguished university has provided all of us with a shared life experience that has shaped our collective careers in the space industry. We share a passion for space research, engineering, architecture, mission design and exploration that unites us as a tightly bonded team of space adventurers.
+Most importantly, we understand the need to support each other while collaborating on a common mission objective. Our diverse backgrounds provide us with an interdisciplinary problem-solving approach. The first Mars colony will undoubtedly be an international collaboration. Culture sharing was an important part of our two-week stay at MDRS as we cooked, shared language and music during our down time. We plan to publicize our mission in each of our home countries and we will leave the habitat with 7 incredible life experiences that we will share when we get home.
+ 
+Team Goals
+·      To productively function as an international, interdisciplinary team of scientists and engineers
+·      To gain team and individual experience in a Mars analog simulation
+·      To learn from the team’s collective background and experiences
+·      To produce a scientifically publishable report, including experimental results
+·      To promote awareness and passion for space exploration via education and outreach
+·      To conduct engaging experiments that will be shared on the team website
+·      To share with the public how research is conducted in an analog situation
+·      To open the communication channels between the research community and general public
+·      To fully utilize the Musk Observatory for high-caliber astronomical observations
+·      To study crew group dynamics of a Mars analog mission
+·      To develop conference-worthy abstract submissions for the work done in this field season
+ 
+Summary of Research Experiments
+ 
+1.     Sociomapping Experiment: A survey based study on group dynamics of the crew during the analog simulation
+This experiment looks into monitoring a group as a whole and into predicting potential conflicts in the team by assessing the patterns of communication and cooperation. This study was previously conducted with high success for other analog missions, including Mars 500 in Moscow.
+ 
+Every second day, a set of questions related to communication, cooperation, work knowledge, atmosphere in the team and perceived team performance, was asked to each crew member. Just before the next Sociomapping session, a feedback was provided to the commander. Understanding the team dynamics could help him to take action and prevent any crisis if necessary. The data gathered during the Crew 147 rotation proved that Team ISU was very far from any kind of psychological crises. The "Sociomaps" provided as a feedback showed that the team dynamics were moving positively for one week and remained stable at this position for the second one. A continuous test of the Sociomapping method might serve as a proxy for assessing the crew dynamics in future flight simulations and real spaceflights.
+ 
+2.     KELT Observational Astronomy Experiment: Utilizing the Musk Observatory to obtain photometric data of large transiting Jovian exoplanets
+ 
+The Astronomy objective was to observe transiting exoplanetary targets selected by the existed KELT (Kilodegree Extremely Little Telescope) survey, in order to contribute to the existing body of knowledge on these objects. Observations were completed using the Musk observatory, featuring a Celestron 14” telescope, f/6.3 focal reducer and an SBIG ST-8300C telescope. After reducing the images with appropriate bias, dark and flat field frames, ensemble photometry will be completed to analyze the expected drops in brightness, indicative of a transit event. As no filters were available, our observations are somewhat limited in Signal to Noise and will thus contribute as event confirmations only.
+ 
+Below is a table of completed observations and targets, given that weather influenced what days were selected for observing during our mission.
+Date | Targets | V magnitude | Transit Duration (hours) | Transit Depth (mmag) | Additional Comments
+Thurs. Jan. 15 th | KC03C03248 | 13.28 | 3.0 | 50 | Target starfield was nearby but incorrectly identified. Data appears unuseable
+Friday Jan. 16 th | KC03C03248 | 13.28 | 3.0 | 50 | Target starfield identified with ~ 50 images collected. Initial Analysis shows evidence of Ingress as expected.
+Sat. Jan. 17 th | Comet Lovejoy | - | - | - | Astrophotos attempted. 30 second and 120 second exposures were captured. (no KELT targets for this evening)
+Mon. Jan. 19 th | KC04C020098 | 10.6 | 2:32 | 17.8 | Ingress may have been captured, Egress @ low elevation.
+Wed. Jan. 21 st | KC03C07670 | 10.63 | 4:28 | 8.72 | Very small transit depth. SNR ration most likely too low to detect, attempt @ egress observation made.
+Thurs. Jan. 22 nd | KC07C07047 | 6.95 | 3:24 | 36.7 | Known visual binary. Smaller stellar companion expected to transit 1 of the 2 stars.
+ 
+3.     Quadcopter Terrain Mapping Experiment: Employing a Phantom Quadcopter to remotely image terrain around the MDRS to evaluate low, medium and high risk factors that could affect the safety of an EVA
+ 
+The goal of our experiment is to obtain imagery of the terrain to identify low, medium, and high risk sites for EVA’s and human settlement on Mars. Our mission was to perform this experiment at MDRS using quadcopter technology and determining the level of risk at each site that can be used as a guideline for the first human exploration of Mars. Literature on the Apollo missions indicated a slope greater than 2% is considered a high risk terrain for human exploration. A low risk site includes terrain that would not hinder a human from exploration.
+ 
+These terrain characteristics include: flat (0° slope), smooth terrain, no large hills, no high cliffs, no deep craters, no boulders, compact ground, low dust. A medium risk site is defined as terrain that may pose threats to human exploration. This is defined as: moderate slope or moderate elevation change (between 0° and 2° slope), rough terrain, no large hills, no high cliffs, few craters, few boulders, patches of loose ground. A high risk site is defined as terrain that would trap a human or ATV during an EVA. These risks include: steep slope or elevation change (greater than 2° slope), uneven terrain, high hills and cliffs, many craters, large boulders, loose ground, large rocks, sand dunes, crusty surfaces, icy surfaces.
+ 
+The experiment involved the Phantom I quadcopter, GoPro camera, ground stakes, ribbon, handheld Garmin GPS device, and the topographical and geographical maps on the MDRS website for the selection of interesting terrain. Through EVA’s, we set out to the locations prescreened as low, medium, or high risk. We then visited the areas of interest on foot and by ATV. Four markers were used at the locations to make a 10' x 10' area.  The markers were color coordinated to indicate green is low risk, blue is medium risk, and pink is high risk. The quadcopter and camera were then flown over the marked area to capture images from above. Out of these locations, 3 were low risk, 2 were medium risk, and 5 were high risk. The images taken by the quadcopter prove to be useful for the planning of future EVA’s. For low and high risk terrain it was easy to identify the characteristics of slope, boulders, and cliffs. However, identifying medium risk sites proved to be difficult due to the moderate characteristics of the terrain. In the future, the team will establish a matrix rule system for low, medium, and high risk terrain for EVA’s. The system includes characteristics such as terrain roughness and slope. It would be beneficial for the identification of medium risk terrain to enhance the quadcopter by including sensors to measure soil composition and patches of loose ground.
+ 
+4.     EVA Planning Tool: Testing new software to help improve mission efficiency and crew safety through the use of electronic planning tools during Extra-vehicular activity (EVA)
+The aim of the BTRIX/Virgil experiment was a field trial of a 3D EVA planning tool (BTRIX) and wrist mounted EVA assistant (Virgil). The software was largely developed prior to arrival at MDRS, however new features were added and changes made to existing functionality based on our experiences of using it in the MDRS analogue environment. A typical workflow will start with the BTRIX web application being used to plan out an EVA. After an EVA plan has been established, it is synchronized with the Virgil wrist-mounted EVA assistant. Virgil is an android application and can run on recent android based smartphones. Virgil will guide the user between the pre-determined waypoints and will collect geotagged images, voice notes, and video. Much of this functionality was developed once in mission at MDRS. Virgil will also record the EVA for analysis of the actual path taken later.
+The trial was very successful, and both pieces of software performed very well. They were used as the primary navigation device on several EVAs, with a dedicated GPS being carried only as a backup. Some opportunities for improvement were identified, such as a need for higher resolution terrain data. A lot was learned in the process of testing these applications at MDRS. Some features that were thought to be useful beforehand were determined to not actually be useful in the field, and some useful features were missing and subsequently added. Operating parameters were established including the GPS accuracy of a cheap smartphone, battery life, and practical aspects of operating a capacitive touch screen with gloves. BTRIX and Virgil have shown a lot of potential both for their originally intended purposes, as well as other applications. The software suite could be used by scientists, disaster and relief workers, or anyone working in a remote or dangerous environment.
+5.     Human-Robot Interaction Study: Utilizing the Mars Society's Mars Educational Outreach rover while students at the International Space University operate the sister Mars Research rover at the International Space University, “Dusty” to test command algorithms and evaluate disaster mitigation techniques.
+MDRS has a Mars education rover, Phoenix, which is one of three worldwide. A second, Dusty, resides at the International Space University, which provided the experimental collaboration for the rover study. The crew members worked with two current ISU students, Jean-Francois Rococo and Hamza Ragala, who are conducting localization, visual odometry, and obstacle avoidance studies. At MDRS, the crew members took realistic data and ideal data that will feed into the students' algorithms. This primarily involved driving the rover near the Habitat and providing visual examples of astronaut gestures and images at various distances to obstacles.
+In conclusion, we consider our mission to be a success. What brings this team together is our common dream of space exploration. After spending one year abroad in Strasbourg, France, our crew understands the importance of defining roles within a team and have learned to cope with high-stress situations in small living spaces. Completing a mission together at MDRS has challenged us to improve our professional communication while expanding our friendships and our shared passion for exploration.
+We would like to extend our gratitude to the MDRS Mission Support Team who have supported our crew every evening during the Comms window. Special thanks goes to CGI, Shannon Rupert, DG Luskow, Gary Sutliff, Randy Dunning, Scott Davis, Peter Detterline, Steve Foss, Judd Reed, Nick Orenstein, Ken Sullivan, Jean Hunter, Sheryl Bishop, Susan Martin, Anushree Srivastava, Darrel Robertson, Michael Stoltz, Bruce Ngatairua, Andrew Gray, Joshua Pepper, Hakeem Oluseyi, Heather Alloway, Ondrej Doule, Ryan Kobrick, R.C., Angie Bukley, Chris Welch, Hugh Hill, Daniella Stupar, Walter Peeters, the ISU 2015 Master’s Class, Dr. Robert Zubrin and the Mars Society, The Musk Foundation and all the previous Crews who made MDRS what it is today.
+Ad astra…!
+ 
+For further information about the Mars Society, visit our website at www.marssociety.org

@@ -1,0 +1,46 @@
+122-CommandersReport
+Commander report
+01/22/2015
+Romain Charles
+Our days often gravitate around the EVA. It's an important step in
+gathering data & validating our 2 important experiments: EVA Planning Tool
+and Terrain mapping. Our crew rotation is coming to an end and today was
+the last time that we could work on them. Tomorrow's EVA will be oriented
+toward outreach.
+EVA - Wissam (EVA Lead),  Rebeca, Romain
+We have now a good routine for the preparation of the EVAs and the team
+left the Hab at 10:00. It was a beautiful day and all the targeted
+terrains were successfully mapped. Unfortunately, on a high risk terrain,
+the quadcopter had a contingency and will not be able to fly again before
+the end of our stay on Mars.
+All the crew members were safely back at the Hab at 14:00.
+The main highlights were:
+• Engineering activities
+• Successful terrain mapping
+• Quadcopter contingency
+Water situation
+This morning it was impossible to pump the water from the static tank to
+the loft tank. Having freezing temperature outside, we remembered
+Shannon's advice and followed it. We waited for the temperature to be
+warmer at noon and tried again to pump the water. This operation was then
+successful. This issue is quite easy to solve and we'll make sure to pass
+the information on to the next crew. However, I would recommend to have a
+closer look at this issue as soon as possible. The tubes can easily be
+damaged by freezing water.
+Cleaning supplies
+At the beginning of our rotation, before starting the simulation, our crew
+bought many cleaning supplies (napkins, wet wipes, hand soap, hand
+sanitizer, mop, etc…). It's still unclear to us if cleaning supplies
+should be provided, like the food, by the Mars Society or if each crew
+should be responsible for their own cleaning supplies. We request feedback
+from Mission Support on this issue ASAP as this information will also be
+important for the Crew 148 arriving in 2 days. It would allow them to stop
+and purchase supplies before driving to Hanksville.
+Upcoming EVA
+We are sending a request for approval of an EVA on Jan 23rd, 2015. Andrew
+(EVA Lead), Danielle, Renee, Scott & Romain are planning an EVA to use the
+Phoenix rover and do  some outreach activities around the Hab.
+One last EVA, one last day … already! Our team is working well together
+and in our latest discussion,  we wondered how long we could have
+continued simulating a Martian research station.  It's hard to answer but
+one thing is for sure: more than 12 days!

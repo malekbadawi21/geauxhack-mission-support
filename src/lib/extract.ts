@@ -30,6 +30,10 @@ Rules:
 - value is the number as written: "¾" -> 0.75, "40%" -> 40, "15cm" -> 15. Never convert units.
   Use null if the value is not a number.
 - measured_from is "top" or "bottom" only if the report explicitly says so; otherwise null.
+- approximate is true only when the text marks the value as approximate (e.g. "~", "about",
+  "approximately", "around", "roughly", "estimated"); otherwise false.
+- Use resource "water_total" for a total amount of water the crew says is available (e.g. "~360l"),
+  not for a single tank's level.
 - If you are unsure about any field, use null.
 - questions_to_mission_support lists questions or requests the crew asks of Mission Support. text is
   the question; source_quote is the exact sentence(s) from the report where the crew asks it.`;

@@ -1,0 +1,24 @@
+{
+  "report_date": "01/14/2015",
+  "crew": "147",
+  "author": "Romain Charles",
+  "readings": [],
+  "events": [
+    {
+      "type": "resupply_issue",
+      "description": "Resupply mission of the Static Tank will be done in the near future, but there is no clear schedule yet.",
+      "source_quote": "We received notice from Mission control at 10:30 that a resupply mission\nof the Static Tank will be done in the near future. However we don't have\nyet a clear schedule for its resolution.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "We're requesting approval of an EVA on Jan 15th 2015.",
+      "source_quote": "We're requesting approval of an EVA on Jan 15th 2015.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-14",
+  "date_from_filename": false,
+  "source_file": "2015-01-14-commander.txt"
+}

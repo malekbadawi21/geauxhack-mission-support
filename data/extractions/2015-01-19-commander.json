@@ -1,0 +1,18 @@
+{
+  "report_date": "2015-01-19",
+  "crew": "147",
+  "author": "Romain Charles",
+  "readings": [],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Water flow is very low and under investigation.",
+      "source_quote": "We're still investigating the reason for the water flow to be so low.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [],
+  "date": "2015-01-19",
+  "date_from_filename": false,
+  "source_file": "2015-01-19-commander.txt"
+}

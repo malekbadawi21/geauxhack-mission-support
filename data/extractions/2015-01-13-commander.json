@@ -1,0 +1,40 @@
+{
+  "report_date": "2015-01-13",
+  "crew": null,
+  "author": "Romain Charles",
+  "readings": [
+    {
+      "resource": "water_total",
+      "raw_text": "~360l",
+      "value": 360,
+      "unit": "L",
+      "measured_from": null,
+      "approximate": true,
+      "source_quote": "Evaluate the amount of water still available: ~360l",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "resupply_issue",
+      "description": "Water resupply mission delayed because the trailer tank broke en route and needs replacement.",
+      "source_quote": "The trailer tank which left the surroundings of the Hab was broken en route and needs replacement.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "Currently, we are unaware of existing procedures for water shortages so if there is another possible scenario, we request the mission support team to provide them.",
+      "source_quote": "Currently, we are unaware of existing procedures for water shortages so if there is another possible scenario, we request the mission support team to provide them.",
+      "verified": true
+    },
+    {
+      "text": "We're requesting approval of an EVA on Jan 14th 2015.",
+      "source_quote": "We're requesting approval of an EVA on Jan 14th 2015.",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-13",
+  "date_from_filename": false,
+  "source_file": "2015-01-13-commander.txt"
+}

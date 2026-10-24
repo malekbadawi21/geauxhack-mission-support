@@ -1,0 +1,67 @@
+113-CommandersReport
+Commander report
+01/13/2015
+Romain Charles
+We started this day with a lot of energy. Our 1st EVA was planned and we
+would soon be walking on Mars!
+EVA - Rebeca (EVA Leader), Renee, Wissam, Romain
+From 10:00am to 11:30am, we prepared our EVA. We checked our radios went
+through a quick "voice protocol" training. Then we donned our EVA suits
+and egressed the Hab through the airlock
+The EVA lasted until 13h and here is a list of the main highlights:
+• 2 contingencies with crew members
+• 1 contingency with the quadcopter experiment
+• Engineering activities
+Everybody learned a lot from this experience and, to make sure that no
+input would be forgotten, we used our lunchtime together to do a complete
+debriefing with several action items for the next EVA leaders to take into
+account.
+More details from the EVA will be found in the  report written by our EVA
+Lead, Rebeca.
+Water contingency
+At 12:35pm we received an emergency message about our water resupply
+mission which will be delayed. The trailer tank which left the
+surroundings of the Hab was broken en route and needs replacement. At this
+time, we don't know how long it will take to replace , so we took the
+following actions :
+• Evaluate the amount of water still available: ~360l
+• Evaluate the water consumption of each activity (Drinking, Toilets,
+Bathing, Washing the dishes, Cleaning the Hab)
+• Inventory of all plastic cutlery, plates and bags which could be used
+instead of normal ones (no more dishes to wash)
+• Check the trends of water usage through the previous Engineering reports
+With the data gathered, we initiated a "water saving" scenario (no water
+for bathing, washing the dishes & cleaning the Hab), which allows us to
+last 3 days without any water resupply.
+One of the main water consumption left is the use of the toilets. We found
+a back-up "Dometic toilet seat" which may allow us to last longer without
+any water resupply. However, we didn't find any procedures to set it up
+and evaluate its usage so it is not part of our above scenario.
+Our Crew Engineer, Rebeca, will have more details in her Engineering report.
+If it is confirmed that the Trailer Tank issue is lasting more than 3
+days, we would like to propose a possible "water dropping" scenario.
+Mission control could drop 350l of water in bottles in the Hab area and
+communicate the coordinates of the landed supplies. We would then schedule
+a "Water recovery" EVA to bring back the supplies and continue our "water
+saving" scenario for the following days.
+Currently, we are unaware of existing procedures for water shortages so if
+there is another possible scenario, we request the mission support team to
+provide them.
+Data contingency
+The water contingency took priority over the science and, when all the
+available actions and scenarios were addressed, we went back to our
+experiments. On a routine check of the remaining amount of data available
+for our communications, we realized that it was dropping at an alarming
+speed. We took a quick action and cut all the internet connections to save
+enough data for our nightly communication window. An expected culprit for
+this big usage of download is the Astronomy computer which was brought in
+today. We'll trouble shoot this issue only tomorrow as we don't want to
+exceed our data limit. It was likely due to the automatic updates not
+being disabled on the MDRS Astronomy laptop.
+Upcoming EVAS
+We're requesting approval of an EVA on Jan 14th 2015. Danielle, Andrew
+(EVA Lead) and Scott are planning an EVA to test the EVA Planning tool.
+I finish this report while our diner is getting ready. Cooking on Mars is
+quite challenging with the dehydrated food, now we have a new contrain:
+minimum number of dishes and water…
+Bacon & pancakes it is!

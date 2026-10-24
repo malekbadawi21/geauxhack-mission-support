@@ -1,0 +1,57 @@
+{
+  "report_date": "01/23/2015",
+  "crew": null,
+  "author": "Romain Charles",
+  "readings": [],
+  "events": [
+    {
+      "type": "equipment_failure",
+      "description": "Trailer tank is broken",
+      "source_quote": "Broken trailer tank",
+      "verified": true
+    },
+    {
+      "type": "resupply_issue",
+      "description": "Toilet paper shortage and no resupply received",
+      "source_quote": "A new crew is arriving and we didn't get any toilet paper resupply.",
+      "verified": true
+    },
+    {
+      "type": "resupply_issue",
+      "description": "Lack of cleaning supplies resupply or answer regarding them",
+      "source_quote": "We didn't get any answer regarding the cleaning supplies necessary to keep the Hab clean.",
+      "verified": true
+    },
+    {
+      "type": "resupply_issue",
+      "description": "ATVs empty and no additional fuel resupply received",
+      "source_quote": "Our crew engineering already notified that the ATVs were empty and that we needed a resupply. We didn't get any additional fuel and the moisture is slowly building up in the tanks.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    {
+      "text": "What is the status of the trailer tank? If it's not back at the MDRS tomorrow, what is the organization that you want to implement for the Crew 148? Filling up the Static tank every week?",
+      "source_quote": "What is the status of the trailer tank? If it's not back at the MDRS tomorrow, what is the organization that you want to implement for the Crew 148? Filling up the Static tank every week?",
+      "verified": true
+    },
+    {
+      "text": "Will it be provided to Crew 148 with their food?",
+      "source_quote": "Will it be provided to Crew 148 with their food?",
+      "verified": true
+    },
+    {
+      "text": "Are these supplies supposed to be delivered by the Mars Society (like the food)? If each crew needs to bring cleaning supplies, they should be notified before arriving at MDRS. What is the status?",
+      "source_quote": "Are these supplies supposed to be delivered by the Mars Society (like the food)? If each crew needs to bring cleaning supplies, they should be notified before arriving at MDRS. What is the status?",
+      "verified": true
+    },
+    {
+      "text": "What it the status?",
+      "source_quote": "What it the status?",
+      "verified": true
+    }
+  ],
+  "date": "2015-01-23",
+  "date_from_filename": false,
+  "source_file": "2015-01-23-commander.txt"
+}
