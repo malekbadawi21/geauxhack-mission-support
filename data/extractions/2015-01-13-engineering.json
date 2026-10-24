@@ -1,0 +1,66 @@
+{
+  "report_date": "01/13/2015",
+  "crew": null,
+  "author": "Rebeca Rodriguez",
+  "readings": [
+    {
+      "resource": "diesel",
+      "raw_text": "¾",
+      "value": 0.75,
+      "unit": "fraction",
+      "measured_from": null,
+      "source_quote": "Diesel: ¾",
+      "verified": true
+    },
+    {
+      "resource": "propane",
+      "raw_text": "40%",
+      "value": 40,
+      "unit": "percent",
+      "measured_from": null,
+      "source_quote": "Propane: 40%",
+      "verified": true
+    },
+    {
+      "resource": "water_static",
+      "raw_text": "15cm",
+      "value": 15,
+      "unit": "cm",
+      "measured_from": null,
+      "source_quote": "Static tank: 15cm",
+      "verified": true
+    }
+  ],
+  "events": [
+    {
+      "type": "resupply_issue",
+      "description": "Mission Support reported that the trailer water tank had ruptured.",
+      "source_quote": "At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "Hot water has not been attained despite mitigation attempts and power cycling the water heater.",
+      "source_quote": "The hot water has still not been attained.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATV 3 powered on but shut down after 20 seconds, and the droplet light failed to turn on.",
+      "source_quote": "ATV 3 powered on, \nbut after 20 seconds shut down. The droplet light on ATV 3 did not turn on as it had done before.",
+      "verified": true
+    },
+    {
+      "type": "equipment_failure",
+      "description": "ATV 5 completely failed to start.",
+      "source_quote": "ATV 5 failed to start completely.",
+      "verified": true
+    }
+  ],
+  "questions_to_mission_support": [
+    "The report states for us to record Initial Potable Water Meter Reading (Gallons: xxxxx.xy). Which water tank is this referring to? Please \nadvise.",
+    "Please advise on additional procedures we can try.",
+    "Please advise on proper use and capacity.",
+    "We request \nto change this setup and cover with an extra mattress, as it is difficult with gloves to properly secure the ties after removing them."
+  ]
+}
