@@ -28,20 +28,25 @@ being built in parallel in another session.
   "Switch to replay".
 - A visible mode badge: "Replay — recorded run" or "Live". Never present replay as live.
 
-## Screen (single page, desktop-first; must look great on a 1920×1080 projector, usable at 1280 wide)
-1. Header: product name (one constant, placeholder "Mission Support"), crew name, as-of date,
+## Screen (Malek's choices: dark ops console, scrolling sections, charts + water scenarios are the hero)
+Desktop-first, single scrolling page made of clear full-width sections; must look great on a
+1920×1080 projector and stay usable at 1280 wide. Keep a compact sticky header so the as-of date and
+mode stay visible while scrolling.
+1. Header (sticky): product name (one constant, placeholder "Mission Support"), crew name, as-of date,
    mode toggle, Upload button.
 2. Day scrubber: the report dates as a compact segmented row; clicking a past day recomputes everything
    with analyzeCrew for that as-of date (no look-ahead).
 3. Status strip: overall status from the daily report (or "No report yet"), critical/warning counts.
 4. Resource cards (diesel, propane, static tank, water total): latest value with unit, "~" for
    approximate, trend arrow, days-to-empty — or the reason there is no countdown, shown in plain text.
-5. Usage charts (Recharts): one small line chart per resource over the report days; refill markers;
-   a vertical as-of marker; gaps for missing values; units on axes; "status" readings (empty/full) as
-   labeled dots.
-6. Water scenarios card: volume (~ if approximate) with its quote, crew size with its source, a
-   horizontal bar per scenario (days left, runs-out date), the required L/person/day to mission end,
-   and the notes in small text. If null, show the reason.
+5. HERO SECTION — the largest, most polished part of the page:
+   a. Usage charts (Recharts): large line charts per resource over the report days (at least 2 per row
+      on wide screens); refill markers; a vertical as-of marker; gaps for missing values; units on
+      axes; "status" readings (empty/full) as labeled dots; hover tooltips showing the raw_text and quote.
+   b. Water scenarios panel beside or directly under the charts, visually prominent: volume (~ if
+      approximate) with its quote, crew size with its source, a horizontal bar per scenario (days left,
+      runs-out date) on a shared day axis with the mission-end date marked, the required L/person/day to
+      mission end as a large figure, and the notes in small text. If null, show the reason.
 7. Flags list: sorted by severity; each row expands to show evidence quotes as styled quotations with a
    "verified in report" check and the report kind (engineering/commander). Unverified items are marked.
 8. Daily report panel: status line, concerns (each links to its flag rows), crew actions, decisions for
