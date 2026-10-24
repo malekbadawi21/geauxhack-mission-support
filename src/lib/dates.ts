@@ -78,3 +78,14 @@ export function daysBetween(a: string, b: string): number {
   // Appending "T00:00:00Z" parses the date as midnight UTC, so daylight-saving never adds an hour.
   return Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / MS_PER_DAY);
 }
+
+/**
+ * The date `n` whole days after `date` (YYYY-MM-DD in, YYYY-MM-DD out).
+ * Why it exists: water.ts turns "4.2 days of water left" into a calendar date.
+ */
+export function addDays(date: string, n: number): string {
+  // Same UTC-midnight trick as daysBetween; toISOString() gives "2015-01-17T00:00:00.000Z",
+  // and slice(0, 10) keeps just the "2015-01-17" part.
+  const ms = Date.parse(`${date}T00:00:00Z`) + n * 24 * 60 * 60 * 1000;
+  return new Date(ms).toISOString().slice(0, 10);
+}

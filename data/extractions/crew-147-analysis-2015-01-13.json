@@ -1,7 +1,19 @@
 {
   "asOf": "2015-01-13",
-  "reportCount": 2,
+  "crew": {
+    "name": "MDRS Crew 147",
+    "size": 7,
+    "mission_end": "2015-01-23",
+    "size_source": "Final Mission Report crew roster table (7 members)",
+    "size_url": "https://mdrs2013.marssociety.org/home/crew-147/final-mission-report",
+    "mission_end_source": "date of last engineering report"
+  },
+  "reportCount": 4,
   "latestReportDate": "2015-01-13",
+  "latestReportKinds": [
+    "engineering",
+    "commander"
+  ],
   "latestReadings": [
     {
       "date": "2015-01-13",
@@ -9,6 +21,9 @@
       "value": 75,
       "unit": "percent",
       "measured_from": null,
+      "approximate": false,
+      "status": null,
+      "report_kind": "engineering",
       "raw_text": "¾",
       "source_quote": "Diesel: ¾",
       "verified": true,
@@ -20,6 +35,9 @@
       "value": 40,
       "unit": "percent",
       "measured_from": null,
+      "approximate": false,
+      "status": null,
+      "report_kind": "engineering",
       "raw_text": "40%",
       "source_quote": "Propane: 40%",
       "verified": true,
@@ -31,8 +49,25 @@
       "value": 15,
       "unit": "cm",
       "measured_from": null,
+      "approximate": false,
+      "status": null,
+      "report_kind": "engineering",
       "raw_text": "15cm",
       "source_quote": "Static tank: 15cm",
+      "verified": true,
+      "reason": null
+    },
+    {
+      "date": "2015-01-13",
+      "resource": "water_total",
+      "value": 360,
+      "unit": "L",
+      "measured_from": null,
+      "approximate": true,
+      "status": null,
+      "report_kind": "commander",
+      "raw_text": "~360l",
+      "source_quote": "Evaluate the amount of water still available: ~360l",
       "verified": true,
       "reason": null
     }
@@ -46,8 +81,17 @@
           "value": 75,
           "unit": "percent",
           "measured_from": null,
+          "approximate": false,
+          "status": null,
           "raw_text": "¾",
           "source_quote": "Diesel  ¾",
+          "report_kind": "engineering",
+          "evidence": [
+            {
+              "report_kind": "engineering",
+              "quote": "Diesel  ¾"
+            }
+          ],
           "change_from_previous": null,
           "change_per_day": null,
           "refill": false
@@ -57,8 +101,17 @@
           "value": 75,
           "unit": "percent",
           "measured_from": null,
+          "approximate": false,
+          "status": null,
           "raw_text": "¾",
           "source_quote": "Diesel: ¾",
+          "report_kind": "engineering",
+          "evidence": [
+            {
+              "report_kind": "engineering",
+              "quote": "Diesel: ¾"
+            }
+          ],
           "change_from_previous": 0,
           "change_per_day": 0,
           "refill": false
@@ -73,8 +126,17 @@
           "value": 45,
           "unit": "percent",
           "measured_from": null,
+          "approximate": false,
+          "status": null,
           "raw_text": "45%",
           "source_quote": "Propane  45%",
+          "report_kind": "engineering",
+          "evidence": [
+            {
+              "report_kind": "engineering",
+              "quote": "Propane  45%"
+            }
+          ],
           "change_from_previous": null,
           "change_per_day": null,
           "refill": false
@@ -84,8 +146,17 @@
           "value": 40,
           "unit": "percent",
           "measured_from": null,
+          "approximate": false,
+          "status": null,
           "raw_text": "40%",
           "source_quote": "Propane: 40%",
+          "report_kind": "engineering",
+          "evidence": [
+            {
+              "report_kind": "engineering",
+              "quote": "Propane: 40%"
+            }
+          ],
           "change_from_previous": -5,
           "change_per_day": -5,
           "refill": false
@@ -100,8 +171,17 @@
           "value": null,
           "unit": null,
           "measured_from": null,
+          "approximate": false,
+          "status": null,
           "raw_text": "¼",
           "source_quote": "Water well  ¼",
+          "report_kind": "engineering",
+          "evidence": [
+            {
+              "report_kind": "engineering",
+              "quote": "Water well  ¼"
+            }
+          ],
           "change_from_previous": null,
           "change_per_day": null,
           "refill": false
@@ -111,8 +191,57 @@
           "value": 15,
           "unit": "cm",
           "measured_from": null,
+          "approximate": false,
+          "status": null,
           "raw_text": "15cm",
           "source_quote": "Static tank: 15cm",
+          "report_kind": "engineering",
+          "evidence": [
+            {
+              "report_kind": "engineering",
+              "quote": "Static tank: 15cm"
+            }
+          ],
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        }
+      ]
+    },
+    {
+      "resource": "water_total",
+      "points": [
+        {
+          "date": "2015-01-12",
+          "value": null,
+          "unit": null,
+          "measured_from": null,
+          "approximate": false,
+          "status": null,
+          "raw_text": null,
+          "source_quote": null,
+          "report_kind": null,
+          "evidence": [],
+          "change_from_previous": null,
+          "change_per_day": null,
+          "refill": false
+        },
+        {
+          "date": "2015-01-13",
+          "value": 360,
+          "unit": "L",
+          "measured_from": null,
+          "approximate": true,
+          "status": null,
+          "raw_text": "~360l",
+          "source_quote": "Evaluate the amount of water still available: ~360l",
+          "report_kind": "commander",
+          "evidence": [
+            {
+              "report_kind": "commander",
+              "quote": "Evaluate the amount of water still available: ~360l"
+            }
+          ],
           "change_from_previous": null,
           "change_per_day": null,
           "refill": false
@@ -129,6 +258,9 @@
         "value": 75,
         "unit": "percent",
         "measured_from": null,
+        "approximate": false,
+        "status": null,
+        "report_kind": "engineering",
         "raw_text": "¾",
         "source_quote": "Diesel: ¾",
         "verified": true,
@@ -140,6 +272,9 @@
         "value": 75,
         "unit": "percent",
         "measured_from": null,
+        "approximate": false,
+        "status": null,
+        "report_kind": "engineering",
         "raw_text": "¾",
         "source_quote": "Diesel  ¾",
         "verified": true,
@@ -158,6 +293,9 @@
         "value": 40,
         "unit": "percent",
         "measured_from": null,
+        "approximate": false,
+        "status": null,
+        "report_kind": "engineering",
         "raw_text": "40%",
         "source_quote": "Propane: 40%",
         "verified": true,
@@ -169,6 +307,9 @@
         "value": 45,
         "unit": "percent",
         "measured_from": null,
+        "approximate": false,
+        "status": null,
+        "report_kind": "engineering",
         "raw_text": "45%",
         "source_quote": "Propane  45%",
         "verified": true,
@@ -187,6 +328,9 @@
         "value": 15,
         "unit": "cm",
         "measured_from": null,
+        "approximate": false,
+        "status": null,
+        "report_kind": "engineering",
         "raw_text": "15cm",
         "source_quote": "Static tank: 15cm",
         "verified": true,
@@ -198,8 +342,46 @@
         "value": 15,
         "unit": "cm",
         "measured_from": null,
+        "approximate": false,
+        "status": null,
+        "report_kind": "engineering",
         "raw_text": "15cm",
         "source_quote": "Static tank: 15cm",
+        "verified": true,
+        "reason": null
+      },
+      "points_used": 1,
+      "rate_per_day": null,
+      "days_to_empty": null,
+      "reason": "only 1 comparable reading"
+    },
+    {
+      "resource": "water_total",
+      "latest": {
+        "date": "2015-01-13",
+        "resource": "water_total",
+        "value": 360,
+        "unit": "L",
+        "measured_from": null,
+        "approximate": true,
+        "status": null,
+        "report_kind": "commander",
+        "raw_text": "~360l",
+        "source_quote": "Evaluate the amount of water still available: ~360l",
+        "verified": true,
+        "reason": null
+      },
+      "first": {
+        "date": "2015-01-13",
+        "resource": "water_total",
+        "value": 360,
+        "unit": "L",
+        "measured_from": null,
+        "approximate": true,
+        "status": null,
+        "report_kind": "commander",
+        "raw_text": "~360l",
+        "source_quote": "Evaluate the amount of water still available: ~360l",
         "verified": true,
         "reason": null
       },
@@ -211,49 +393,85 @@
   ],
   "flags": [
     {
+      "id": "CREW_REPORTED_EVENT:none:2015-01-13",
       "type": "CREW_REPORTED_EVENT",
       "severity": "critical",
       "resource": null,
-      "message": "crew reported: Trailer tank ruptured",
+      "message": "crew reported (engineering): Trailer tank ruptured",
       "evidence": [
-        "At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured."
+        {
+          "report_kind": "engineering",
+          "quote": "At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured."
+        }
       ]
     },
     {
+      "id": "CREW_REPORTED_EVENT:none:2015-01-13:2",
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "warning",
+      "resource": null,
+      "message": "crew reported (engineering): ATV 3 powered on, but after 20 seconds shut down",
+      "evidence": [
+        {
+          "report_kind": "engineering",
+          "quote": "ATV 3 powered on, but after 20 seconds shut down."
+        }
+      ]
+    },
+    {
+      "id": "CREW_REPORTED_EVENT:none:2015-01-13:3",
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "warning",
+      "resource": null,
+      "message": "crew reported (engineering): ATV 5 failed to start completely",
+      "evidence": [
+        {
+          "report_kind": "engineering",
+          "quote": "ATV 5 failed to start completely."
+        }
+      ]
+    },
+    {
+      "id": "CREW_REPORTED_EVENT:none:2015-01-13:4",
+      "type": "CREW_REPORTED_EVENT",
+      "severity": "warning",
+      "resource": null,
+      "message": "crew reported (commander): Water resupply mission delayed because the trailer tank broke en route and needs replacement.",
+      "evidence": [
+        {
+          "report_kind": "commander",
+          "quote": "The trailer tank which left the surroundings of the Hab was broken en route and needs replacement."
+        }
+      ]
+    },
+    {
+      "id": "RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13",
       "type": "RUNS_OUT_BEFORE_MISSION_END",
-      "severity": "critical",
+      "severity": "warning",
       "resource": "propane",
-      "message": "propane empty in ~8 days at -5 percent/day, before mission end 2015-01-23 (10 days away) — based on 2 readings",
+      "message": "propane empty in ~8 days at -5 percent/day, before mission end 2015-01-23 (10 days away) — early estimate — based on 2 readings",
       "evidence": [
-        "Propane  45%",
-        "Propane: 40%"
+        {
+          "report_kind": "engineering",
+          "quote": "Propane  45%"
+        },
+        {
+          "report_kind": "engineering",
+          "quote": "Propane: 40%"
+        }
       ]
     },
     {
-      "type": "CREW_REPORTED_EVENT",
-      "severity": "warning",
-      "resource": null,
-      "message": "crew reported: ATV 3 powered on, but after 20 seconds shut down",
-      "evidence": [
-        "ATV 3 powered on, but after 20 seconds shut down."
-      ]
-    },
-    {
-      "type": "CREW_REPORTED_EVENT",
-      "severity": "warning",
-      "resource": null,
-      "message": "crew reported: ATV 5 failed to start completely",
-      "evidence": [
-        "ATV 5 failed to start completely."
-      ]
-    },
-    {
+      "id": "CREW_REPORTED_EVENT:none:2015-01-13:5",
       "type": "CREW_REPORTED_EVENT",
       "severity": "info",
       "resource": null,
-      "message": "crew reported: Hot water has not been attained",
+      "message": "crew reported (engineering): Hot water has not been attained",
       "evidence": [
-        "The hot water has still not been attained."
+        {
+          "report_kind": "engineering",
+          "quote": "The hot water has still not been attained."
+        }
       ]
     }
   ],
@@ -262,47 +480,108 @@
       "type": "leak",
       "description": "Trailer tank ruptured",
       "source_quote": "At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
     },
     {
       "type": "equipment_failure",
       "description": "Hot water has not been attained",
       "source_quote": "The hot water has still not been attained.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
     },
     {
       "type": "equipment_failure",
       "description": "ATV 3 powered on, but after 20 seconds shut down",
       "source_quote": "ATV 3 powered on, but after 20 seconds shut down.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
     },
     {
       "type": "equipment_failure",
       "description": "ATV 5 failed to start completely",
       "source_quote": "ATV 5 failed to start completely.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
+    },
+    {
+      "type": "resupply_issue",
+      "description": "Water resupply mission delayed because the trailer tank broke en route and needs replacement.",
+      "source_quote": "The trailer tank which left the surroundings of the Hab was broken en route and needs replacement.",
+      "verified": true,
+      "report_kind": "commander"
     }
   ],
   "questions": [
     {
       "text": "Which water tank is this referring to? Please advise.",
       "source_quote": "Which water tank is this referring to? Please advise.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
     },
     {
       "text": "Please advise on additional procedures we can try.",
       "source_quote": "Please advise on additional procedures we can try.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
     },
     {
       "text": "Please advise on proper use and capacity.",
       "source_quote": "Please advise on proper use and capacity.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
     },
     {
       "text": "We request to change this setup and cover with an extra mattress, as it is difficult with gloves to properly secure the ties after removing them.",
       "source_quote": "We request to change this setup and cover with an extra mattress, as it is difficult with gloves to properly secure the ties after removing them.",
-      "verified": true
+      "verified": true,
+      "report_kind": "engineering"
+    },
+    {
+      "text": "Currently, we are unaware of existing procedures for water shortages so if there is another possible scenario, we request the mission support team to provide them.",
+      "source_quote": "Currently, we are unaware of existing procedures for water shortages so if there is another possible scenario, we request the mission support team to provide them.",
+      "verified": true,
+      "report_kind": "commander"
+    },
+    {
+      "text": "We're requesting approval of an EVA on Jan 14th 2015.",
+      "source_quote": "We're requesting approval of an EVA on Jan 14th 2015.",
+      "verified": true,
+      "report_kind": "commander"
     }
-  ]
+  ],
+  "waterScenarios": {
+    "volume_l": 360,
+    "approximate": true,
+    "reading_date": "2015-01-13",
+    "source_quote": "Evaluate the amount of water still available: ~360l",
+    "crew_size": 7,
+    "crew_size_source": "Final Mission Report crew roster table (7 members)",
+    "days_until_mission_end": 10,
+    "scenarios": [
+      {
+        "id": "fmars_average",
+        "label": "Arctic analog average (FMARS)",
+        "rate_l_per_person_day": 12.12,
+        "source_url": "https://core.ac.uk/works/63185982",
+        "days_left": 4.243281471004244,
+        "runs_out_on": "2015-01-17"
+      },
+      {
+        "id": "nasa_minimum",
+        "label": "NASA potable-water minimum",
+        "rate_l_per_person_day": 2.5,
+        "source_url": "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf",
+        "days_left": 20.571428571428573,
+        "runs_out_on": "2015-02-02"
+      }
+    ],
+    "required_rate_to_mission_end_l_per_person_day": 5.142857142857143,
+    "notes": [
+      "Volume is a crew estimate (approximate)",
+      "FMARS figure is measured per sol (24h 39m) at a different analog station; used as a reference, not a prediction",
+      "NASA figure is a minimum for drinking water only, not total use"
+    ]
+  },
+  "waterScenariosReason": null
 }

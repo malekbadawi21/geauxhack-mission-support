@@ -1,0 +1,78 @@
+{
+  "as_of": "2015-01-13",
+  "report": {
+    "as_of": "2015-01-13",
+    "overall": "critical",
+    "status_line": "The trailer tank carrying our water resupply ruptured, leaving about 360 L for 7 crew, which lasts until Jan 17 at the FMARS average rate.",
+    "concerns": [
+      {
+        "title": "Water resupply lost",
+        "detail": "The engineering report says the trailer tank ruptured and the commander estimates ~360 L remain for 7 crew. At the FMARS average of 12.12 L per person per day that runs out on 2015-01-17; at the NASA drinking minimum of 2.5 L it would last to 2015-02-02. Mission end is 10 days away.",
+        "flag_ids": ["CREW_REPORTED_EVENT:none:2015-01-13", "CREW_REPORTED_EVENT:none:2015-01-13:4"]
+      },
+      {
+        "title": "Propane falling fast",
+        "detail": "Propane went from 45% to 40% in one day. If that continues it is empty in about 8 days, before mission end. This is an early estimate from 2 readings.",
+        "flag_ids": ["RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13"]
+      },
+      {
+        "title": "Two ATVs not running",
+        "detail": "ATV 3 shuts down after starting and ATV 5 does not start at all.",
+        "flag_ids": ["CREW_REPORTED_EVENT:none:2015-01-13:2", "CREW_REPORTED_EVENT:none:2015-01-13:3"]
+      }
+    ],
+    "crew_actions": [
+      "Cut water use to essentials now and record tank levels in every report.",
+      "Re-read the propane gauge tomorrow to confirm or drop the 8-day estimate.",
+      "Keep EVAs that need ATVs 3 and 5 off the schedule until they are repaired."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Schedule an emergency water delivery before Jan 17.",
+        "why": "About 360 L for 7 crew runs out on Jan 17 at the FMARS average rate, and the trailer tank that would refill the static tank ruptured."
+      },
+      {
+        "decision": "Send the crew a water-shortage procedure.",
+        "why": "The commander reports the crew knows of no procedure for water shortages and asked Mission Support for one."
+      }
+    ],
+    "message_to_earth": "Crew 147, Jan 13. The trailer tank carrying our water resupply ruptured. We estimate about 360 L of water left for 7 crew. At the FMARS analog average of 12.12 L per person per day that lasts until Jan 17; even at the NASA drinking minimum of 2.5 L it lasts only until Feb 2. Decisions needed: (1) schedule an emergency water delivery before Jan 17; (2) send us a water-shortage procedure, since we have none. Also: propane dropped from 45% to 40% in one day (early estimate: empty in about 8 days), and ATVs 3 and 5 are not running.",
+    "grounding": {
+      "numbers_checked": 43,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_analysis",
+      "input_summary": "crew-147, as_of 2015-01-13",
+      "output_summary": "4 reports (engineering + commander for Jan 13); 6 flags: 1 critical, 4 warning, 1 info",
+      "ms": 12
+    },
+    {
+      "step": 2,
+      "tool": "get_water_scenarios",
+      "input_summary": "as_of 2015-01-13",
+      "output_summary": "~360 L on 2015-01-13 for 7 crew; FMARS rate runs out 2015-01-17, NASA minimum 2015-02-02",
+      "ms": 3
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "CREW_REPORTED_EVENT:none:2015-01-13, RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13",
+      "output_summary": "Quotes: \"the trailer tank had ruptured\" (engineering); \"Propane 45%\" → \"Propane: 40%\" (engineering)",
+      "ms": 2
+    },
+    {
+      "step": 4,
+      "tool": "check_grounding",
+      "input_summary": "draft daily report",
+      "output_summary": "43 numbers checked, 0 ungrounded",
+      "ms": 4
+    }
+  ],
+  "generated_at": "2026-10-24T00:00:00.000Z",
+  "model": "none (hand-written sample; Phase 3b replaces this with a real run)",
+  "is_sample": true
+}

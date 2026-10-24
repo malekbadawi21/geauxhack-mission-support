@@ -12,6 +12,7 @@ import { extractReport } from "../src/lib/extract.ts";
 import { verifyQuotes } from "../src/lib/verify.ts";
 import { resolveReportDate } from "../src/lib/dates.ts";
 import { SavedExtractionSchema, type SavedExtraction } from "../src/lib/schema.ts";
+import { reportKindOf } from "../src/lib/normalize.ts";
 
 export const EXTRACTIONS_DIR = join("data", "extractions");
 
@@ -23,11 +24,8 @@ export function isDatedReport(file: string): boolean {
   return /^\d{4}-\d{2}-\d{2}-[a-z]+\.txt$/.test(file);
 }
 
-/** The report kind from its filename: "2015-01-13-commander.txt" -> "commander". */
-export function reportKind(file: string): string {
-  // Regex: skip the date and dash, capture the letters before ".txt".
-  return file.match(/^\d{4}-\d{2}-\d{2}-([a-z]+)\.txt$/)?.[1] ?? "unknown"; // ?.[1] = capture group, if matched
-}
+/** The report kind from its filename: "2015-01-13-commander.txt" -> "commander" (shared with the app). */
+export const reportKind = reportKindOf;
 
 /**
  * Where the saved JSON for a report goes: data/extractions/<report name>.json.

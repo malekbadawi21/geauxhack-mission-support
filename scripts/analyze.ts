@@ -4,13 +4,15 @@
 // How it fits: it reads the SAVED extractions from disk (no Gemini calls — this is replay mode),
 // passes them to analyzeCrew() (the same function the UI will call), prints the result as tables,
 // and writes the full Analysis JSON to data/extractions/<crew>-analysis-<date>.json.
-// All the logic lives in src/lib/; this file only loads files and formats output.
+// All the logic lives in src/lib/; this file only loads files and formats output — except the
+// "retrospective check", which deliberately looks at LATER reports and so must never be in the app.
 
 import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { analyzeCrew } from "../src/lib/analyze.ts";
 import { normalizeDate } from "../src/lib/dates.ts";
-import { loadSavedForReports, EXTRACTIONS_DIR } from "./save-extraction.ts";
+import { CREWS } from "../src/lib/constants.ts";
+import { loadSavedForReports, reportKind, EXTRACTIONS_DIR } from "./save-extraction.ts";
 
 const args = process.argv.slice(2);
 const crew = args.find((a) => !a.startsWith("--"));
@@ -21,42 +23,52 @@ if (!crew || !asOf) {
   console.error("Usage: npm run analyze -- <crew> --as-of YYYY-MM-DD");
   process.exit(1);
 }
+const crewConfig = CREWS[crew];
+if (!crewConfig) {
+  console.error(`Unknown crew "${crew}". Known: ${Object.keys(CREWS).join(", ")} (add it to CREWS in src/lib/constants.ts)`);
+  process.exit(1);
+}
 
-// Engineering reports only for now: analyzeCrew keeps one report per date, so a commander report
-// for the same day would replace the engineering report (and its tank readings). Merging the two
-// kinds is a later decision.
-const extractions = loadSavedForReports(join("data", "reports", crew), "engineering");
-const a = analyzeCrew(extractions, asOf);
+// Every report kind: analyzeCrew merges a day's engineering and commander reports.
+const extractions = loadSavedForReports(join("data", "reports", crew));
+const a = analyzeCrew(extractions, asOf, crewConfig);
 
 /** Rounds for display only (the JSON keeps full precision); null prints as "—". */
 const n = (x: number | null, digits = 2) => (x === null ? "—" : String(Math.round(x * 10 ** digits) / 10 ** digits));
+/** Collapses a quote's line breaks so it prints on one line. */
+const oneLine = (s: string) => s.replace(/\s+/g, " ").trim();
 
-console.log(`\n=== ${crew} as of ${a.asOf}: ${a.reportCount} reports, latest ${a.latestReportDate ?? "(none)"} ===`);
+console.log(`\n=== ${a.crew.name} as of ${a.asOf}: ${a.reportCount} reports, latest ${a.latestReportDate ?? "(none)"} (${a.latestReportKinds.join(" + ")}) ===`);
 
-console.log("\nREADINGS (latest report)");
+console.log("\nREADINGS (latest day, all reports merged; engineering first)");
 console.table(
   a.latestReadings.map((r) => ({
+    report: r.report_kind,
     resource: r.resource,
     raw_text: r.raw_text,
     value: r.value,
     unit: r.unit,
+    status: r.status ?? "",
+    approx: r.approximate ? "~" : "",
     measured_from: r.measured_from,
     verified: r.verified ? "yes" : "NO",
     reason: r.reason ?? "",
   })),
 );
 
-console.log("\nSERIES (value per report day; change = amount change, negative = used up; R = refill)");
-// One row per date, one column per resource: "75 (0)" = value 75, change 0.
+console.log("\nSERIES (value per report day; change = amount change, negative = used up; R = refill; ~ = approximate; [c] = from commander report)");
+// One row per date, one column per resource: "75 percent (0)" = value 75, change 0.
 const dates = a.series[0]?.points.map((p) => p.date) ?? [];
 console.table(
   dates.map((date, i) => {
     const row: Record<string, string> = { date }; // Record<string, string> = object with any string keys
     for (const s of a.series) {
       const p = s.points[i];
+      const tag = `${p.refill ? " R" : ""}${p.report_kind && p.report_kind !== "engineering" ? ` [${p.report_kind[0]}]` : ""}`;
       if (p.raw_text === null) row[s.resource] = "";
-      else if (p.value === null) row[s.resource] = `null ("${p.raw_text}")`;
-      else row[s.resource] = `${n(p.value)} ${p.unit}${p.measured_from ? ` from ${p.measured_from}` : ""} (${n(p.change_from_previous)})${p.refill ? " R" : ""}`;
+      else if (p.status !== null) row[s.resource] = `${p.status}${tag}`;
+      else if (p.value === null) row[s.resource] = `null ("${p.raw_text}")${tag}`;
+      else row[s.resource] = `${p.approximate ? "~" : ""}${n(p.value)} ${p.unit}${p.measured_from ? ` from ${p.measured_from}` : ""} (${n(p.change_from_previous)})${tag}`;
     }
     return row;
   }),
@@ -76,12 +88,42 @@ console.table(
 
 console.log("\nFLAGS (most severe first)");
 for (const f of a.flags) {
-  console.log(`[${f.severity.toUpperCase()}] ${f.type}${f.resource ? ` (${f.resource})` : ""}: ${f.message}`);
-  for (const q of f.evidence) console.log(`    quote: "${q.replace(/\s+/g, " ").trim()}"`);
+  console.log(`[${f.severity.toUpperCase()}] ${f.id}: ${f.message}`);
+  for (const e of f.evidence) console.log(`    quote (${e.report_kind}): "${oneLine(e.quote)}"`);
+}
+
+console.log("\nWATER SCENARIOS");
+const w = a.waterScenarios;
+if (!w) {
+  console.log(`  none: ${a.waterScenariosReason}`);
+} else {
+  console.log(`  ${w.approximate ? "~" : ""}${n(w.volume_l)} L on ${w.reading_date} ("${oneLine(w.source_quote)}"), crew of ${w.crew_size} (${w.crew_size_source})`);
+  for (const s of w.scenarios) {
+    console.log(`  - ${s.label}: ${s.rate_l_per_person_day} L/person/day → ${n(s.days_left, 1)} days → runs out ${s.runs_out_on}`);
+  }
+  console.log(`  To last until mission end (${a.crew.mission_end}, ${w.days_until_mission_end} days): ${n(w.required_rate_to_mission_end_l_per_person_day)} L/person/day`);
+  for (const note of w.notes) console.log(`  note: ${note}`);
+}
+
+// Retrospective check (CLI only, deliberately looks ahead): did the crew later say they were running
+// out of water, and when? Compared with the FMARS-rate date, it shows how realistic that scenario was.
+console.log("\nRETROSPECTIVE CHECK (uses reports AFTER the as-of date — never shown in the app)");
+const fmars = w?.scenarios.find((s) => s.id === "fmars_average");
+if (!w || !fmars) {
+  console.log("  n/a: no water scenarios for this date");
+} else {
+  const later = extractions
+    .filter((x) => x.date > w.reading_date && reportKind(x.source_file) === "commander")
+    .flatMap((x) => [...x.readings, ...x.events, ...x.questions_to_mission_support].map((i) => ({ date: x.date, quote: oneLine(i.source_quote) })))
+    .filter((i) => /run out/i.test(i.quote)); // Regex: the words "run out", any case
+  // The same sentence often backs several items; keep each (date, quote) once.
+  const unique = [...new Map(later.map((i) => [`${i.date}|${i.quote}`, i])).values()];
+  if (unique.length === 0) console.log(`  FMARS rate said water runs out ${fmars.runs_out_on}; no later commander report mentions running out`);
+  for (const i of unique) console.log(`  FMARS rate said water runs out ${fmars.runs_out_on} | ${i.date} commander: "${i.quote}"`);
 }
 
 console.log("\nQUESTIONS TO MISSION SUPPORT");
-for (const q of a.questions) console.log(`- ${q.verified ? "[verified]" : "[UNVERIFIED]"} ${q.text}`);
+for (const q of a.questions) console.log(`- ${q.verified ? "[verified]" : "[UNVERIFIED]"} (${q.report_kind}) ${q.text}`);
 
 const outPath = join(EXTRACTIONS_DIR, `${crew}-analysis-${a.asOf}.json`);
 writeFileSync(outPath, JSON.stringify(a, null, 2) + "\n");

@@ -83,8 +83,8 @@ export function isRefill(prev: NormalizedReading, cur: NormalizedReading): boole
  * must not reach back past it.
  */
 export function saysFullWithoutNumber(r: NormalizedReading): boolean {
-  // Regex: the whole raw_text is the word "full", ignoring case and surrounding spaces.
-  return r.value === null && /^\s*full\s*$/i.test(r.raw_text);
+  // normalize.ts turns a raw_text of just "full" into status "full" and leaves value null.
+  return r.value === null && r.status === "full";
 }
 
 /**

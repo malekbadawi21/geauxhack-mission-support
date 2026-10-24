@@ -1,15 +1,15 @@
 // baselines.ts — published reference values for water use, each with its source.
 //
-// How it fits: these would let the tool compare the crew's water use to real standards. They only
-// apply if water use can be computed in LITERS from the reports. For Crew 147 it can't: the static
-// tank is reported as a depth in cm with no tank capacity, and the loft tank only as "filled". So
-// nothing imports these yet; they are kept, unused, for when a report gives volumes or a capacity.
+// How it fits: water.ts turns the crew's one stated water volume (Jan 13 "~360l") into "days left"
+// at each of these rates. They are reference points, not predictions: neither was measured at MDRS.
 // (Unlike constants.ts, these are real external figures, not our choices.) Browser-safe.
 
 // NASA-STD-3001 ECLSS technical brief: minimum 2.5 L potable water per crewmember per day.
-// Source: https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf
+// Drinking water only, not total use (washing, cooking, toilet).
 export const NASA_MIN_POTABLE_WATER_L_PER_CREW_DAY = 2.5;
+export const NASA_MIN_POTABLE_WATER_SOURCE = "https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf";
 
-// FMARS four-month analog study: average 12.12 L of water per crewmember per sol.
-// Source: https://core.ac.uk/works/63185982
+// FMARS four-month analog study: average 12.12 L of water per crewmember per sol (24h 39m).
+// Measured at a different analog station (Devon Island, Arctic).
 export const FMARS_AVG_WATER_L_PER_CREW_SOL = 12.12;
+export const FMARS_AVG_WATER_SOURCE = "https://core.ac.uk/works/63185982";
