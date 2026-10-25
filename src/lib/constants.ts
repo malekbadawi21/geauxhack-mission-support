@@ -58,8 +58,8 @@ export const EVENT_KEY_NOUNS = ["trailer tank", "static tank", "loft tank", "ATV
 
 export type CrewConfig = {
   name: string;
-  size: number; // people on the crew; water scenarios divide by this
-  mission_end: string; // YYYY-MM-DD; RUNS_OUT_BEFORE_MISSION_END and water scenarios count to it
+  size: number; // people on the crew; the water status divides by this
+  mission_end: string; // YYYY-MM-DD; RUNS_OUT_BEFORE_MISSION_END and the water status count to it
   size_source: string;
   size_url: string;
   mission_end_source: string;

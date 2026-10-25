@@ -1,15 +1,16 @@
 // HeroSection.tsx — the largest part of the page: usage charts per resource plus the water panel.
 //
-// How it fits: lays out one UsageChart per resource in analysis.series (headline resources first)
-// and the WaterScenarios panel. On wide screens the water panel sits in its own column beside the
-// charts; below ~1600px it moves under them (see .hero in app.css).
+// How it fits: lays out one UsageChart per resource in analysis.series that has at least one number
+// (headline resources first), then one compact "Crew notes only" row per resource the crew only ever
+// described in words (Phase 7: loft and trailer tanks — an empty chart told the judge nothing), and the
+// WaterPanel. On wide screens the water panel sits in its own column beside the charts; below ~1600px
+// it moves under them (see .hero in app.css).
 
 import type { Analysis } from "../lib/analyze.ts";
 import type { Resource } from "../lib/schema.ts";
-import { latestWaterVolume } from "../lib/water.ts";
 import { RESOURCE_ORDER } from "../ui/format.ts";
-import { UsageChart } from "./UsageChart.tsx";
-import { WaterScenarios } from "./WaterScenarios.tsx";
+import { CrewNotesOnly, UsageChart } from "./UsageChart.tsx";
+import { WaterPanel } from "./WaterPanel.tsx";
 
 /**
  * Renders the hero section.
@@ -21,7 +22,11 @@ export function HeroSection({ analysis, startDate }: { analysis: Analysis; start
     const i = RESOURCE_ORDER.indexOf(r);
     return i === -1 ? RESOURCE_ORDER.length : i;
   };
-  const series = [...analysis.series].sort((a, b) => rank(a.resource) - rank(b.resource));
+  const sorted = [...analysis.series].sort((a, b) => rank(a.resource) - rank(b.resource));
+  // A chart needs at least one number up to the as-of date; the rest get a notes-only row.
+  const hasNumber = (s: Analysis["series"][number]) => s.points.some((p) => p.value !== null);
+  const series = sorted.filter(hasNumber);
+  const wordsOnly = sorted.filter((s) => !hasNumber(s));
   // Charts end at mission end, or at the as-of date if that is later.
   const endDate = analysis.asOf > analysis.crew.mission_end ? analysis.asOf : analysis.crew.mission_end;
 
@@ -36,7 +41,7 @@ export function HeroSection({ analysis, startDate }: { analysis: Analysis; start
       </div>
       <div className="hero__grid">
         <div className="hero__charts">
-          {series.length === 0 && <p className="panel empty">No readings on or before this date.</p>}
+          {sorted.length === 0 && <p className="panel empty">No readings on or before this date.</p>}
           {series.map((s) => (
             <UsageChart
               key={s.resource}
@@ -47,14 +52,10 @@ export function HeroSection({ analysis, startDate }: { analysis: Analysis; start
               asOf={analysis.asOf}
             />
           ))}
+          {wordsOnly.length > 0 && <CrewNotesOnly series={wordsOnly} />}
         </div>
         <div className="hero__water">
-          <WaterScenarios
-            value={analysis.waterScenarios}
-            reason={analysis.waterScenariosReason}
-            volume={latestWaterVolume(analysis.series, analysis.asOf)}
-            crew={analysis.crew}
-          />
+          <WaterPanel water={analysis.water} />
         </div>
       </div>
     </section>

@@ -3,32 +3,38 @@
   "report": {
     "as_of": "2015-01-18",
     "overall": "nominal",
-    "status_line": "Nominal operations with water pump behavior and tap pressure under investigation",
+    "status_line": "Habitat nominal with 5 days remaining; water pump and tap pressure issues under investigation after static tank refill.",
     "concerns": [
       {
-        "title": "Water Pump Behavior and Tap Pressure Limitation",
-        "detail": "The crew reported that the water pump began behaving differently yesterday afternoon, causing a technical issue that prevents using any tap for long periods of time. The engineering team questioned whether the lack of water pressure is caused by the backup generator, and DG has proposed replacing the water heater. The static water tank was measured at 13 cm following the refill on 2015-01-17.",
+        "title": "Water pump behavior change and tap pressure drop",
+        "detail": "The crew reported that the water pump began behaving differently yesterday afternoon, creating low pressure that prevents using any tap for long periods of time. The engineering crew asked whether the water pressure issue is linked to the backup generator. Following the static tank refill to Full on 2015-01-17 (1 day ago, reading 13 cm today), water remaining is unknown; a trend needs 2 comparable readings. Water used since refill is estimated at 84.84 L at Arctic analog average (12.12 L/person/day) or 17.5 L at NASA minimum (2.5 L/person/day) for the crew of 7.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-18",
-          "CREW_REPORTED_EVENT:none:2015-01-18:2",
           "CREW_REPORTED_EVENT:none:2015-01-18:3"
+        ]
+      },
+      {
+        "title": "Water heater replacement proposed",
+        "detail": "Engineering crew member DG has proposed replacing the water heater amidst the ongoing tap pressure and water pump anomalies.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-18:2"
         ]
       }
     ],
     "crew_actions": [
-      "Limit tap usage to short intervals to avoid straining the water system.",
-      "Inspect the water pump and electrical connections to the backup generator for irregular operation.",
-      "Monitor static water tank levels and daily consumption following the 2015-01-17 refill."
+      "Provide a new total water volume estimate, as remaining volume is unknown following the 2015-01-17 static tank refill.",
+      "Troubleshoot the water pump and verify whether backup generator power delivery is causing the pressure drop.",
+      "Inspect the water heater and hold replacement until Mission Support provides technical guidance."
     ],
     "decisions_for_earth": [
       {
-        "decision": "Authorize replacement of the habitat water heater as proposed by the crew.",
-        "why": "The crew is experiencing altered water pump behavior and water pressure issues that prevent prolonged tap usage."
+        "decision": "Approve or provide technical guidance on replacing the habitat water heater.",
+        "why": "The crew proposed replacing the water heater after encountering water pump behavioral changes and tap pressure drops."
       }
     ],
-    "message_to_earth": "Overall habitat status is nominal, with a water delivery issue being the primary concern. Yesterday afternoon the water pump began behaving differently, creating a technical issue that prevents using any tap for long periods, while static water level is 13 cm. The crew is restricting tap run times and has proposed replacing the water heater. Other systems are nominal, with propane at 36 percent providing 24 days of supply and diesel at less than ¾. Please authorize replacing the water heater and advise whether backup generator operation causes this pressure drop by tomorrow morning. The crew will report again tomorrow.",
+    "message_to_earth": "Habitability is nominal but the water distribution system is experiencing pressure issues. The water pump began behaving differently yesterday afternoon, causing low water pressure that prevents using any tap for long periods of time. The static tank was refilled to full on 2015-01-17 and measured 13 cm today, 1 day after refill. The crew is troubleshooting pump pressure against the backup generator and has proposed replacing the water heater. Propane is nominal at 36%, and diesel is less than ¾. Mission Control guidance and approval on replacing the water heater is requested by tomorrow morning. Next report tomorrow evening.",
     "grounding": {
-      "numbers_checked": 10,
+      "numbers_checked": 21,
       "ungrounded": []
     }
   },
@@ -63,10 +69,10 @@
     },
     {
       "step": 5,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"diesel\"}",
-      "output_summary": "diesel: 7 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾",
-      "ms": 0
+      "tool": "get_water_status",
+      "input_summary": "(none)",
+      "output_summary": "since 2015-01-17 refill (1 d): no trend; fmars_average ~85 L used, nasa_minimum ~18 L used",
+      "ms": 1
     },
     {
       "step": 6,
@@ -84,20 +90,20 @@
     },
     {
       "step": 8,
-      "tool": "get_water_scenarios",
-      "input_summary": "(none)",
-      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 7 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾",
       "ms": 0
     },
     {
       "step": 9,
       "tool": "submit_daily_report",
-      "input_summary": "overall nominal, 1 concerns",
+      "input_summary": "overall nominal, 2 concerns",
       "output_summary": "report accepted",
       "ms": 0
     }
   ],
-  "generated_at": "2026-10-25T01:47:12.962Z",
+  "generated_at": "2026-10-25T04:48:55.395Z",
   "model": "gemini-3.8-flash",
   "is_sample": false
 }

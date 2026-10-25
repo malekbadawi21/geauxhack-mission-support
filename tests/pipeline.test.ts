@@ -12,7 +12,7 @@ import { forecastResource } from "../src/lib/forecast.ts";
 import { analyzeCrew } from "../src/lib/analyze.ts";
 import { CREW_147, type CrewConfig } from "../src/lib/constants.ts";
 import { DailyReportSchema } from "../src/lib/report-types.ts";
-import { latestWaterVolume } from "../src/lib/water.ts";
+import type { WaterStatus } from "../src/lib/water.ts";
 import type { SavedExtraction, VerifiedEvent, VerifiedReading } from "../src/lib/schema.ts";
 
 /** A verified reading with sensible defaults; pass only the fields a test cares about. */
@@ -229,45 +229,96 @@ describe("RUNS_OUT_BEFORE_MISSION_END severity (Phase 3a)", () => {
   });
 });
 
-describe("water scenarios (Phase 3a)", () => {
+describe("water status (Phase 7)", () => {
   const jan13 = savedReport("2015-01-13", "commander", [volume360]);
+  /** An engineering report with one static-tank reading, e.g. "empty", "Full", or "13 cm" from the top. */
+  const tank = (date: string, raw: string, quote = `Static tank: ${raw}`) =>
+    savedReport(date, "engineering", [reading({ resource: "water_static", raw_text: raw, source_quote: quote })]);
+  /** The water status as of a date. `Extract` narrows the union to one mode (the test fails if it's another). */
+  const projected = (xs: SavedExtraction[], asOf: string, crew = CREW_147) => {
+    const w = analyzeCrew(xs, asOf, crew).water;
+    expect(w.mode).toBe("projected");
+    return w as Extract<WaterStatus, { mode: "projected" }>;
+  };
 
-  it("divides the volume by crew size × each reference rate", () => {
-    const w = analyzeCrew([jan13], "2015-01-13", CREW_147).waterScenarios!;
-    expect(w).toMatchObject({ volume_l: 360, approximate: true, reading_date: "2015-01-13", crew_size: 7, days_until_mission_end: 10 });
-    const [fmars, nasa] = w.scenarios;
-    // toBeCloseTo compares floating-point numbers to a few decimal places instead of exactly.
-    expect(fmars.days_left).toBeCloseTo(360 / (7 * 12.12)); // ≈ 4.24 days
-    expect(fmars.runs_out_on).toBe("2015-01-17"); // Jan 13 + floor(4.24)
-    expect(nasa.days_left).toBeCloseTo(360 / (7 * 2.5)); // ≈ 20.57 days
-    expect(nasa.runs_out_on).toBe("2015-02-02"); // Jan 13 + 20
-    expect(w.required_rate_to_mission_end_l_per_person_day).toBeCloseTo(360 / (7 * 10));
-    expect(w.notes[0]).toBe("Volume is a crew estimate (approximate)");
+  it("projects the estimate forward: used = crew × rate × days since the estimate", () => {
+    for (const [asOf, days] of [["2015-01-13", 0], ["2015-01-14", 1], ["2015-01-15", 2], ["2015-01-16", 3]] as const) {
+      const w = projected([jan13], asOf);
+      expect(w.estimate).toMatchObject({ volume_l: 360, approximate: true, reading_date: "2015-01-13", days_since_estimate: days });
+      const [fmars, nasa] = w.scenarios;
+      // toBeCloseTo compares floating-point numbers to a few decimal places instead of exactly.
+      expect(fmars.used_l).toBeCloseTo(7 * 12.12 * days);
+      expect(fmars.remaining_l).toBeCloseTo(360 - 7 * 12.12 * days);
+      expect(fmars.days_left).toBeCloseTo((360 - 7 * 12.12 * days) / (7 * 12.12));
+      expect(nasa.remaining_l).toBeCloseTo(360 - 7 * 2.5 * days);
+      expect(nasa.days_left).toBeCloseTo((360 - 7 * 2.5 * days) / (7 * 2.5));
+      // Budget: what is left ÷ (crew × days until mission end), low end at FMARS, high end at NASA.
+      const toEnd = 10 - days;
+      expect(w.budget_to_mission_end!.if_typical_so_far).toBeCloseTo(fmars.remaining_l / (7 * toEnd));
+      expect(w.budget_to_mission_end!.if_minimal_so_far).toBeCloseTo(nasa.remaining_l / (7 * toEnd));
+      expect(w.notes).toContain("Projection from one crew estimate, not a measurement");
+    }
+    expect(projected([jan13], "2015-01-14").notes).toContain("Estimate is 1 day old");
   });
 
-  it("returns null with a reason when a tank was refilled after the volume estimate", () => {
-    const tank = (date: string, raw: string) =>
-      savedReport(date, "engineering", [reading({ resource: "water_static", raw_text: raw, source_quote: `Static tank: ${raw}` })]);
-    const all = [jan13, tank("2015-01-16", "empty"), tank("2015-01-17", "Full")];
-    expect(analyzeCrew(all, "2015-01-16", CREW_147).waterScenarios).not.toBeNull(); // before the refill: still usable
-    const after = analyzeCrew(all, "2015-01-17", CREW_147);
-    expect(after.waterScenarios).toBeNull();
-    expect(after.waterScenariosReason).toBe("last volume estimate (2015-01-13) predates the 2015-01-17 refill");
+  it("gives a different remaining volume each day, but the same runs_out_on date", () => {
+    const days = ["2015-01-14", "2015-01-15", "2015-01-16"].map((d) => projected([jan13], d));
+    const remaining = days.map((w) => w.scenarios[0].remaining_l);
+    expect(new Set(remaining).size).toBe(3); // three different numbers
+    for (const w of days) {
+      expect(w.scenarios[0].runs_out_on).toBe("2015-01-17"); // Jan 13 + floor(360 / 84.84 = 4.24)
+      expect(w.scenarios[1].runs_out_on).toBe("2015-02-02"); // Jan 13 + floor(360 / 17.5 = 20.57)
+      expect(w.scenarios.map((s) => s.status)).toEqual(["before_mission_end", "ok"]);
+    }
   });
 
-  it("latestWaterVolume names the refill that made the volume stale (shared with the Water on hand card)", () => {
-    const tank = (date: string, raw: string) =>
-      savedReport(date, "engineering", [reading({ resource: "water_static", raw_text: raw, source_quote: `Static tank: ${raw}` })]);
-    const a = analyzeCrew([jan13, tank("2015-01-16", "empty"), tank("2015-01-17", "Full")], "2015-01-17", CREW_147);
-    const v = latestWaterVolume(a.series, a.asOf);
-    expect(v.reading?.date).toBe("2015-01-13");
-    expect(v.refilled_on).toBe("2015-01-17");
+  it("clamps remaining at 0 and marks the scenario projected_empty", () => {
+    const w = projected([jan13], "2015-01-18", LONG_CREW); // 5 days × 84.84 L > 360 L
+    expect(w.scenarios[0]).toMatchObject({ remaining_l: 0, days_left: 0, status: "projected_empty", runs_out_on: "2015-01-17" });
+    expect(w.scenarios[1].remaining_l).toBeCloseTo(360 - 7 * 2.5 * 5);
+    expect(w.budget_to_mission_end!.if_typical_so_far).toBe(0);
   });
 
-  it("returns null with a reason when no volume was ever reported", () => {
-    const a = analyzeCrew([report("2015-01-12", 45)], "2015-01-12", CREW_147);
-    expect(a.waterScenarios).toBeNull();
-    expect(a.waterScenariosReason).not.toBeNull();
+  it("has no budget once the mission end is reached", () => {
+    expect(projected([jan13], "2015-01-23").budget_to_mission_end).toBeNull(); // the mission-end day itself
+    expect(projected([jan13], "2015-01-25").budget_to_mission_end).toBeNull();
+  });
+
+  it("switches to since_refill after a refill: days since, estimated draw, no remaining", () => {
+    const all = [
+      jan13,
+      tank("2015-01-16", "empty"),
+      tank("2015-01-17", "Full"),
+      tank("2015-01-18", "13 cm", "Static tank: 13 cm from the top"),
+      tank("2015-01-19", "20 cm", "Static tank: 20 cm from the top"),
+      tank("2015-01-21", "20 cm", "Static tank: 20 cm from the top"),
+    ];
+    expect(analyzeCrew(all, "2015-01-16", CREW_147).water.mode).toBe("projected"); // before the refill
+    const w = analyzeCrew(all, "2015-01-21", CREW_147).water;
+    if (w.mode !== "since_refill") throw new Error(`expected since_refill, got ${w.mode}`); // narrows the type below
+    expect(w.refill).toMatchObject({ date: "2015-01-17", resource: "water_static", source_quote: "Static tank: Full", days_since_refill: 4 });
+    expect(w.estimated_draw_since_refill.map((d) => d.used_l)).toEqual([7 * 12.12 * 4, 7 * 2.5 * 4]);
+    expect(w.missing).toBe("No volume estimate since the 2015-01-17 refill — ask the crew for one.");
+    expect(w.last_estimate_before_refill).toMatchObject({ volume_l: 360, reading_date: "2015-01-13" });
+    expect("remaining_l" in w || "scenarios" in w).toBe(false); // remaining is never computed in this mode
+    // The static tank's own trend since the refill: 13 → 20 cm from the top over 3 days = water down 7 cm.
+    expect(w.measured_trend).toMatchObject({ resource: "water_static", unit: "cm", measured_from: "top", points_used: 3, from_date: "2015-01-18" });
+    expect(w.measured_trend!.rate_per_day).toBeCloseTo(-7 / 3);
+    expect(w.measured_trend!.description).toBe("level dropping ~2.3 cm/day (from-top readings, 2015-01-18 to 2015-01-21)");
+  });
+
+  it("gives no measured trend with fewer than 2 readings since the refill, and says why", () => {
+    // "Full" only counts as a refill after the tank had fallen, hence the "empty" day before it.
+    const all = [jan13, tank("2015-01-16", "empty"), tank("2015-01-17", "Full"), tank("2015-01-18", "13 cm", "Static tank: 13 cm from the top")];
+    const w = analyzeCrew(all, "2015-01-18", CREW_147).water;
+    if (w.mode !== "since_refill") throw new Error(`expected since_refill, got ${w.mode}`);
+    expect(w.measured_trend).toBeNull();
+    expect(w.measured_trend_reason).toBe("static tank has 1 comparable numeric reading since the 2015-01-17 refill; a trend needs 2");
+  });
+
+  it('is "none" when no volume was ever reported', () => {
+    const w = analyzeCrew([report("2015-01-12", 45)], "2015-01-12", CREW_147).water;
+    expect(w).toMatchObject({ mode: "none", reason: "No water volume estimate reported yet", crew_size: 7 });
   });
 });
 

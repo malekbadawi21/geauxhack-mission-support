@@ -10,7 +10,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import type { Analysis } from "../src/lib/analyze.ts";
 import { checkGrounding, matchesWithinRounding } from "../src/lib/grounding.ts";
-import { getFlagEvidence, getOverview, getResourceHistory, getWaterScenarios, runTool } from "../src/lib/agent/tools.ts";
+import { getFlagEvidence, getOverview, getResourceHistory, getWaterStatus, runTool } from "../src/lib/agent/tools.ts";
 import { overallFromFlags, validateSubmission } from "../src/lib/agent/loop.ts";
 import type { SubmittedReport } from "../src/lib/agent/tools.ts";
 
@@ -78,15 +78,15 @@ describe("agent tools on the Jan 13 analysis", () => {
     expect(getFlagEvidence(jan13, "NOPE")).toHaveProperty("error");
   });
 
-  it("get_water_scenarios returns the scenarios, or the reason there are none", () => {
-    const w = getWaterScenarios(jan13);
-    expect(w).toMatchObject({ available: true, volume_l: 360, crew_size: 7 });
-    expect(getWaterScenarios({ ...jan13, waterScenarios: null, waterScenariosReason: "last volume estimate predates a refill" }))
-      .toEqual({ available: false, reason: "last volume estimate predates a refill" });
+  it("get_water_status returns the analysis's water status (projected from the ~360 L estimate on Jan 13)", () => {
+    const w = getWaterStatus(jan13);
+    expect(w).toEqual(jan13.water);
+    expect(w).toMatchObject({ mode: "projected", crew_size: 7, estimate: { volume_l: 360, days_since_estimate: 0 } });
+    expect(getOverview(jan13).water_status_mode).toBe("projected");
   });
 
   it("runTool dispatches by name and reports unknown tools", () => {
-    expect(runTool(jan13, "get_water_scenarios", {})).toEqual(getWaterScenarios(jan13));
+    expect(runTool(jan13, "get_water_status", {})).toEqual(getWaterStatus(jan13));
     expect(runTool(jan13, "launch_rocket", {})).toEqual({ error: 'unknown tool "launch_rocket"' });
   });
 });

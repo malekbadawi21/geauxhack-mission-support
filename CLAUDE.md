@@ -62,30 +62,30 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - At the end of every phase, rewrite the Current state section (replace it, don't append).
 
 ## Current state
-- **Status:** Phase 6 complete (QA sweep, bug fixes, a daily report per day). `npm run qa` (needs `npm run dev`)
-  passes: 144 checks, 0 console errors / exceptions / blank pages, a daily report on every day, both
-  viewports. Type check, build, 47 tests, lint, browser-safety grep and `vercel build` pass. Not committed.
-- **Bugs:** `docs/bugs.md` lists all 14 (7 known K1–K7, 7 found by QA Q1–Q7), all fixed.
-- **QA:** `scripts/qa.ts` (Playwright, dev-only) drives the local dev server; screenshots + results.json go
-  to `qa-output/` (gitignored). Chromium is installed with `npx playwright install chromium`.
+- **Status:** Phase 7 complete (water panel redesign + chart cleanup). `npm run qa` (needs `npm run dev`) passes:
+  168 checks, 0 problems at 1920 and 1280, including no overlapping x-axis labels, no chart without a
+  number, Jan 14 ≠ Jan 15 water values, since-refill mode on Jan 18+. Type check, build, 50 tests, lint,
+  browser-safety grep and `vercel build` pass. Not committed.
+- **Water (water.ts):** `waterStatus(series, forecasts, asOf, crew)` → `analysis.water`, three modes.
+  "projected" (Jan 13–16): the ~360 L estimate minus crew × rate × days since it, per FMARS/NASA rate;
+  remaining clamps at 0; `runs_out_on` fixed from the estimate date; `budget_to_mission_end` (null once
+  mission end ≤ asOf). "since_refill" (Jan 17+): days since refill, static-tank trend from forecast.ts
+  (≥2 from-top readings since the refill: Jan 19+), estimated water USED, `missing` line; no remaining.
+  "none" (Jan 12). `waterScenarios`/`latestWaterVolume` are gone.
+- **UI:** `WaterPanel.tsx` (replaced WaterScenarios.tsx) names the mode in its title; the "Water on hand"
+  card follows the same mode. Resources with no number (loft, trailer tanks) get a "Crew notes only" row
+  instead of a chart. Chart x-axis = day numbers with the month once (`DayTick`), Recharts thins them.
+- **Agent:** tool `get_water_status` (returns `analysis.water`); overview has `water_status_mode`. All 11
+  replay runs regenerated: 0 ungrounded numbers, ≤3 decisions, 90–117-word messages; every since-refill
+  day asks the crew for a volume estimate; projected days call the numbers projections.
 - **Gemini API:** paid tier, prepaid credits, auto-reload off. Model from env `GEMINI_MODEL`
-  (`gemini-3.8-flash`). Called directly with `@google/genai` — no Vercel AI Gateway.
-- **Vercel:** CLI linked (project `geauxhack-mission-support`, Vite, Node 24). `GEMINI_API_KEY` and
-  `GEMINI_MODEL` set for all environments. Root tsconfig.json has its own compilerOptions with
-  `rewriteRelativeImportExtensions` (Vercel compiles api/ with it and ignores `references`).
-  `data/style/` reaches the daily-report function via `includeFiles`.
-- **UI:** every section sits in an `ErrorBoundary` ("This section failed to render" + message, resets on
-  day change). Replay shows `data/demo/run-<date>.json` for the selected day instantly; only the Jan 13
-  upload plays the staged animation; Live never shows a recorded run. Chart words (EMPTY/HALF/FULL, "less
-  than ¾") are a "Crew notes" row of CSS pills under the x-axis; no custom SVG anywhere.
-- **Analysis changes this phase:** same-day engineering + commander events sharing a key noun
-  (`EVENT_KEY_NOUNS`, constants.ts) merge into one flag; forecasts give no rate when the crew described
-  the level in words after the last number; `latestWaterVolume()` (water.ts) is the one staleness rule
-  for the water card and the scenarios (reason now names both dates).
-- **Demo replay:** one real run per report day (Jan 12–23, 11 files), regenerated with
-  `npm run daily-report -- crew-147 --all --force` against the final flags: 0 ungrounded numbers on every
-  day, ≤3 decisions, 93–116-word messages, every cited flag id exists, every critical flag cited.
-- **Still not forecastable:** water_static (cm, top/bottom unstated before Jan 18; from-top after),
-  water_loft/water_trailer, gasoline, water_total (scenarios only).
+  (`gemini-3.8-flash`), called directly with `@google/genai`.
+- **Vercel:** CLI linked (project `geauxhack-mission-support`, Vite, Node 24), env vars set for all
+  environments; root tsconfig.json has its own compilerOptions; `data/style/` via `includeFiles`.
+- **Bugs:** `docs/bugs.md` (Phase 6, all 14 fixed). QA: `scripts/qa.ts` (Playwright, dev-only) → `qa-output/`.
+- **Stale CLI output:** `data/extractions/crew-147-analysis-*.json` still have the old water fields
+  (written by `npm run analyze`, not read by the app or tests); re-run analyze to refresh if wanted.
+- **Still not forecastable:** water_static days-to-empty (from-top depth, no tank depth), loft/trailer
+  tanks, gasoline; water_total only via the water status.
 - **Next:** Malek reviews and commits; deploy (`vercel --prod`) and smoke-test both modes; replace the
   favicon; pick the product name (`src/ui/config.ts`).

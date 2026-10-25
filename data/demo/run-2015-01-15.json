@@ -3,50 +3,59 @@
   "report": {
     "as_of": "2015-01-15",
     "overall": "caution",
-    "status_line": "Static water tank critically low with one day of supply remaining; 3 EVA headset microphones and 2 ATVs non-functional.",
+    "status_line": "Caution: Static water levels critical with supplies expiring tomorrow, 3 headset microphones failed, and ATVs 3 and 5 down.",
     "concerns": [
       {
-        "title": "Depleted Static Water Reserves and Lack of Hot Water",
-        "detail": "The static water tank has dropped to Less than 10cm, with the crew reporting tomorrow is the last day with sufficient water supplies under water-saving measures. Additionally, hot water has still not been attained.",
+        "title": "Depleted Static Water Tank and Pending Supply Depletion",
+        "detail": "The static water tank level dropped to 'Less than 10cm' on 2015-01-15, and the commander noted that tomorrow is the last day with sufficient water supplies under current rationing. Projected forward from the 2015-01-13 estimate of ~360 L, water remaining is 190.32 L (about 2.2 days left, running out on 2015-01-17) if usage matches Arctic analog rates (12.12 L/person-day for 7 crew members), or 325 L remaining (about 18.6 days left, running out on 2015-02-02) under NASA potable minimum rates (2.5 L/person-day). Remaining budget to reach mission end on 2015-01-23 (8 days remaining) is about 3.4 L/person-day if typical so far or about 5.8 L/person-day if minimal so far. These figures are projections from one crew estimate, not direct measurements.",
         "flag_ids": [
-          "CREW_REPORTED_EVENT:none:2015-01-15:5",
-          "CREW_REPORTED_EVENT:none:2015-01-15:3"
+          "CREW_REPORTED_EVENT:none:2015-01-15:5"
         ]
       },
       {
-        "title": "Defective EVA Headset Microphones",
-        "detail": "Testing concluded that the microphones on 3 out of 6 EVA headsets are defective and not functioning, restricting communications capability on EVAs.",
+        "title": "EVA Headset Microphone Failures",
+        "detail": "Both engineering and commander reports confirm that microphones on 3 of the 6 EVA headsets are defective and non-functioning. The commander requested a resupply of at least 3 replacement headsets to ensure surface exploration can continue safely.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-15:2"
         ]
       },
       {
-        "title": "Mobility Impairments from ATV Malfunctions",
-        "detail": "ATV 5 failed to start and is not functioning, while ATV 3 starts but shuts down immediately once the throttle is released.",
+        "title": "Rover Fleet Malfunctions (ATV 3 and ATV 5)",
+        "detail": "ATV 3 started but immediately shut down as soon as the throttle was released. Additionally, the crew was unable to start ATV 5, which remains inoperable. While 4 out of 5 ATVs initially started, ATV 5 remains down and the crew has requested the ATV 5 manual.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-15",
           "CREW_REPORTED_EVENT:none:2015-01-15:4"
         ]
+      },
+      {
+        "title": "Habitat Hot Water System Unavailable",
+        "detail": "Engineering reports that hot water has still not been attained in the habitat. The crew has asked Mission Support for additional mitigation strategies.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-15:3"
+        ]
       }
     ],
     "crew_actions": [
-      "Continue enforcing strict water-saving protocols.",
-      "Quarantine defective headsets and restrict EVA team sizes to members with verified functional communications gear.",
-      "Troubleshoot ATV 3 throttle issues and consult available technical documentation for ATV 5."
+      "Continue strictly adhering to the habitat 'Water saving' protocol.",
+      "Provide an updated total water volume estimate to recalibrate consumption projections.",
+      "Restrict EVA team size to a maximum of 3 crew members using the working headsets.",
+      "Troubleshoot ATV 3 idle and throttle linkage to prevent stalling when throttle is released.",
+      "Inspect ATV 5 battery and wiring pending arrival of the ATV 5 manual.",
+      "Check habitat water heater electrical and plumbing connections."
     ],
     "decisions_for_earth": [
       {
-        "decision": "Confirm the water resupply schedule and approve scheduling a water recovery activity for tomorrow's EVA.",
-        "why": "The static water tank reading is Less than 10cm and the crew identified tomorrow as the final day of sufficient supplies."
+        "decision": "Authorize the crew to conduct a water recovery EVA tomorrow and confirm the water resupply timeline.",
+        "why": "The static tank has dropped to less than 10cm and the crew reports that sufficient water supplies will run out after tomorrow."
       },
       {
-        "decision": "Approve a near-future resupply of EVA communications equipment including at least 3 replacement headsets.",
-        "why": "Three of six headset microphones are non-functional, which limits safe crew communications during surface operations."
+        "decision": "Authorize EVA protocols limited to 3 operational headsets and approve resupply of at least 3 replacement headset microphones.",
+        "why": "Three of six headset microphones are broken, restricting safe voice communications for larger exploration teams."
       }
     ],
-    "message_to_earth": "Status is caution due to critically low water supplies. On 2015-01-15, static tank water dropped to less than 10cm, leaving tomorrow as the final day with sufficient water under rationing. ATV 5 failed to start, ATV 3 shuts down when throttle is released, and 3 out of 6 EVA headset microphones are defective. The crew is enforcing water-saving protocols and isolating defective equipment. Propane is at 40%, diesel is at 75%, and other station systems are nominal, though hot water is not attained. Please confirm the water resupply delivery and approve a water recovery EVA by tomorrow morning. Next report will be submitted tomorrow evening.",
+    "message_to_earth": "STATUS: Habitat operations are at caution due to low water supplies and equipment failures.\nWHAT HAPPENED: Static water dropped to Less than 10cm on 2015-01-15, with the crew reporting sufficient supplies only through tomorrow. Projected from the 2015-01-13 estimate of ~360 L, remaining water is 190.32 L with run-out on 2015-01-17 if usage matches Arctic analog rates.\nWHAT THE CREW IS DOING: The crew is following water-saving protocols and inspecting equipment.\nOTHER SYSTEMS: Diesel is 75%, propane is 40%, hot water is unavailable, ATV 3 and ATV 5 are down, and 3 of 6 headset microphones failed.\nREQUEST: Authorize a water recovery EVA for tomorrow and confirm the resupply schedule today.\nNEXT UPDATE: Next report follows tomorrow.",
     "grounding": {
-      "numbers_checked": 21,
+      "numbers_checked": 66,
       "ungrounded": []
     }
   },
@@ -60,83 +69,83 @@
     },
     {
       "step": 2,
+      "tool": "get_water_status",
+      "input_summary": "(none)",
+      "output_summary": "projected from ~360 L on 2015-01-13 (2 d old); fmars_average 190 L left → 2015-01-17, nasa_minimum 325 L left → 2015-02-02",
+      "ms": 0
+    },
+    {
+      "step": 3,
       "tool": "get_flag_evidence",
       "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15\"}",
       "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15 [warning]: \"ATV 3 started, but it immediately shut down as soon as the throttle was released.\" (engineering); \"Rebeca was\na…",
       "ms": 0
     },
     {
-      "step": 3,
+      "step": 4,
       "tool": "get_flag_evidence",
       "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:2\"}",
       "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:2 [warning]: \"In conclusion, three of the headset microphones were found to be defective and not functioning.\" (engineering…",
       "ms": 0
     },
     {
-      "step": 4,
+      "step": 5,
       "tool": "get_flag_evidence",
       "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:3\"}",
       "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:3 [info]: \"The hot water has still not been attained.\" (engineering)",
       "ms": 0
     },
     {
-      "step": 5,
+      "step": 6,
       "tool": "get_flag_evidence",
       "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:4\"}",
       "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:4 [info]: \"We were not able to start ATV 5.\" (engineering)",
       "ms": 0
     },
     {
-      "step": 6,
+      "step": 7,
       "tool": "get_flag_evidence",
       "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:5\"}",
       "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:5 [info]: \"The tank is still low with water. Our crew continues to follow the \"Water saving\" scenario but, as explained on …",
       "ms": 0
     },
     {
-      "step": 7,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"water_static\"}",
-      "output_summary": "water_static: 4 days: ¼ → 15cm → 15cm → Less than 10cm",
-      "ms": 0
-    },
-    {
       "step": 8,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"water_total\"}",
-      "output_summary": "water_total: 4 days: — → ~360l → — → —",
-      "ms": 0
-    },
-    {
-      "step": 9,
       "tool": "get_resource_history",
       "input_summary": "{\"resource\":\"propane\"}",
       "output_summary": "propane: 4 days: 45% → 40% → 40% → 40%",
       "ms": 0
     },
     {
-      "step": 10,
+      "step": 9,
       "tool": "get_resource_history",
       "input_summary": "{\"resource\":\"diesel\"}",
       "output_summary": "diesel: 4 days: ¾ → ¾ → ¾ → ¾",
       "ms": 0
     },
     {
+      "step": 10,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 4 days: ¼ → 15cm → 15cm → Less than 10cm",
+      "ms": 0
+    },
+    {
       "step": 11,
-      "tool": "get_water_scenarios",
-      "input_summary": "(none)",
-      "output_summary": "~360 L on 2015-01-13 for 7 crew; fmars_average → 2015-01-17, nasa_minimum → 2015-02-02",
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_total\"}",
+      "output_summary": "water_total: 4 days: — → ~360l → — → —",
       "ms": 0
     },
     {
       "step": 12,
       "tool": "submit_daily_report",
-      "input_summary": "overall caution, 3 concerns",
+      "input_summary": "overall caution, 4 concerns",
       "output_summary": "report accepted",
-      "ms": 1
+      "ms": 0
     }
   ],
-  "generated_at": "2026-10-25T01:44:42.829Z",
+  "generated_at": "2026-10-25T04:45:51.284Z",
   "model": "gemini-3.8-flash",
   "is_sample": false
 }

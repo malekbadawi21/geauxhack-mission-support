@@ -13,6 +13,11 @@
 //     shown as text pills in a "Crew notes" row under the x-axis, so their position never implies a
 //     number (Phase 6, K4: replaced the diamond markers above the plot).
 //   - Hovering any day shows what the crew wrote (raw_text) and the report quote.
+//
+// X-axis labels are day numbers ("12", "13", …) with the month written once under the first tick (and
+// under any 1st of a month), so labels never run together; Recharts drops ticks when the chart is
+// narrow (Phase 7). A resource with no number at all gets no chart: CrewNotesOnly (bottom of this
+// file) lists its dated notes instead.
 
 import { CartesianGrid, ComposedChart, Dot, Layer, Line, ReferenceLine, ResponsiveContainer, Text, Tooltip, XAxis, YAxis } from "recharts";
 import type { Forecast, ResourceSeries, SeriesPoint } from "../lib/analyze.ts";
@@ -82,6 +87,36 @@ function groupLabel(key: string): string {
   const u = unit === "percent" ? "%" : unit;
   if (from === "top") return `${u} from top (higher = less water)`;
   return from === "unstated" ? (unit === "cm" || unit === "in" ? `${u} (top/bottom not stated)` : u) : `${u} from ${from}`;
+}
+
+/** Day of the month as an axis label: "2015-01-13" → "13". */
+const dayLabel = (iso: string) => String(Number(iso.slice(8, 10)));
+
+/**
+ * One x-axis tick: the day number, plus the month on a second line under the first tick and under the
+ * 1st of a month (so a mission crossing into February says so). Recharts' own Text, no hand-drawn SVG.
+ * @param props  What Recharts passes a custom tick: its position and payload.value (our day index x).
+ */
+function DayTick(props: { x?: number | string; y?: number | string; payload?: { value: unknown }; startDate: string }) {
+  // Recharts types x/y as number | string; on a number axis they are pixel numbers, so Number() is exact.
+  const x = Number(props.x ?? 0);
+  const y = Number(props.y ?? 0);
+  const { payload, startDate } = props;
+  if (!payload || typeof payload.value !== "number") return null;
+  const date = addDays(startDate, payload.value);
+  const showMonth = payload.value === 0 || date.endsWith("-01");
+  return (
+    <Layer>
+      <Text x={x} y={y + 4} textAnchor="middle" verticalAnchor="start" fill={C.axis} fontSize={11} fontFamily="IBM Plex Mono">
+        {dayLabel(date)}
+      </Text>
+      {showMonth && (
+        <Text x={x} y={y + 18} textAnchor="middle" verticalAnchor="start" fill={C.axis} fontSize={10} fontFamily="IBM Plex Mono">
+          {shortDate(date).slice(0, 3).toUpperCase()}
+        </Text>
+      )}
+    </Layer>
+  );
 }
 
 /** The text and color of a Crew notes pill: the state word, or the crew's own words when there's no number. */
@@ -181,10 +216,13 @@ export function UsageChart({ series, forecast, startDate, endDate, asOf }: Props
               dataKey="x"
               domain={[0, xEnd]}
               ticks={Array.from({ length: xEnd + 1 }, (_, i) => i)}
-              tickFormatter={(x: number) => shortDate(addDays(startDate, x))}
+              // tickFormatter is what Recharts measures to decide which ticks fit; DayTick draws them.
+              tickFormatter={(x: number) => dayLabel(addDays(startDate, x))}
               interval="equidistantPreserveStart"
+              minTickGap={10}
+              height={36}
               stroke={C.axis}
-              tick={{ fontSize: 11, fontFamily: "IBM Plex Mono" }}
+              tick={(t) => <DayTick x={t.x} y={t.y} payload={t.payload} startDate={startDate} />}
               tickLine={false}
             />
             <YAxis
@@ -292,6 +330,44 @@ function CrewNotes({ notes, startDate, xEnd }: { notes: SeriesPoint[]; startDate
         })}
       </div>
     </div>
+  );
+}
+
+/**
+ * Rows for resources the crew only ever described in words (no number up to the as-of date), e.g. the
+ * loft tank "half-empty" → "full". An empty chart would say nothing, so each gets one compact row:
+ * its name and a dated pill per note, in the same pill styles as the charts' Crew notes row.
+ * @param series  The words-only series, in display order.
+ */
+export function CrewNotesOnly({ series }: { series: ResourceSeries[] }) {
+  return (
+    <section className="notes-only panel" aria-label="Crew notes only">
+      <div className="notes-only__head">
+        <h3>Crew notes only</h3>
+        <span className="dim small">No numeric readings yet, so no chart. Hover a note for the quote.</span>
+      </div>
+      {series.map((s) => (
+        <div className="notes-only__row" key={s.resource}>
+          <span className="notes-only__name">{RESOURCE_LABEL[s.resource]}</span>
+          <div className="notes-only__pills">
+            {s.points
+              .filter((p) => p.raw_text !== null)
+              .map((p) => {
+                const { text, cls } = notePill(p);
+                return (
+                  <span
+                    key={p.date}
+                    className={`note-pill note-pill--inline mono ${cls}`}
+                    title={`${shortDate(p.date)} — crew wrote “${p.raw_text}”${p.source_quote ? `: “${p.source_quote}”` : ""} (${p.report_kind} report)`}
+                  >
+                    <span className="note-pill__date">{shortDate(p.date)}</span> {text}
+                  </span>
+                );
+              })}
+          </div>
+        </div>
+      ))}
+    </section>
   );
 }
 

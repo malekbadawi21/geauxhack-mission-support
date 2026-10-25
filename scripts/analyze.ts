@@ -92,28 +92,36 @@ for (const f of a.flags) {
   for (const e of f.evidence) console.log(`    quote (${e.report_kind}): "${oneLine(e.quote)}"`);
 }
 
-console.log("\nWATER SCENARIOS");
-const w = a.waterScenarios;
-if (!w) {
-  console.log(`  none: ${a.waterScenariosReason}`);
+console.log(`\nWATER STATUS (${a.water.mode})`);
+const w = a.water;
+if (w.mode === "none") {
+  console.log(`  ${w.reason}`);
+} else if (w.mode === "since_refill") {
+  const e = w.last_estimate_before_refill;
+  console.log(`  refilled ${w.refill.date} (${w.refill.resource}, ${w.refill.days_since_refill} days ago); last estimate ${e.approximate ? "~" : ""}${n(e.volume_l)} L on ${e.reading_date} is stale`);
+  console.log(`  measured trend: ${w.measured_trend?.description ?? w.measured_trend_reason}`);
+  for (const d of w.estimated_draw_since_refill) console.log(`  - ${d.label}: ~${n(d.used_l, 1)} L USED since the refill (estimate, not remaining)`);
+  console.log(`  missing: ${w.missing}`);
 } else {
-  console.log(`  ${w.approximate ? "~" : ""}${n(w.volume_l)} L on ${w.reading_date} ("${oneLine(w.source_quote)}"), crew of ${w.crew_size} (${w.crew_size_source})`);
+  const e = w.estimate;
+  console.log(`  ${e.approximate ? "~" : ""}${n(e.volume_l)} L on ${e.reading_date} ("${oneLine(e.source_quote)}"), ${e.days_since_estimate} days old, crew of ${w.crew_size} (${w.crew_size_source})`);
   for (const s of w.scenarios) {
-    console.log(`  - ${s.label}: ${s.rate_l_per_person_day} L/person/day → ${n(s.days_left, 1)} days → runs out ${s.runs_out_on}`);
+    console.log(`  - ${s.label}: ${s.rate_l_per_person_day} L/person/day → ${n(s.remaining_l, 1)} L left, ${n(s.days_left, 1)} days → runs out ${s.runs_out_on} [${s.status}]`);
   }
-  console.log(`  To last until mission end (${a.crew.mission_end}, ${w.days_until_mission_end} days): ${n(w.required_rate_to_mission_end_l_per_person_day)} L/person/day`);
-  for (const note of w.notes) console.log(`  note: ${note}`);
+  const b = w.budget_to_mission_end;
+  console.log(`  budget to mission end (${w.mission_end}, ${w.days_until_mission_end} days): ${b ? `${n(b.if_typical_so_far)}–${n(b.if_minimal_so_far)} L/person/day` : "—"}`);
 }
+for (const note of w.notes) console.log(`  note: ${note}`);
 
 // Retrospective check (CLI only, deliberately looks ahead): did the crew later say they were running
-// out of water, and when? Compared with the FMARS-rate date, it shows how realistic that scenario was.
+// out of water, and when? Compared with the FMARS-rate date, it shows how realistic that projection was.
 console.log("\nRETROSPECTIVE CHECK (uses reports AFTER the as-of date — never shown in the app)");
-const fmars = w?.scenarios.find((s) => s.id === "fmars_average");
-if (!w || !fmars) {
-  console.log("  n/a: no water scenarios for this date");
+const fmars = w.mode === "projected" ? w.scenarios.find((s) => s.id === "fmars_average") : undefined;
+if (w.mode !== "projected" || !fmars) {
+  console.log("  n/a: no projection for this date");
 } else {
   const later = extractions
-    .filter((x) => x.date > w.reading_date && reportKind(x.source_file) === "commander")
+    .filter((x) => x.date > w.estimate.reading_date && reportKind(x.source_file) === "commander")
     .flatMap((x) => [...x.readings, ...x.events, ...x.questions_to_mission_support].map((i) => ({ date: x.date, quote: oneLine(i.source_quote) })))
     .filter((i) => /run out/i.test(i.quote)); // Regex: the words "run out", any case
   // The same sentence often backs several items; keep each (date, quote) once.

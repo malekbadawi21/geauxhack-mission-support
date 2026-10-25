@@ -3,32 +3,33 @@
   "report": {
     "as_of": "2015-01-19",
     "overall": "nominal",
-    "status_line": "Nominal status with 4 days until mission end; crew investigating low water flow and monitoring ATV 2 fuel valve.",
+    "status_line": "Nominal operations with 4 days to mission end; crew investigating low water flow; remaining water volume unknown since refill.",
     "concerns": [
       {
-        "title": "Low Water Flow Under Investigation",
-        "detail": "The commander reported that water flow in the habitat is very low and currently under investigation. Static water tank depth was measured at 20 cm from the top, compared to 13 cm on the previous day.",
+        "title": "Low habitat water flow",
+        "detail": "The commander reported that water flow in the habitat is very low and under investigation. Total water remaining is unknown following the static tank refill 2 days ago on 2015-01-17. The static tank level was measured at 20 cm from the top today, dropping about 7 cm/day from 13 cm on 2015-01-18. Estimated draw since refill is 169.68 L at the FMARS reference rate (12.12 L/person/day) or 35 L at NASA minimum (2.5 L/person/day) for the 7-person crew.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-19:2"
         ]
       },
       {
-        "title": "ATV 2 Ignition Issue During EVA",
-        "detail": "Trouble starting ATV 2 occurred during today's EVA, which was resolved by switching the fuel cock to the RES position.",
+        "title": "ATV 2 starting issue during EVA",
+        "detail": "The crew reported difficulty starting ATV 2 during the EVA, which was resolved by switching the fuel cock to the reserve (RES) position.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-19"
         ]
       }
     ],
     "crew_actions": [
-      "Continue investigating the cause of low water flow in the habitat plumbing system.",
-      "Inspect ATV 2 fuel level and fuel lines prior to the next EVA.",
-      "Review local habitat documentation regarding recommended equipment storing procedures."
+      "Provide a new total water volume estimate, as remaining water is unknown following the 2015-01-17 static tank refill.",
+      "Continue investigating the cause of low water flow in the habitat plumbing.",
+      "Check fuel levels and verify fuel cock positions on ATV 2 prior to subsequent EVAs.",
+      "Review habitat storage procedures following guidance from Mission Support."
     ],
     "decisions_for_earth": [],
-    "message_to_earth": "Overall habitat status is nominal, with an ongoing investigation into low water flow. The commander reported very low water flow today, while static water tank depth measured 20 cm from the top. During today's EVA, ATV 2 had trouble starting until the fuel cock was switched to the RES position. The crew is investigating the plumbing system for restrictions and operating ATV 2 on reserve fuel. Power and heating systems are nominal, with diesel at 60% and propane at 35%. No operational decisions are required from Earth at this time. Next update will be sent tomorrow following evening reports.",
+    "message_to_earth": "Overall habitat status is nominal with 4 days remaining in the mission, though low water flow is under investigation. On 2015-01-19, the commander reported very low water flow, while static tank depth reached 20 cm from the top, dropping about 7 cm/day. Total water volume remaining is unknown following the static tank refill 2 days ago on 2015-01-17. The crew is troubleshooting plumbing flow and resolved an EVA ATV 2 starting issue by switching to reserve fuel. Propane is nominal at 35% with 24.5 days remaining, and diesel is nominal at 60% with 28 days remaining. No decisions are required from Earth at this time. The next update will be sent tomorrow.",
     "grounding": {
-      "numbers_checked": 12,
+      "numbers_checked": 37,
       "ungrounded": []
     }
   },
@@ -45,7 +46,7 @@
       "tool": "get_flag_evidence",
       "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-19\"}",
       "output_summary": "CREW_REPORTED_EVENT:none:2015-01-19 [info]: \"We had trouble starting ATV 2 during today’s EVA. This issue was resolved by switching the fuel cock to the RES po…",
-      "ms": 1
+      "ms": 0
     },
     {
       "step": 3,
@@ -56,30 +57,30 @@
     },
     {
       "step": 4,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"diesel\"}",
-      "output_summary": "diesel: 8 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾ → 60%",
+      "tool": "get_water_status",
+      "input_summary": "(none)",
+      "output_summary": "since 2015-01-17 refill (2 d): level dropping ~7 cm/day (from-top readings, 2015-01-18 to 2015-01-19); fmars_average ~170 L used, nasa_minimum ~35 L used",
       "ms": 0
     },
     {
       "step": 5,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"propane\"}",
-      "output_summary": "propane: 8 days: 45% → 40% → 40% → 40% → 39% → 37% → 36% → 35%",
-      "ms": 0
-    },
-    {
-      "step": 6,
       "tool": "get_resource_history",
       "input_summary": "{\"resource\":\"water_static\"}",
       "output_summary": "water_static: 8 days: ¼ → 15cm → 15cm → Less than 10cm → empty → Full → 13 cm → 20 cm",
       "ms": 0
     },
     {
+      "step": 6,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 8 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾ → 60%",
+      "ms": 0
+    },
+    {
       "step": 7,
-      "tool": "get_water_scenarios",
-      "input_summary": "(none)",
-      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 8 days: 45% → 40% → 40% → 40% → 39% → 37% → 36% → 35%",
       "ms": 0
     },
     {
@@ -90,7 +91,7 @@
       "ms": 0
     }
   ],
-  "generated_at": "2026-10-25T01:47:48.564Z",
+  "generated_at": "2026-10-25T04:49:50.292Z",
   "model": "gemini-3.8-flash",
   "is_sample": false
 }

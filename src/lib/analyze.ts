@@ -2,7 +2,7 @@
 //
 // How it fits: give it every saved extraction for a crew (already in memory), an "as of" date and
 // the crew's config; it returns one Analysis object: today's readings, a chart-ready series per
-// resource, forecasts, flags, water scenarios, and today's events and questions. The CLI
+// resource, forecasts, flags, the water status, and today's events and questions. The CLI
 // (scripts/analyze.ts), the agent (Phase 3b) and the UI all call this same function, so they can
 // never disagree. An uploaded report is just one more extraction appended to the list.
 //
@@ -29,7 +29,7 @@ import {
   type SeriesPoint,
   type Tagged,
 } from "./flags.ts";
-import { waterScenarios, type WaterScenario, type WaterScenarios } from "./water.ts";
+import { waterStatus, type WaterStatus } from "./water.ts";
 import type { CrewConfig } from "./constants.ts";
 import { daysBetween } from "./dates.ts";
 
@@ -45,8 +45,7 @@ export type {
   SeriesPoint,
   Tagged,
   TankStatus,
-  WaterScenario,
-  WaterScenarios,
+  WaterStatus,
 };
 
 export type Analysis = {
@@ -61,8 +60,7 @@ export type Analysis = {
   flags: Flag[]; // sorted by severity; each has a stable id
   events: Tagged<VerifiedEvent>[]; // from that day's reports, with verification status
   questions: Tagged<VerifiedQuestion>[]; // from that day's reports, with verification status
-  waterScenarios: WaterScenarios | null; // null when there's no usable water volume (see reason)
-  waterScenariosReason: string | null; // why waterScenarios is null; null when it isn't
+  water: WaterStatus; // projected / since_refill / none (Phase 7: replaced waterScenarios)
 };
 
 // "other" lumps unrelated items (e.g. a water well and a generator gauge) under one name, so a
@@ -186,7 +184,7 @@ export function analyzeCrew(extractions: SavedExtraction[], asOf: string, crew: 
   if (!latestDay) {
     return {
       asOf, crew, reportCount: 0, latestReportDate: null, latestReportKinds: [], latestReadings: [], series: [], forecasts: [], flags: [],
-      events: [], questions: [], waterScenarios: null, waterScenariosReason: "no reports on or before this date",
+      events: [], questions: [], water: waterStatus([], [], asOf, crew),
     };
   }
 
@@ -201,7 +199,7 @@ export function analyzeCrew(extractions: SavedExtraction[], asOf: string, crew: 
   }
 
   const flags = computeFlags({ latestDay, earlierDays: days.slice(0, -1), series, forecasts, crew });
-  const water = waterScenarios(series, asOf, crew);
+  const water = waterStatus(series, forecasts, asOf, crew);
 
   return {
     asOf,
@@ -215,7 +213,6 @@ export function analyzeCrew(extractions: SavedExtraction[], asOf: string, crew: 
     flags,
     events: latestDay.events,
     questions: latestDay.questions,
-    waterScenarios: water.value,
-    waterScenariosReason: water.reason,
+    water,
   };
 }

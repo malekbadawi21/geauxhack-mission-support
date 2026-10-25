@@ -1343,3 +1343,90 @@ mark.ungrounded {
   border-color: var(--nominal);
   background: var(--nominal-bg);
 }
+
+/* ---------- Phase 7 ---------- */
+
+/* "Crew notes only" (UsageChart.tsx CrewNotesOnly): resources with no number get a row, not an empty chart.
+ * Spans both chart columns. */
+.notes-only {
+  grid-column: 1 / -1;
+  padding: var(--s2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+.notes-only__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s1) var(--s2);
+  padding: 0 var(--s1);
+}
+.notes-only__row {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  align-items: center;
+  gap: var(--s2);
+  padding: 6px var(--s1);
+  border-top: 1px solid var(--border);
+}
+.notes-only__name {
+  font-size: 0.9rem;
+}
+.notes-only__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+/* A pill in normal flow (not positioned on a chart axis), with its date in front. */
+.note-pill--inline {
+  position: static;
+  transform: none;
+  max-width: 100%;
+}
+/* The date takes the pill's own color, slightly lighter, so it reads on every pill color. */
+.note-pill__date {
+  opacity: 0.75;
+}
+
+/* Water panel header (WaterPanel.tsx): WATER label, the mode sentence, and what kind of number it is. */
+.water__head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+.water__values {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+/* Since-refill mode: the water bars are an estimate of use, so they are neutral blue, not red/teal. */
+.bar__fill--draw {
+  background: var(--accent);
+}
+/* The missing-data line in since-refill mode: the one thing to ask the crew for. */
+.callout {
+  padding: var(--s2);
+  border: 1px solid var(--border-strong);
+  border-left-width: 4px;
+  border-radius: var(--radius);
+  font-size: 0.95rem;
+}
+.callout--warning {
+  border-color: var(--warning);
+  background: var(--warning-bg);
+}
+/* "Water on hand" card: PROJECTED / CREW ESTIMATE tag under the value. */
+.card__tag {
+  align-self: flex-start;
+}
+/* A range ("~2.2–18.6") is twice as long as one number, so it gets a smaller size and never wraps. */
+.card__days--range {
+  font-size: 1.15rem;
+  white-space: nowrap;
+}
+/* The measured trend is a phrase ("dropping ~5 cm/day"), so it is smaller than a single-number fact. */
+.fact__value--md {
+  font-size: 1.4rem;
+}

@@ -306,6 +306,16 @@
       "report_kind": "commander"
     }
   ],
-  "waterScenarios": null,
-  "waterScenariosReason": "no total water volume reported on or before this date"
+  "water": {
+    "as_of": "2015-01-12",
+    "crew_size": 7,
+    "crew_size_source": "Final Mission Report crew roster table (7 members)",
+    "mission_end": "2015-01-23",
+    "days_until_mission_end": 11,
+    "mode": "none",
+    "reason": "No water volume estimate reported yet",
+    "notes": [
+      "Ask the crew for an estimate of the total water on hand"
+    ]
+  }
 }

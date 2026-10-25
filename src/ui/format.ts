@@ -40,6 +40,15 @@ export function num(n: number, digits = 1): string {
   return s.replace("-", "−");
 }
 
+/**
+ * Formats a range low–high ("4.4–5.4"), or one number when both round to the same text.
+ * Why it exists: the water panel and card show one figure per reference rate as a single range.
+ */
+export function numRange(a: number, b: number, digits = 1): string {
+  const [lo, hi] = [Math.min(a, b), Math.max(a, b)].map((x) => num(x, digits)); // destructure the two formatted ends
+  return lo === hi ? lo : `${lo}–${hi}`;
+}
+
 // Month abbreviations; dates are YYYY-MM-DD strings, so we format them without Date (no time zones).
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 

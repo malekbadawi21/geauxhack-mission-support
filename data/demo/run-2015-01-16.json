@@ -3,11 +3,11 @@
   "report": {
     "as_of": "2015-01-16",
     "overall": "critical",
-    "status_line": "Critical water shortage after trailer tank rupture and static tank depletion.",
+    "status_line": "Critical water shortage following trailer tank rupture and static tank depletion; loft tank half-empty.",
     "concerns": [
       {
-        "title": "Trailer water tank rupture and static tank depletion",
-        "detail": "The trailer tank has ruptured, the static tank is reported empty (less than 10 cm), and the loft tank is half-empty. The static tank level is insufficient to refill the loft tank, prompting entry into a critical water contingency plan with supplies expected to run out tomorrow.",
+        "title": "Water Crisis: Trailer Tank Ruptured and Static Tank Empty",
+        "detail": "The commander reported on 2015-01-16 that the trailer tank has ruptured, the static tank is empty (engineering reported less than 10 cm), and the loft tank is half-empty, preventing refilling of the loft tank. The crew expects to run out of water tomorrow and is entering a critical water contingency plan. Water projections based on the crew's ~360 L estimate from 2015-01-13 (not actual measurements): if usage matches the FMARS reference rate (12.12 L/person-day), projected remaining water is about 105.5 L (about 1.2 days left, running out on 2015-01-17), requiring a daily budget of about 2.2 L per person-day to reach mission end on 2015-01-23. If usage matches the NASA potable minimum (2.5 L/person-day), projected remaining water is 307.5 L (about 17.6 days left, running out on 2015-02-02), requiring a daily budget of about 6.3 L per person-day.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-16",
           "TANK_EMPTY_REPORTED:water_static:2015-01-16",
@@ -15,31 +15,32 @@
         ]
       },
       {
-        "title": "Hot water system failure",
-        "detail": "Hot water has still not been attained per the engineering report, and the crew has requested additional mitigation strategies.",
+        "title": "Hot Water System Failure",
+        "detail": "Engineering reported that hot water has still not been attained and requested additional mitigation strategies.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-16:2"
         ]
       }
     ],
     "crew_actions": [
-      "Execute critical water contingency plan and strict conservation measures.",
-      "Monitor remaining volume in the loft tank.",
-      "Continue troubleshooting hot water system."
+      "Initiate critical water contingency plan and strict conservation protocols immediately.",
+      "Monitor and record loft tank water level draw-down closely.",
+      "Inspect trailer tank and static tank connections for any salvageable water or containment options.",
+      "Continue hot water troubleshooting per habitat operating procedures while awaiting Mission Support mitigation advice."
     ],
     "decisions_for_earth": [
       {
-        "decision": "Approve and dispatch an urgent water resupply.",
-        "why": "The trailer tank ruptured, the static tank is empty, and the half-empty loft tank will run out tomorrow."
+        "decision": "Authorize emergency water resupply to the habitat.",
+        "why": "The trailer tank ruptured, the static tank is empty, and the crew projects running out of water tomorrow without immediate replenishment."
       },
       {
-        "decision": "Approve or deny the requested EVA for Jan 17th, 2015.",
-        "why": "Crew hydration and safety must be assessed while the habitat is under an acute water contingency."
+        "decision": "Approve or deny the EVA requested for January 17, 2015.",
+        "why": "The commander submitted an EVA request for tomorrow, which requires Earth approval and may need rescheduling due to the water emergency."
       }
     ],
-    "message_to_earth": "STATUS: Habitat status is critical due to an acute water shortage following equipment failure.\nWHAT HAPPENED: On 2015-01-16, the trailer tank ruptured, leaving the static tank empty and the loft tank half-empty. Water is projected to run out tomorrow.\nWHAT THE CREW IS DOING: The crew has initiated critical water-saving techniques and entered a water contingency plan.\nOTHER SYSTEMS: Propane is at 39%, diesel is less than 3/4, but hot water has still not been attained.\nREQUEST: Approve and dispatch an immediate emergency water resupply and advise on the proposed Jan 17th EVA.\nNEXT UPDATE: The crew will report again tomorrow morning.",
+    "message_to_earth": "CRITICAL: Hab water supply is critically low following a trailer tank rupture and depletion of the static tank. On 2015-01-16, the commander reported the trailer tank ruptured, the static tank is empty, and the loft tank is half-empty. Based on a ~360 L estimate from 2015-01-13, projected remaining water at typical rates is about 105.5 L with about 1.2 days remaining. The crew is enacting a critical water contingency plan with rationing and monitoring the loft tank. Propane is nominal at 39%, diesel is less than 75%, but hot water remains unavailable. Immediate Earth authorization for an emergency water resupply is requested by tomorrow morning. Next update will be sent tomorrow with the morning report.",
     "grounding": {
-      "numbers_checked": 10,
+      "numbers_checked": 38,
       "ungrounded": []
     }
   },
@@ -49,7 +50,7 @@
       "tool": "get_overview",
       "input_summary": "(none)",
       "output_summary": "10 reports, latest 2015-01-16 (engineering + commander); 4 flags: 2 critical, 0 warning, 2 info; 6 readings",
-      "ms": 1
+      "ms": 0
     },
     {
       "step": 2,
@@ -81,23 +82,23 @@
     },
     {
       "step": 6,
+      "tool": "get_water_status",
+      "input_summary": "(none)",
+      "output_summary": "projected from ~360 L on 2015-01-13 (3 d old); fmars_average 105 L left → 2015-01-17, nasa_minimum 308 L left → 2015-02-02",
+      "ms": 0
+    },
+    {
+      "step": 7,
       "tool": "get_resource_history",
       "input_summary": "{\"resource\":\"water_static\"}",
       "output_summary": "water_static: 5 days: ¼ → 15cm → 15cm → Less than 10cm → empty",
       "ms": 0
     },
     {
-      "step": 7,
+      "step": 8,
       "tool": "get_resource_history",
       "input_summary": "{\"resource\":\"propane\"}",
       "output_summary": "propane: 5 days: 45% → 40% → 40% → 40% → 39%",
-      "ms": 0
-    },
-    {
-      "step": 8,
-      "tool": "get_water_scenarios",
-      "input_summary": "(none)",
-      "output_summary": "~360 L on 2015-01-13 for 7 crew; fmars_average → 2015-01-17, nasa_minimum → 2015-02-02",
       "ms": 0
     },
     {
@@ -115,7 +116,7 @@
       "ms": 1
     }
   ],
-  "generated_at": "2026-10-25T01:45:09.861Z",
+  "generated_at": "2026-10-25T04:47:19.146Z",
   "model": "gemini-3.8-flash",
   "is_sample": false
 }

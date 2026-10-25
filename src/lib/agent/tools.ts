@@ -53,10 +53,18 @@ export const TOOL_DECLARATIONS: FunctionDeclaration[] = [
     },
   },
   {
-    name: "get_water_scenarios",
+    name: "get_water_status",
     description:
-      "How long the crew's last stated water volume lasts at two published reference rates (FMARS average, NASA minimum), " +
-      "or why that can't be computed.",
+      "The crew's water situation today, in one of three modes. " +
+      "mode \"projected\": the crew's last volume estimate projected forward to today at two published reference rates " +
+      "(FMARS average, NASA minimum): litres remaining, days left, run-out date, and the daily budget per person to reach " +
+      "mission end. These are projections from one crew estimate, not measurements: always say so (e.g. \"projected\", " +
+      "\"if usage matched FMARS\"). " +
+      "mode \"since_refill\": a tank was refilled after the last estimate, so the water remaining is UNKNOWN. Report the " +
+      "days since the refill and the static tank's measured trend; estimated_draw_since_refill is water USED since the " +
+      "refill, never water remaining. In this mode you must include asking the crew for a new total water volume estimate " +
+      "(in crew_actions, or in decisions_for_earth within the 3-decision cap). " +
+      "mode \"none\": no volume estimate yet; say so.",
     parametersJsonSchema: { type: "object", properties: {} },
   },
   {
@@ -94,7 +102,7 @@ export function getOverview(a: Analysis) {
       reason: f.reason,
     })),
     questions_to_mission_support: a.questions.map((q) => ({ text: q.text, report_kind: q.report_kind, verified: q.verified })),
-    water_scenarios_available: a.waterScenarios !== null,
+    water_status_mode: a.water.mode, // details: get_water_status
   };
 }
 
@@ -119,10 +127,9 @@ export function getFlagEvidence(a: Analysis, flagId: string) {
   return f;
 }
 
-/** get_water_scenarios: the scenarios, or the reason there are none. */
-export function getWaterScenarios(a: Analysis) {
-  if (a.waterScenarios === null) return { available: false, reason: a.waterScenariosReason };
-  return { available: true, ...a.waterScenarios }; // spread copies every scenario field next to `available`
+/** get_water_status: water.ts's WaterStatus as is (its `mode` says which fields it has). */
+export function getWaterStatus(a: Analysis) {
+  return a.water;
 }
 
 /**
@@ -140,8 +147,8 @@ export function runTool(a: Analysis, name: string, args: Record<string, unknown>
       return getResourceHistory(a, String(args.resource ?? ""));
     case "get_flag_evidence":
       return getFlagEvidence(a, String(args.flag_id ?? ""));
-    case "get_water_scenarios":
-      return getWaterScenarios(a);
+    case "get_water_status":
+      return getWaterStatus(a);
     default:
       return { error: `unknown tool "${name}"` };
   }
@@ -180,11 +187,17 @@ export function summarizeOutput(name: string, output: unknown): string {
       const quotes = v.evidence.map((e) => `"${e.quote}" (${e.report_kind})`).join("; ");
       return clip(`${v.id} [${v.severity}]: ${quotes}`);
     }
-    case "get_water_scenarios": {
-      if (o.available === false) return clip(`unavailable: ${String(o.reason)}`);
-      const v = output as { volume_l: number; approximate: boolean; reading_date: string; crew_size: number; scenarios: { id: string; runs_out_on: string }[] };
-      const runsOut = v.scenarios.map((s) => `${s.id} → ${s.runs_out_on}`).join(", ");
-      return clip(`${v.approximate ? "~" : ""}${v.volume_l} L on ${v.reading_date} for ${v.crew_size} crew; ${runsOut}`);
+    case "get_water_status": {
+      const w = output as Analysis["water"]; // Analysis["water"] = the WaterStatus type
+      /** Litres rounded for the one-line summary. */
+      const L = (x: number) => `${Math.round(x)} L`;
+      if (w.mode === "none") return clip(`none: ${w.reason}`);
+      if (w.mode === "since_refill") {
+        const draw = w.estimated_draw_since_refill.map((d) => `${d.id} ~${L(d.used_l)} used`).join(", ");
+        return clip(`since ${w.refill.date} refill (${w.refill.days_since_refill} d): ${w.measured_trend?.description ?? "no trend"}; ${draw}`);
+      }
+      const left = w.scenarios.map((s) => `${s.id} ${L(s.remaining_l)} left → ${s.runs_out_on}`).join(", ");
+      return clip(`projected from ${w.estimate.approximate ? "~" : ""}${w.estimate.volume_l} L on ${w.estimate.reading_date} (${w.estimate.days_since_estimate} d old); ${left}`);
     }
     default:
       return clip(JSON.stringify(output));

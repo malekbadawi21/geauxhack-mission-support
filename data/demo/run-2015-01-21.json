@@ -3,11 +3,11 @@
   "report": {
     "as_of": "2015-01-21",
     "overall": "caution",
-    "status_line": "Caution: Suit helmet latches compromised, gasoline containers empty, and water flow meter filter blocked.",
+    "status_line": "Caution: Broken and loose helmet latches, empty ATV fuel containers, and blocked water flow meter filter.",
     "concerns": [
       {
-        "title": "Suit helmet latch failures",
-        "detail": "The latch on the back of helmet 6 is broken, the rear latch on helmet 2/3 does not snap into place and requires tape to maintain a secure connection, and some helmet latches fail to properly attach to the suit.",
+        "title": "EVA Helmet Latch Failures and Visor Fogging",
+        "detail": "During EVA preparation and maintenance, the crew identified that the rear latch on helmet 6 is broken, the rear latch on helmet 2/3 does not snap into place and must be taped to secure connection, and some other helmet latches do not properly attach to suits. The crew also reported issues with visor fogging during EVAs.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-21:3",
           "CREW_REPORTED_EVENT:none:2015-01-21:4",
@@ -15,39 +15,39 @@
         ]
       },
       {
-        "title": "Blocked filter in water flow meter",
-        "detail": "A blocked filter was found in the water flow meter between the loft tank valve and the pump after crew removed the flow meter.",
+        "title": "Blocked Water Flow Meter Filter and Water Status",
+        "detail": "The crew removed the water flow meter located between the loft tank valve and the pump and found a blocked filter. In addition, 4 days have elapsed since the 2015-01-17 static tank refill, with static tank level measuring 20 cm from the top and dropping ~2.3 cm/day. Total water volume remaining is unknown; estimated draw since refill is 339.36 L at FMARS average rate (12.12 L/person/day) and 70 L at NASA minimum (2.5 L/person/day).",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-21"
         ]
       },
       {
-        "title": "ATV gasoline containers empty",
-        "detail": "Both containers of gasoline are empty following refueling of the ATVs.",
+        "title": "ATV Gasoline Supply Depleted",
+        "detail": "Following ATV refueling, both containers of gasoline are now empty, leaving no reserve gasoline for vehicles for the remaining 2 days of the mission.",
         "flag_ids": [
           "CREW_REPORTED_EVENT:none:2015-01-21:2"
         ]
       }
     ],
     "crew_actions": [
-      "Quarantine helmet 6 from EVA rotation until the broken rear latch can be repaired.",
-      "Tape helmet 2/3 rear latch securely if required for suit operations.",
-      "Clean and clear debris from the water flow meter filter before reassembly.",
-      "Apply visor anti-fogging measures to mitigate ongoing helmet fogging issues."
+      "Clean or replace the blocked water flow meter filter and reassemble the pump line.",
+      "Provide a new total water volume estimate, as the static tank was refilled on 2015-01-17 and total water remaining is unknown.",
+      "Remove helmet 6 from EVA service, and ensure loose latches on helmet 2/3 and other helmets are firmly taped and verified prior to airlock depressurization.",
+      "Apply anti-fogging mitigation to helmet visors before all upcoming EVAs."
     ],
     "decisions_for_earth": [
       {
-        "decision": "Determine EVA clearance rules and helmet usage restrictions for suits with loose or taped latches.",
-        "why": "Damaged and loose helmet latches compromise suit integrity and crew safety during EVAs."
+        "decision": "Authorize EVA helmet latch workaround protocols (including taping loose latches and taking helmet 6 out of service) or restrict EVA operations.",
+        "why": "Helmet 6 has a broken rear latch and helmet 2/3 requires tape to stay fastened, posing potential suit integrity risks."
       },
       {
-        "decision": "Decide whether to authorize a gasoline resupply for the ATVs before mission end on 2015-01-23.",
-        "why": "Both containers of gasoline are empty, preventing additional ATV refueling for motorized field operations during the remaining 2 days."
+        "decision": "Approve restricting remaining mission EVAs to walking only, or evaluate emergency gasoline resupply.",
+        "why": "Both gasoline containers are empty with 2 days remaining until scheduled mission end on 2015-01-23."
       }
     ],
-    "message_to_earth": "MDRS Crew 147 is in caution status due to compromised EVA helmet latches. On 2015-01-21, the rear latch on helmet 6 broke, while both containers of gasoline were emptied after refueling the ATVs. Additionally, crew found a blocked filter in the water flow meter between the loft tank valve and the pump. The crew taped helmet 2/3 to secure its loose latch and inspected the water flow meter filter. Other habitat systems are nominal with propane at 32%, diesel at 60%, and static water depth at 20 cm. Request guidance by tomorrow morning on EVA clearances given the damaged helmet latches. Next report tomorrow evening.",
+    "message_to_earth": "STATUS: Operations are at caution due to degraded helmet latches and empty gasoline containers.\nWHAT HAPPENED: On 2015-01-21, crew found helmet 6 rear latch broken, helmet 2/3 latch loose, and both gasoline containers empty after refueling ATVs. A blocked filter was also found in the water flow meter.\nWHAT THE CREW IS DOING: Crew secured helmet 2/3 with tape and removed the water flow meter to clear the filter.\nOTHER SYSTEMS: Diesel is nominal at 60%, propane is 32%, and static water tank measures 20 cm from top.\nREQUEST: Approve helmet taping protocols and walking-only EVAs by tomorrow morning.\nNEXT UPDATE: Next report tomorrow evening.",
     "grounding": {
-      "numbers_checked": 20,
+      "numbers_checked": 39,
       "ungrounded": []
     }
   },
@@ -78,7 +78,7 @@
       "tool": "get_flag_evidence",
       "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-21:3\"}",
       "output_summary": "CREW_REPORTED_EVENT:none:2015-01-21:3 [warning]: \"The latch on the back of the helmet is broken.\" (engineering)",
-      "ms": 1
+      "ms": 0
     },
     {
       "step": 5,
@@ -89,62 +89,55 @@
     },
     {
       "step": 6,
-      "tool": "get_flag_evidence",
-      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-21:5\"}",
-      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-21:5 [info]: \"Some of the latches on the helmets do not properly attach to the suit.\" (engineering)",
+      "tool": "get_water_status",
+      "input_summary": "(none)",
+      "output_summary": "since 2015-01-17 refill (4 d): level dropping ~2.3 cm/day (from-top readings, 2015-01-18 to 2015-01-21); fmars_average ~339 L used, nasa_minimum ~70 L used",
       "ms": 0
     },
     {
       "step": 7,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"propane\"}",
-      "output_summary": "propane: 9 days: 45% → 40% → 40% → 40% → 39% → 37% → 36% → 35% → 32%",
-      "ms": 0
-    },
-    {
-      "step": 8,
       "tool": "get_resource_history",
       "input_summary": "{\"resource\":\"diesel\"}",
       "output_summary": "diesel: 9 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾ → 60% → 60%",
       "ms": 0
     },
     {
+      "step": 8,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-21:5\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-21:5 [info]: \"Some of the latches on the helmets do not properly attach to the suit.\" (engineering)",
+      "ms": 0
+    },
+    {
       "step": 9,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 9 days: 45% → 40% → 40% → 40% → 39% → 37% → 36% → 35% → 32%",
+      "ms": 0
+    },
+    {
+      "step": 10,
       "tool": "get_resource_history",
       "input_summary": "{\"resource\":\"water_static\"}",
       "output_summary": "water_static: 9 days: ¼ → 15cm → 15cm → Less than 10cm → empty → Full → 13 cm → 20 cm → 20 cm",
       "ms": 0
     },
     {
-      "step": 10,
-      "tool": "get_water_scenarios",
-      "input_summary": "(none)",
-      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
-      "ms": 0
-    },
-    {
       "step": 11,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"water_total\"}",
-      "output_summary": "water_total: 9 days: — → ~360l → — → — → — → — → — → — → —",
-      "ms": 0
+      "tool": "submit_daily_report",
+      "input_summary": "invalid report",
+      "output_summary": "rejected: [\n  {\n    \"code\": \"custom\",\n    \"path\": [\n      \"message_to_earth\"\n    ],\n    \"message\": \"message_to_earth must be at most 120 words\"\n  }\n]",
+      "ms": 2
     },
     {
       "step": 12,
-      "tool": "get_resource_history",
-      "input_summary": "{\"resource\":\"water_loft\"}",
-      "output_summary": "water_loft: 9 days: — → — → — → — → half-empty → full → — → — → —",
-      "ms": 0
-    },
-    {
-      "step": 13,
       "tool": "submit_daily_report",
       "input_summary": "overall caution, 3 concerns",
       "output_summary": "report accepted",
       "ms": 0
     }
   ],
-  "generated_at": "2026-10-25T01:48:33.294Z",
+  "generated_at": "2026-10-25T04:50:48.897Z",
   "model": "gemini-3.8-flash",
   "is_sample": false
 }

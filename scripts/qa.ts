@@ -6,7 +6,8 @@
 // headless Chromium, opens the local dev server in Replay mode and does what a judge would do:
 // load every recorded day, scrub forward, backward and at random, run the Jan 13 upload replay, open
 // every flag, click every concern link and hover every chart. After each action it records what went
-// wrong. Screenshots go to qa-output/ (gitignored). Exit code 1 if anything failed, so it can gate a
+// wrong. Phase 7 adds layout checks on every day: no two x-axis date labels overlap, no chart without
+// a number, the water panel's numbers change from Jan 14 to Jan 15, and Jan 18+ is in since-refill mode. Screenshots go to qa-output/ (gitignored). Exit code 1 if anything failed, so it can gate a
 // "done" check. Talks only to localhost — no external service.
 
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -30,7 +31,7 @@ const JUMPS = ["Jan 23", "Jan 13", "Jan 18", "Jan 12", "Jan 21", "Jan 14", "Jan 
 type Problem = {
   viewport: string;
   step: string;
-  kind: "console error" | "page error" | "blank page" | "section error" | "action failed" | "no daily report";
+  kind: "console error" | "page error" | "blank page" | "section error" | "action failed" | "no daily report" | "layout" | "water panel";
   message: string;
 };
 
@@ -97,6 +98,32 @@ async function dayLabels(page: Page): Promise<string[]> {
   return page.locator(".scrubber__days button").allTextContents();
 }
 
+/**
+ * Phase 7 layout checks for the day on screen: x-axis labels that overlap, and charts with no number.
+ * The overlap test compares the on-screen boxes of every pair of tick labels within each chart.
+ */
+async function checkLayout(page: Page, vp: string, day: string): Promise<void> {
+  actions++;
+  // Runs in the browser (a string, see check()): for each chart, the indexes of overlapping label pairs.
+  const overlaps = (await page.evaluate(`[...document.querySelectorAll(".chart")].map((c) => {
+    const boxes = [...c.querySelectorAll(".recharts-xAxis-tick-labels text")].map((t) => t.getBoundingClientRect()).filter((r) => r.width > 0);
+    const hits = [];
+    for (let i = 0; i < boxes.length; i++)
+      for (let j = i + 1; j < boxes.length; j++) {
+        const a = boxes[i], b = boxes[j];
+        if (a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom) hits.push(i + "/" + j);
+      }
+    return { title: c.querySelector("h3")?.textContent, labels: boxes.length, hits };
+  })`)) as { title: string; labels: number; hits: string[] }[];
+  for (const o of overlaps) {
+    if (o.labels === 0) problems.push({ viewport: vp, step: day, kind: "layout", message: `${o.title}: no x-axis labels found` });
+    if (o.hits.length > 0) problems.push({ viewport: vp, step: day, kind: "layout", message: `${o.title}: x-axis labels overlap (${o.hits.join(", ")})` });
+  }
+  // UsageChart prints "no numeric readings" as its unit when it has nothing to plot: such a chart must not exist.
+  const empty = await page.locator(".chart__unit", { hasText: "no numeric readings" }).count();
+  if (empty > 0) problems.push({ viewport: vp, step: day, kind: "layout", message: `${empty} chart(s) with no numeric readings` });
+}
+
 /** Expands every collapsed flag row, then clicks every concern link in the daily report. */
 async function exerciseFlagsAndConcerns(page: Page, buffer: string[][], vp: string, day: string): Promise<void> {
   const rows = page.locator('.flag__row[aria-expanded="false"]');
@@ -143,9 +170,12 @@ async function sweep(vp: (typeof VIEWPORTS)[number]): Promise<void> {
   await page.getByRole("button", { name: /Load recorded days through/ }).click();
   await check(page, buffer, vp.name, "load recorded days");
   const days = await dayLabels(page);
+  const waterText = new Map<string, string>(); // day → the water panel's text, for the checks after the loop
   for (const day of days) {
     if (!(await clickDay(page, day, vp.name, `forward → ${day}`))) continue;
     await check(page, buffer, vp.name, `forward → ${day}`);
+    await checkLayout(page, vp.name, `forward → ${day}`);
+    waterText.set(day, (await page.locator(".water").first().textContent()) ?? "");
     await shot(page, `${vp.name}-${day.replace(" ", "")}`);
     // Phase 6 Part C: every report day has a recorded run, so the daily report section must show it.
     if ((await page.locator("#report .transmission").count()) === 0) {
@@ -153,6 +183,21 @@ async function sweep(vp: (typeof VIEWPORTS)[number]): Promise<void> {
     }
     await exerciseFlagsAndConcerns(page, buffer, vp.name, day);
     await hoverCharts(page, buffer, vp.name, day);
+  }
+
+  // Phase 7: the projection moves day by day, so Jan 14 and Jan 15 must show different numbers, and
+  // after the Jan 17 refill the panel must say so. .water__values holds only the numbers, not the notes.
+  actions++;
+  const values = async (day: string) => {
+    await clickDay(page, day, vp.name, `water values ${day}`);
+    return (await page.locator(".water .water__values").first().textContent()) ?? "";
+  };
+  const [v14, v15] = [await values("Jan 14"), await values("Jan 15")];
+  if (!v14 || v14 === v15) problems.push({ viewport: vp.name, step: "Jan 14 vs Jan 15", kind: "water panel", message: "water panel values are the same on Jan 14 and Jan 15" });
+  for (const day of days.filter((d) => ["Jan 18", "Jan 19", "Jan 21", "Jan 22", "Jan 23"].includes(d))) {
+    if (!waterText.get(day)?.includes("Since Jan 17 refill")) {
+      problems.push({ viewport: vp.name, step: day, kind: "water panel", message: `${day} is not in since-refill mode` });
+    }
   }
 
   // 3. Backward through every day.
