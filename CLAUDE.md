@@ -62,32 +62,17 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - At the end of every phase, rewrite the Current state section (replace it, don't append).
 
 ## Current state
-- **Status:** Phase 8 (bug fixes) complete and pushed. `npm run qa` 168 checks, 0 problems at 1920 and
-  1280; type check, build, 51 tests, lint, `vercel build` pass.
-- **Phase 8:** grounding.ts checks clock times as one value (all 11 saved runs still 0 ungrounded); agent
-  told not to state times/schedules absent from tools or UI terms. "Water on hand" is no longer charted:
-  a "Crew volume estimates" row lists them. api/daily-report does NOT re-run on ungrounded numbers
-  (only the CLI does); a live run shows them instead.
-- **Water (water.ts):** `waterStatus(series, forecasts, asOf, crew)` → `analysis.water`, three modes.
-  "projected" (Jan 13–16): the ~360 L estimate minus crew × rate × days since it, per FMARS/NASA rate;
-  remaining clamps at 0; `runs_out_on` fixed from the estimate date; `budget_to_mission_end` (null once
-  mission end ≤ asOf). "since_refill" (Jan 17+): days since refill, static-tank trend from forecast.ts
-  (≥2 from-top readings since the refill: Jan 19+), estimated water USED, `missing` line; no remaining.
-  "none" (Jan 12). `waterScenarios`/`latestWaterVolume` are gone.
-- **UI:** `WaterPanel.tsx` (replaced WaterScenarios.tsx) names the mode in its title; the "Water on hand"
-  card follows the same mode. Resources with no number (loft, trailer tanks) get a "Crew notes only" row
-  instead of a chart. Chart x-axis = day numbers with the month once (`DayTick`), Recharts thins them.
-- **Agent:** tool `get_water_status` (returns `analysis.water`); overview has `water_status_mode`. All 11
-  replay runs regenerated: 0 ungrounded numbers, ≤3 decisions, 90–117-word messages; every since-refill
-  day asks the crew for a volume estimate; projected days call the numbers projections.
-- **Gemini API:** paid tier, prepaid credits, auto-reload off. Model from env `GEMINI_MODEL`
-  (`gemini-3.8-flash`), called directly with `@google/genai`.
-- **Vercel:** CLI linked (project `geauxhack-mission-support`, Vite, Node 24), env vars set for all
-  environments; root tsconfig.json has its own compilerOptions; `data/style/` via `includeFiles`.
-- **Bugs:** `docs/bugs.md` (Phase 6, all 14 fixed). QA: `scripts/qa.ts` (Playwright, dev-only) → `qa-output/`.
-- **Stale CLI output:** `data/extractions/crew-147-analysis-*.json` still have the old water fields
-  (written by `npm run analyze`, not read by the app or tests); re-run analyze to refresh if wanted.
-- **Still not forecastable:** water_static days-to-empty (from-top depth, no tank depth), loft/trailer
-  tanks, gasoline; water_total only via the water status.
-- **Next:** Malek reviews and commits; deploy (`vercel --prod`) and smoke-test both modes; replace the
-  favicon; pick the product name (`src/ui/config.ts`).
+- **Status:** Phase 9 (critical alert + motion) on branch `critical-alert`, pushed, NOT merged into main.
+  `npm run qa` 198 checks, 0 problems at 1920 and 1280 (QA runs with reduced motion emulated);
+  type check, build, 53 tests, lint pass.
+- **Phase 9 Part A:** `CriticalAlertDialog.tsx` opens when an upload reaches "Daily report ready" (Replay
+  or Live) and the day has critical flags not yet acknowledged (`flagsForAlert` in format.ts; App state
+  `alertDay` / `acknowledged`, session only). Never on a day click. Only an Acknowledge button; Escape and
+  the backdrop do nothing; acknowledged rows get an "Acknowledged" tag. `TYPE_LABEL` now lives in format.ts.
+- **Phase 9 Part B:** all motion in one `prefers-reduced-motion: no-preference` block in app.css (hover
+  lift, transitions, day fade via `<div className="page__day" key={asOf}>`, stepper pulse/pop, alert
+  entrance, one-time `count--pulse`). Recharts lines draw in 400 ms unless reduced motion.
+- **Earlier phases:** water status modes (water.ts), grounding of agent numbers, 11 replay runs with 0
+  ungrounded numbers. Gemini model from env `GEMINI_MODEL`; Vercel project `geauxhack-mission-support`.
+- **Still not forecastable:** water_static days-to-empty, loft/trailer tanks, gasoline.
+- **Next:** Malek reviews `critical-alert` and merges if wanted; deploy (`vercel --prod`) and smoke-test.
