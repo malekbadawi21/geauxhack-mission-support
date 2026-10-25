@@ -25,5 +25,6 @@
   },
   // Template only included vite.config.ts. We added scripts/ (CLI tools), tests/ (vitest runs in
   // Node) and src/lib/extract.ts (uses process.env + the Gemini SDK) because they run in Node.
-  "include": ["vite.config.ts", "scripts", "tests", "src/lib/extract.ts"]
+  // Phase 3b: api/ (Vercel functions) and src/lib/agent/ (the agent loop) are server-only too.
+  "include": ["vite.config.ts", "scripts", "tests", "api", "src/lib/extract.ts", "src/lib/agent"]
 }

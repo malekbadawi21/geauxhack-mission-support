@@ -28,7 +28,7 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  // extract.ts reads the secret API key via process.env, so it must never be part of the browser
-  // build. It is type-checked by tsconfig.node.json instead.
-  "exclude": ["src/lib/extract.ts"]
+  // extract.ts and the agent (src/lib/agent/) read the secret API key via process.env, so they must
+  // never be part of the browser build. They are type-checked by tsconfig.node.json instead.
+  "exclude": ["src/lib/extract.ts", "src/lib/agent"]
 }

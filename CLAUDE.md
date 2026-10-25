@@ -62,43 +62,43 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - At the end of every phase, rewrite the Current state section (replace it, don't append).
 
 ## Current state
-- **Status:** Phase 3a complete. The analysis core is finished and the **data contract is frozen**:
-  `src/lib/report-types.ts` (DailyReport, AgentTraceStep, DemoRun), the `Analysis` type in
-  `src/lib/analyze.ts`, and the fixtures in `data/demo/`. Phase 3b (agent + API) and Phase 4 (UI) build
-  against these. Type check, build, 29 tests, lint and the src/lib browser-safety grep all pass. Not committed.
-- **Gemini API:** paid tier, prepaid credits, auto-reload off.
+- **Status:** Phase 3b complete (agent + API + real demo run). Phase 4 (UI) is being built in a parallel
+  session. Data contract unchanged (`report-types.ts`, `Analysis`). Type check, build, 41 tests, lint and
+  the browser-safety greps pass. Not committed.
+- **Gemini API:** paid tier, prepaid credits, auto-reload off. Model `gemini-3.8-flash` (from `.env`).
 - **Data:** all 11 Crew 147 engineering reports (Jan 12–19, 21–23) and 10 commander reports (Jan 12–19,
-  22, 23) are extracted, every quote verified. `final-mission-report.txt` is reference only.
-- **Analysis now:**
-  - `analyzeCrew(extractions, asOf, crew)` merges each day's reports: all readings kept (engineering first,
-    each tagged `report_kind`); the series point per resource is the first USABLE reading (number or status),
-    so engineering wins and commander fills gaps (water_total); every quote kept as tagged `evidence`; events
-    and questions are the union, tagged. One report per (date, kind); a later duplicate replaces it.
-  - normalize: "~360l" → 360 L `approximate: true`; whole-text "empty"/"half"/"half-empty"/"full" → `status`,
-    value null (fuels too — no more full → 100). Bounds ("less than ¾") still null. "filled" is not a status.
-  - Refill in the series: a jump above threshold, or status "full" after an "empty"/"half" or a fall since
-    the last fill.
-  - Flags have ids `TYPE:resource|none:date`, with `:2`, `:3` when repeated in one analysis (e.g. several
-    crew events per day). TANK_EMPTY_REPORTED (critical) looks at the latest day only. RUNS_OUT is critical with
-    ≥3 readings, else warning "early estimate — based on 2 readings".
-  - MISSING_READING only for `DAILY_ENGINEERING_RESOURCES` (diesel, propane, water_static, in constants.ts);
-    occasional resources (water_total, loft/trailer form numbers) never trigger it.
-  - Crew identity from `CREW_147` in constants.ts (size 7 from the Final Mission Report roster; mission_end
-    2015-01-23 = last engineering report). Never from extractions.
-  - `waterScenarios` (water.ts): latest water_total ≤ asOf, null if any water series shows a refill after it.
-    Day counts start at the reading date.
-- **Demo numbers:** as of Jan 13: CRITICAL trailer-tank rupture event; propane RUNS_OUT is a WARNING (2
-  readings); water ~360 L / 7 crew → FMARS 12.12 L → 4.2 days → runs out 2015-01-17; NASA 2.5 L → 2015-02-02;
-  5.14 L/person/day needed to reach Jan 23. Retrospective check (CLI only): Jan 16 commander "we will run out
-  of water tomorrow" = Jan 17, matching the FMARS date. As of Jan 16: TANK_EMPTY_REPORTED water_static (from
-  the commander report). As of Jan 18: water scenarios null, "last volume estimate predates a refill".
-- **Demo fixtures:** `data/demo/manifest.json` (preload through Jan 12, upload Jan 13 engineering +
-  commander). `analysis-2015-01-12.json` / `-13.json` are real output — regenerate with `npm run build-demo`
-  after any analysis or extraction change. `run-2015-01-13.json` is a hand-written SAMPLE (`is_sample: true`,
-  only numbers and flag ids from analysis-2015-01-13.json); Phase 3b overwrites it with a real run.
-- **Still not forecastable:** water_static (no total depth; trend only), water_loft/water_trailer (no unit),
-  gasoline (never a level), water_total (one data point — scenarios only, no rate).
-- **Other decisions kept:** rates are amount change per day (negative = used up; "from the top" flips sign);
-  event severity from keyword rules on verified quotes; dates normalized in TypeScript; `.npmrc`
-  legacy-peer-deps; `/lib/` anchored in `.gitignore`; Gemini's `crew` field is ignored.
-- **Next:** Phase 3b (agent + API) when asked.
+  22, 23) extracted, every quote verified. `final-mission-report.txt` is reference only.
+- **Analysis (Phase 3a, unchanged):** `analyzeCrew(extractions, asOf, CREW_147)` merges each day's
+  engineering + commander reports (engineering wins, commander fills gaps); flag ids `TYPE:resource|none:date`
+  (+`:2`, `:3`); RUNS_OUT critical only with ≥3 readings; water scenarios from the last `water_total`
+  (null after a refill). Crew identity from `CREW_147`, never from extractions.
+- **Agent (`src/lib/agent/`, server-only, excluded from the browser tsconfig):**
+  - `tools.ts`: `get_overview`, `get_resource_history`, `get_flag_evidence`, `get_water_scenarios` — pure
+    reads of an Analysis; `submit_daily_report` takes `DailyReportSchema` minus `grounding`.
+  - `loop.ts`: `runAgent` = ≤5 AUTO function-calling turns, then one forced (ANY) submit. The turn before
+    the forced call gets a plain "submit the complete report now" note — without it Gemini answered the
+    forced call with an empty stub every time. Validation: zod + flag ids exist + every critical flag in a
+    concern + status_line ≥3 words + message ≥40 words (our floors); `as_of` and `overall` are set by our
+    code (overall from flag severities). One retry with the error. `runDailyReport` adds grounding.
+  - System instruction includes `data/style/ideal-message-2015-01-13.md` as rules (bundled via vercel.json).
+  - Temperature left at the SDK default (Gemini 3 guidance); runs vary, the saved run is the record.
+- **Grounding (`src/lib/grounding.ts`, browser-safe):** every number in the report's text vs every number
+  (fields and numbers inside strings) in the tool outputs the agent received; exact, ±0.5, or 1% above 50.
+  Dates ground through their parts. Word numbers ("two") are not checked. In testing it caught an invented
+  "19:00" next-update time.
+- **API (`api/`):** Web-standard `export function POST(request)`, `config.maxDuration = 300`, no Vercel
+  package. `extract.ts`: `{ filename, text }` → `{ extraction, verification, report_date, kind }`, kind from
+  filename then the report's first 200 chars; `source_file` is canonical `<date>-<kind>.txt` (analyzeCrew reads
+  the kind from it); 400 empty/>50 KB/bad body/no kind, 502 Gemini failure. `daily-report.ts`:
+  `{ extractions, as_of }` → `{ analysis, report, trace }`. `vercel` CLI isn't installed: both handlers were
+  tested by calling `POST(new Request(...))` directly in Node (all status codes as expected). Not yet tested
+  on Vercel itself — `.ts` import extensions and the project-references tsconfig are the deploy risks.
+- **Demo fixtures:** `data/demo/run-2015-01-13.json` is now a REAL run (`is_sample: false`): 13 trace steps,
+  4 concerns, 93-word message, 53 numbers checked, 0 ungrounded. Regenerate with
+  `npm run daily-report -- crew-147 --as-of 2015-01-13` (output varies per run). `analysis-*.json` via
+  `npm run build-demo`. A live re-extraction of Jan 13 can differ from the saved one (once 5 flags, not 6).
+- **Still not forecastable:** water_static (no total depth), water_loft/water_trailer (no unit), gasoline,
+  water_total (one point — scenarios only).
+- **Other decisions kept:** rates are change per day (negative = used up); event severity from keyword rules
+  on verified quotes; `.npmrc` legacy-peer-deps; `/lib/` anchored in `.gitignore`; Gemini's `crew` ignored.
+- **Next:** Phase 4 UI wiring to the API / replay files; a Vercel deploy check.

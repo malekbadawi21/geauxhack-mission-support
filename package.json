@@ -14,7 +14,8 @@
     "analyze": "tsx scripts/analyze.ts",
     "typecheck": "tsc -b",
     "fetch-reports": "tsx scripts/fetch-reports.ts",
-    "build-demo": "tsx scripts/build-demo.ts"
+    "build-demo": "tsx scripts/build-demo.ts",
+    "daily-report": "tsx scripts/daily-report.ts"
   },
   "dependencies": {
     "@google/genai": "^2.31.0",

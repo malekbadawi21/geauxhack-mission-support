@@ -3,76 +3,167 @@
   "report": {
     "as_of": "2015-01-13",
     "overall": "critical",
-    "status_line": "The trailer tank carrying our water resupply ruptured, leaving about 360 L for 7 crew, which lasts until Jan 17 at the FMARS average rate.",
+    "status_line": "Water trailer tank ruptured delaying resupply; ~360 L water remaining; propane at 40%.",
     "concerns": [
       {
-        "title": "Water resupply lost",
-        "detail": "The engineering report says the trailer tank ruptured and the commander estimates ~360 L remain for 7 crew. At the FMARS average of 12.12 L per person per day that runs out on 2015-01-17; at the NASA drinking minimum of 2.5 L it would last to 2015-02-02. Mission end is 10 days away.",
-        "flag_ids": ["CREW_REPORTED_EVENT:none:2015-01-13", "CREW_REPORTED_EVENT:none:2015-01-13:4"]
+        "title": "Trailer tank rupture delays water resupply",
+        "detail": "At 12:35pm, the crew received notice that the trailer tank broke en route and ruptured, delaying resupply. Current water is estimated at ~360 L (static level 15 cm). For the crew of 7 with 10 days remaining until mission end on 2015-01-23, this volume will last about 4.2 days at the FMARS rate (12.12 L/person/day) or about 20.6 days at the NASA potable minimum (2.5 L/person/day).",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-13",
+          "CREW_REPORTED_EVENT:none:2015-01-13:4"
+        ]
       },
       {
-        "title": "Propane falling fast",
-        "detail": "Propane went from 45% to 40% in one day. If that continues it is empty in about 8 days, before mission end. This is an early estimate from 2 readings.",
-        "flag_ids": ["RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13"]
+        "title": "Propane running low before mission end",
+        "detail": "Propane is at 40%, dropping at a rate of -5% per day from 45% on 2015-01-12. At this rate, propane is projected to run out in about 8 days, before the mission ends in 10 days on 2015-01-23.",
+        "flag_ids": [
+          "RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13"
+        ]
       },
       {
-        "title": "Two ATVs not running",
-        "detail": "ATV 3 shuts down after starting and ATV 5 does not start at all.",
-        "flag_ids": ["CREW_REPORTED_EVENT:none:2015-01-13:2", "CREW_REPORTED_EVENT:none:2015-01-13:3"]
+        "title": "Mobility issues with ATV 3 and ATV 5",
+        "detail": "ATV 3 powered on but shut down after 20 seconds. ATV 5 failed to start completely. These malfunctions limit crew mobility.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-13:2",
+          "CREW_REPORTED_EVENT:none:2015-01-13:3"
+        ]
+      },
+      {
+        "title": "Hot water unavailable",
+        "detail": "The crew reported that hot water has still not been attained in the habitat.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-13:5"
+        ]
       }
     ],
     "crew_actions": [
-      "Cut water use to essentials now and record tank levels in every report.",
-      "Re-read the propane gauge tomorrow to confirm or drop the 8-day estimate.",
-      "Keep EVAs that need ATVs 3 and 5 off the schedule until they are repaired."
+      "Implement strict water rationing protocols to conserve the remaining ~360 L of water.",
+      "Perform basic diagnostics and inspect battery/fuel connections on ATV 3 and ATV 5.",
+      "Monitor propane consumption daily and reduce non-essential heating usage.",
+      "Check hot water plumbing and heating elements for faults."
     ],
     "decisions_for_earth": [
       {
-        "decision": "Schedule an emergency water delivery before Jan 17.",
-        "why": "About 360 L for 7 crew runs out on Jan 17 at the FMARS average rate, and the trailer tank that would refill the static tank ruptured."
+        "decision": "Arrange replacement trailer tank and schedule emergency water resupply.",
+        "why": "The trailer tank ruptured en route, leaving the crew with ~360 L of water which lasts only about 4.2 days at standard analog usage rates."
       },
       {
-        "decision": "Send the crew a water-shortage procedure.",
-        "why": "The commander reports the crew knows of no procedure for water shortages and asked Mission Support for one."
+        "decision": "Provide contingency procedures for water shortages and clarify water tank references.",
+        "why": "The crew requested procedures for managing water shortages and clarification on which tank was referenced in Mission Support communications."
+      },
+      {
+        "decision": "Review and approve the requested EVA for Jan 14th 2015.",
+        "why": "The commander submitted an official request for EVA approval for Jan 14th 2015."
+      },
+      {
+        "decision": "Approve proposed modification to tie-down setup using an extra mattress cover.",
+        "why": "The crew requested approval to modify the setup to make securing ties manageable while wearing EVA gloves."
+      },
+      {
+        "decision": "Provide propane resupply or usage reduction guidance.",
+        "why": "Propane is at 40% and projected to empty in about 8 days, prior to the end of the mission in 10 days."
       }
     ],
-    "message_to_earth": "Crew 147, Jan 13. The trailer tank carrying our water resupply ruptured. We estimate about 360 L of water left for 7 crew. At the FMARS analog average of 12.12 L per person per day that lasts until Jan 17; even at the NASA drinking minimum of 2.5 L it lasts only until Feb 2. Decisions needed: (1) schedule an emergency water delivery before Jan 17; (2) send us a water-shortage procedure, since we have none. Also: propane dropped from 45% to 40% in one day (early estimate: empty in about 8 days), and ATVs 3 and 5 are not running.",
+    "message_to_earth": "Overall status is critical due to a ruptured water resupply trailer tank. At 12:35pm, the trailer tank broke en route and ruptured, delaying resupply and leaving ~360 L of water, which will last about 4.2 days for the 7 crew members. The crew is conserving water and inspecting equipment. Propane is at 40% with ~8 days remaining, diesel is nominal at 75%, hot water is unavailable, and ATV 3 and ATV 5 failed. We request dispatch of a replacement water trailer and water shortage procedures before tomorrow. Next update will be sent tomorrow.",
     "grounding": {
-      "numbers_checked": 43,
+      "numbers_checked": 53,
       "ungrounded": []
     }
   },
   "trace": [
     {
       "step": 1,
-      "tool": "get_analysis",
-      "input_summary": "crew-147, as_of 2015-01-13",
-      "output_summary": "4 reports (engineering + commander for Jan 13); 6 flags: 1 critical, 4 warning, 1 info",
-      "ms": 12
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "4 reports, latest 2015-01-13 (engineering + commander); 6 flags: 1 critical, 4 warning, 1 info; 4 readings",
+      "ms": 0
     },
     {
       "step": 2,
-      "tool": "get_water_scenarios",
-      "input_summary": "as_of 2015-01-13",
-      "output_summary": "~360 L on 2015-01-13 for 7 crew; FMARS rate runs out 2015-01-17, NASA minimum 2015-02-02",
-      "ms": 3
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-13\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-13 [critical]: \"At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured.\" (engineering)",
+      "ms": 0
     },
     {
       "step": 3,
       "tool": "get_flag_evidence",
-      "input_summary": "CREW_REPORTED_EVENT:none:2015-01-13, RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13",
-      "output_summary": "Quotes: \"the trailer tank had ruptured\" (engineering); \"Propane 45%\" → \"Propane: 40%\" (engineering)",
-      "ms": 2
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-13:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-13:2 [warning]: \"ATV 3 powered on, but after 20 seconds shut down.\" (engineering)",
+      "ms": 0
     },
     {
       "step": 4,
-      "tool": "check_grounding",
-      "input_summary": "draft daily report",
-      "output_summary": "43 numbers checked, 0 ungrounded",
-      "ms": 4
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-13:3\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-13:3 [warning]: \"ATV 5 failed to start completely.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-13:4\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-13:4 [warning]: \"The trailer tank which left the surroundings of the Hab was broken en route and needs replacement.\" (commande…",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13\"}",
+      "output_summary": "RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13 [warning]: \"Propane  45%\" (engineering); \"Propane: 40%\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-13:5\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-13:5 [info]: \"The hot water has still not been attained.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "~360 L on 2015-01-13 for 7 crew; fmars_average → 2015-01-17, nasa_minimum → 2015-02-02",
+      "ms": 0
+    },
+    {
+      "step": 9,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 2 days: 45% → 40%",
+      "ms": 1
+    },
+    {
+      "step": 10,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_total\"}",
+      "output_summary": "water_total: 2 days: — → ~360l",
+      "ms": 0
+    },
+    {
+      "step": 11,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 2 days: ¼ → 15cm",
+      "ms": 0
+    },
+    {
+      "step": 12,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 2 days: ¾ → ¾",
+      "ms": 0
+    },
+    {
+      "step": 13,
+      "tool": "submit_daily_report",
+      "input_summary": "overall critical, 4 concerns",
+      "output_summary": "report accepted",
+      "ms": 3
     }
   ],
-  "generated_at": "2026-10-24T00:00:00.000Z",
-  "model": "none (hand-written sample; Phase 3b replaces this with a real run)",
-  "is_sample": true
+  "generated_at": "2026-10-25T00:14:23.226Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
 }
