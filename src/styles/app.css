@@ -317,8 +317,13 @@ button:disabled {
 .day:last-child {
   border-right: 0;
 }
-.day:hover:not(:disabled) {
+.day:hover:not(:disabled):not(.is-on) {
   color: var(--text);
+  background: var(--panel-2);
+}
+.segmented button:hover:not(:disabled):not(.is-on) {
+  color: var(--text);
+  background: var(--accent-bg);
 }
 .day.is-on {
   background: var(--accent);
@@ -327,6 +332,12 @@ button:disabled {
 }
 
 /* ---------- Page ---------- */
+/* The per-day content (App.tsx remounts it on a day change): laid out like .page itself. */
+.page__day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
 .page {
   display: flex;
   flex-direction: column;
@@ -1259,6 +1270,107 @@ mark.ungrounded {
 .spin {
   animation: spin 1s linear infinite;
 }
+/* ---------- Motion (Phase 9) ----------
+   Only for viewers who haven't asked for reduced motion. Transform and opacity only, so nothing
+   moves the layout; QA runs with reduced motion, so it never measures mid-animation. */
+@media (prefers-reduced-motion: no-preference) {
+  /* Hover lift on cards, charts and daily-report blocks. scale(1.015) grows a ~1000px block by
+     ~8px a side, less than the 16px gap (--s2), so it never covers its neighbour. */
+  .card,
+  .chart,
+  .report__block {
+    transition:
+      transform 160ms ease-out,
+      border-color 160ms ease-out,
+      box-shadow 160ms ease-out;
+  }
+  .card:hover,
+  .chart:hover,
+  .report__block:hover,
+  .card:focus-visible,
+  .chart:focus-visible,
+  .report__block:focus-visible {
+    transform: translateY(-2px) scale(1.015);
+    border-color: var(--border-strong);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Flag rows: background fades on hover, chevron turns smoothly, opened quotes slide in. */
+  .flag__row {
+    transition: background-color 120ms ease-out;
+  }
+  .flag__chevron {
+    transition: transform 180ms ease-out;
+  }
+  .flag__body {
+    animation: appear 180ms ease-out both;
+  }
+
+  /* Day tabs and the Replay/Live toggle: only colors change, never size. */
+  .day,
+  .segmented button {
+    transition:
+      background-color 120ms ease-out,
+      color 120ms ease-out;
+  }
+
+  /* A new day's content fades in (reuses the pipeline's `appear` keyframes, faster). */
+  .page__day {
+    /* backwards, not both: once done, no transform is left on the page (it would affect positioning). */
+    animation: appear 200ms ease-out backwards;
+  }
+
+  /* Pipeline stepper: the running step pulses gently; a finished step's check pops in. */
+  @keyframes pulse {
+    50% {
+      opacity: 0.5;
+    }
+  }
+  @keyframes pop {
+    from {
+      transform: scale(0.8);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  .step--active .step__icon {
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  .step--done .step__icon svg {
+    animation: pop 150ms ease-out both;
+  }
+
+  /* Critical alert: backdrop fades, panel grows from 96 %. */
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+  @keyframes alert-in {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+  .overlay--alert {
+    animation: fade-in 180ms ease-out both;
+  }
+  .alert {
+    animation: alert-in 180ms ease-out both;
+  }
+
+  /* "N critical" badge pulses once (not looping) when a day with critical flags appears. */
+  @keyframes badge-pulse {
+    50% {
+      transform: scale(1.12);
+    }
+  }
+  .count--pulse {
+    animation: badge-pulse 600ms ease-in-out 1;
+  }
+}
+
 /* The viewer asked for less motion: no animation or transitions anywhere. */
 @media (prefers-reduced-motion: reduce) {
   *,

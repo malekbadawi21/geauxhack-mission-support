@@ -253,7 +253,10 @@ export function UsageChart({ series, forecast, startDate, endDate, asOf }: Props
                 connectNulls={false} // a null is a gap: never draw a line through missing data
                 dot={valueDot(i === 0 ? C.line : C.line2)}
                 activeDot={false}
-                isAnimationActive={false} // motion is reserved for the pipeline (design rule)
+                // A short line draw when a chart appears (each day change remounts it). matchMedia: no
+                // animation for viewers who asked their OS for reduced motion, as in the CSS.
+                isAnimationActive={!window.matchMedia("(prefers-reduced-motion: reduce)").matches}
+                animationDuration={400}
               />
             ))}
           </ComposedChart>

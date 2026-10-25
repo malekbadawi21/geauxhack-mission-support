@@ -37,7 +37,8 @@ export function StatusStrip({ analysis, report }: { analysis: Analysis; report: 
         {report ? report.status_line : `No daily report for ${shortDate(analysis.asOf)}. The agent writes one when a day's reports are uploaded.`}
       </p>
       <div className="status__counts" aria-label="Flag counts">
-        <a href="#flags" className="count count--critical">
+        {/* count--pulse: the badge pulses once when a day with critical flags appears (CSS only). */}
+        <a href="#flags" className={`count count--critical ${critical > 0 ? "count--pulse" : ""}`}>
           <span className="count__n mono">{critical}</span> critical
         </a>
         <a href="#flags" className="count count--warning">

@@ -247,28 +247,32 @@ function App() {
             />
           </ErrorBoundary>
         )}
-        <ErrorBoundary name="Status" resetKey={asOf}>
-          <StatusStrip analysis={analysis} report={run?.report ?? null} />
-        </ErrorBoundary>
-        <ErrorBoundary name="Resource cards" resetKey={asOf}>
-          <ResourceCards analysis={analysis} />
-        </ErrorBoundary>
-        <ErrorBoundary name="Consumables" resetKey={asOf}>
-          <HeroSection analysis={analysis} startDate={dates[0] ?? asOf} />
-        </ErrorBoundary>
-        <ErrorBoundary name="Flags" resetKey={asOf}>
-          <FlagsList flags={analysis.flags} received={received} open={openFlags} onToggle={toggleFlag} acknowledged={acknowledged} />
-        </ErrorBoundary>
-        <ErrorBoundary name="Daily report" resetKey={asOf}>
-          <DailyReportPanel run={run} asOf={asOf} crew={CREW_147} flags={analysis.flags} onFlagClick={showFlag} />
-        </ErrorBoundary>
-        <ErrorBoundary name="Agent trace" resetKey={asOf}>
-          <AgentTrace steps={run?.trace ?? null} model={run?.model ?? null} />
-        </ErrorBoundary>
-        <footer className="page__foot small dim">
-          Data: MDRS Crew 147 engineering and commander reports, January 2015 (bundled). Readings extracted by Gemini, every quote
-          checked against the report text; all forecasts and flags computed by deterministic code.
-        </footer>
+        {/* key={asOf}: a new day remounts this wrapper, which replays its CSS fade-in (.page__day). The
+            pipeline panel stays outside it, so an upload's progress doesn't flash when the day changes. */}
+        <div className="page__day" key={asOf}>
+          <ErrorBoundary name="Status" resetKey={asOf}>
+            <StatusStrip analysis={analysis} report={run?.report ?? null} />
+          </ErrorBoundary>
+          <ErrorBoundary name="Resource cards" resetKey={asOf}>
+            <ResourceCards analysis={analysis} />
+          </ErrorBoundary>
+          <ErrorBoundary name="Consumables" resetKey={asOf}>
+            <HeroSection analysis={analysis} startDate={dates[0] ?? asOf} />
+          </ErrorBoundary>
+          <ErrorBoundary name="Flags" resetKey={asOf}>
+            <FlagsList flags={analysis.flags} received={received} open={openFlags} onToggle={toggleFlag} acknowledged={acknowledged} />
+          </ErrorBoundary>
+          <ErrorBoundary name="Daily report" resetKey={asOf}>
+            <DailyReportPanel run={run} asOf={asOf} crew={CREW_147} flags={analysis.flags} onFlagClick={showFlag} />
+          </ErrorBoundary>
+          <ErrorBoundary name="Agent trace" resetKey={asOf}>
+            <AgentTrace steps={run?.trace ?? null} model={run?.model ?? null} />
+          </ErrorBoundary>
+          <footer className="page__foot small dim">
+            Data: MDRS Crew 147 engineering and commander reports, January 2015 (bundled). Readings extracted by Gemini, every quote
+            checked against the report text; all forecasts and flags computed by deterministic code.
+          </footer>
+        </div>
       </main>
       {uploadOpen && <UploadPanel mode={mode} onClose={() => setUploadOpen(false)} onSubmit={handleUpload} />}
       {alertFlags.length > 0 && (

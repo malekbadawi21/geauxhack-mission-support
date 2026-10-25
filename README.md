@@ -167,6 +167,7 @@ Phase 9 — critical alert and motion, branch `critical-alert` (Claude Code, Cla
 - `src/components/FlagsList.tsx` — "Acknowledged" tag on acknowledged flag rows.
 - `src/styles/app.css` — dialog and tag styles.
 - `tests/pipeline.test.ts` — tests for `flagsForAlert()`. `scripts/qa.ts` — dialog checks (appears after the Jan 13 upload with the trailer-tank quote, focus, Escape ignored, Acknowledge closes and tags; never on a day click).
+- Part B (motion): `src/styles/app.css` — one `prefers-reduced-motion: no-preference` block: hover lift on cards/charts/report blocks, flag-row and tab transitions, day fade-in, stepper pulse and check pop, alert entrance, one-time critical badge pulse. `src/App.tsx` — per-day content in a `<div key={asOf}>` so the fade replays on a day change. `src/components/StatusStrip.tsx` — `count--pulse` when there are critical flags. `src/components/UsageChart.tsx` — 400 ms line draw unless reduced motion. `scripts/qa.ts` — runs with reduced motion emulated.
 
 Not code, but produced by AI: `data/extractions/2015-*.json` are saved Gemini outputs from
 `npm run extract` / `extract-all`. `data/extractions/crew-147-survey.md` and

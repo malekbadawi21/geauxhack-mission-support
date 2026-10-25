@@ -193,7 +193,8 @@ async function shot(page: Page, name: string): Promise<void> {
 /** The whole sweep at one screen size. */
 async function sweep(vp: (typeof VIEWPORTS)[number]): Promise<void> {
   const browser = await chromium.launch();
-  const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height } });
+  // reducedMotion "reduce": the app's CSS turns all motion off, so nothing is measured mid-animation.
+  const page = await browser.newPage({ viewport: { width: vp.width, height: vp.height }, reducedMotion: "reduce" });
   const buffer = watch(page);
 
   // 1. Load in Replay mode (the default).
