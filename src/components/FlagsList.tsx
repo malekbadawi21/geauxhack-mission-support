@@ -2,12 +2,13 @@
 //
 // How it fits: renders analysis.flags (already sorted critical → warning → info). Each row expands
 // to show the report quotes that justify the flag, each marked verified or not. The daily report's
-// concerns link here by flag id, so App.tsx owns which rows are open.
+// concerns link here by flag id, so App.tsx owns which rows are open. Critical flags the crew
+// acknowledged in the alert dialog (CriticalAlertDialog.tsx) get a small "Acknowledged" tag.
 
 import { ChevronRight } from "lucide-react";
 import type { Flag } from "../lib/analyze.ts";
 import type { SavedExtraction } from "../lib/schema.ts";
-import { RESOURCE_LABEL, flagAnchor, quoteVerified, readableMessage } from "../ui/format.ts";
+import { RESOURCE_LABEL, TYPE_LABEL, flagAnchor, quoteVerified, readableMessage } from "../ui/format.ts";
 import { Quote } from "./Quote.tsx";
 
 type Props = {
@@ -15,21 +16,11 @@ type Props = {
   received: SavedExtraction[]; // the loaded reports, to look up whether each quote was verified
   open: Set<string>; // ids of expanded rows
   onToggle: (id: string) => void;
-};
-
-// Readable names for the flag types (the raw type stays visible in the id).
-const TYPE_LABEL: Record<Flag["type"], string> = {
-  TANK_EMPTY_REPORTED: "Tank reported empty",
-  LOW_LEVEL: "Low level",
-  RUNS_OUT_BEFORE_MISSION_END: "Runs out before mission end",
-  USAGE_SPIKE: "Usage spike",
-  MISSING_READING: "Missing reading",
-  UNVERIFIED_QUOTE: "Unverified quote",
-  CREW_REPORTED_EVENT: "Crew-reported event",
+  acknowledged: Set<string>; // ids acknowledged in the critical-alert dialog this session
 };
 
 /** Renders the flags section. */
-export function FlagsList({ flags, received, open, onToggle }: Props) {
+export function FlagsList({ flags, received, open, onToggle, acknowledged }: Props) {
   return (
     <section className="section" id="flags" aria-labelledby="flags-title">
       <div className="section__head">
@@ -52,7 +43,10 @@ export function FlagsList({ flags, received, open, onToggle }: Props) {
                   <span className={`sev sev--${f.severity}`}>{f.severity.toUpperCase()}</span>
                   <span className="flag__type">{TYPE_LABEL[f.type]}</span>
                   <span className="flag__res">{f.resource ? RESOURCE_LABEL[f.resource] : ""}</span>
-                  <span className="flag__msg">{readableMessage(f.message)}</span>
+                  <span className="flag__msg">
+                    {readableMessage(f.message)}
+                    {acknowledged.has(f.id) && <span className="ack-tag small">Acknowledged</span>}
+                  </span>
                   <span className="flag__n small dim mono">
                     {f.evidence.length} quote{f.evidence.length === 1 ? "" : "s"}
                   </span>

@@ -7,7 +7,9 @@
 // load every recorded day, scrub forward, backward and at random, run the Jan 13 upload replay, open
 // every flag, click every concern link and hover every chart. After each action it records what went
 // wrong. Phase 7 adds layout checks on every day: no two x-axis date labels overlap, no chart without
-// a number, the water panel's numbers change from Jan 14 to Jan 15, and Jan 18+ is in since-refill mode. Screenshots go to qa-output/ (gitignored). Exit code 1 if anything failed, so it can gate a
+// a number, the water panel's numbers change from Jan 14 to Jan 15, and Jan 18+ is in since-refill mode. The
+// critical-alert dialog must appear after the Jan 13 upload (with the trailer-tank quote), never on a day
+// click, and Acknowledge must close it and tag the flag. Screenshots go to qa-output/ (gitignored). Exit code 1 if anything failed, so it can gate a
 // "done" check. Talks only to localhost — no external service.
 
 import { mkdirSync, writeFileSync } from "node:fs";
@@ -31,7 +33,7 @@ const JUMPS = ["Jan 23", "Jan 13", "Jan 18", "Jan 12", "Jan 21", "Jan 14", "Jan 
 type Problem = {
   viewport: string;
   step: string;
-  kind: "console error" | "page error" | "blank page" | "section error" | "action failed" | "no daily report" | "layout" | "water panel";
+  kind: "console error" | "page error" | "blank page" | "section error" | "action failed" | "no daily report" | "layout" | "water panel" | "critical alert";
   message: string;
 };
 
@@ -127,6 +129,35 @@ async function checkLayout(page: Page, vp: string, day: string): Promise<void> {
   if ((await page.locator(".chart h3", { hasText: "Water on hand" }).count()) > 0) problems.push({ viewport: vp, step: day, kind: "layout", message: "Water on hand is drawn as a chart" });
 }
 
+/** Records a problem if the critical-alert dialog is showing: it must only appear after an upload. */
+async function noAlert(page: Page, vp: string, step: string): Promise<void> {
+  actions++;
+  if ((await page.locator(".alert").count()) > 0) problems.push({ viewport: vp, step, kind: "critical alert", message: "critical-alert dialog shown on a day click" });
+}
+
+/**
+ * The critical-alert dialog after the Jan 13 upload: it is there, lists the trailer-tank flag with its
+ * quote, has focus on Acknowledge, ignores Escape, and Acknowledge closes it and tags the flag row.
+ */
+async function checkAlert(page: Page, vp: string): Promise<void> {
+  actions++;
+  const fail = (message: string): void => {
+    problems.push({ viewport: vp, step: "upload: critical alert", kind: "critical alert", message });
+  };
+  const dialog = page.getByRole("dialog", { name: /Critical alert — Jan 13, 2015/ });
+  if ((await dialog.count()) !== 1) return fail("no critical-alert dialog after the Jan 13 upload");
+  const text = (await dialog.textContent()) ?? "";
+  if (!text.includes("trailer tank")) fail("dialog does not list the trailer-tank flag with its quote");
+  // document.activeElement is the focused element; passed as a string as in check().
+  const focused = (await page.evaluate(`document.activeElement?.textContent ?? ""`)) as string;
+  if (focused.trim() !== "Acknowledge") fail(`focus is on "${focused.trim()}", not Acknowledge`);
+  await page.keyboard.press("Escape");
+  if ((await dialog.count()) !== 1) return fail("Escape closed the dialog");
+  await page.getByRole("button", { name: "Acknowledge" }).click();
+  if ((await dialog.count()) !== 0) fail("Acknowledge did not close the dialog");
+  if ((await page.locator(".flag .ack-tag").count()) === 0) fail("no Acknowledged tag in the Flags table");
+}
+
 /** Expands every collapsed flag row, then clicks every concern link in the daily report. */
 async function exerciseFlagsAndConcerns(page: Page, buffer: string[][], vp: string, day: string): Promise<void> {
   const rows = page.locator('.flag__row[aria-expanded="false"]');
@@ -178,6 +209,7 @@ async function sweep(vp: (typeof VIEWPORTS)[number]): Promise<void> {
     if (!(await clickDay(page, day, vp.name, `forward → ${day}`))) continue;
     await check(page, buffer, vp.name, `forward → ${day}`);
     await checkLayout(page, vp.name, `forward → ${day}`);
+    await noAlert(page, vp.name, `forward → ${day}`);
     waterText.set(day, (await page.locator(".water").first().textContent()) ?? "");
     await shot(page, `${vp.name}-${day.replace(" ", "")}`);
     // Phase 6 Part C: every report day has a recorded run, so the daily report section must show it.
@@ -225,10 +257,16 @@ async function sweep(vp: (typeof VIEWPORTS)[number]): Promise<void> {
   await page.getByRole("button", { name: "View daily report" }).waitFor({ timeout: 60_000 });
   await check(page, buffer, vp.name, "upload: daily report ready");
   await shot(page, `${vp.name}-upload-jan13`);
+  await checkAlert(page, vp.name);
   await exerciseFlagsAndConcerns(page, buffer, vp.name, "after upload");
   // Then scrub back to the preloaded day and forward again.
   if (await clickDay(page, "Jan 12", vp.name, "after upload → Jan 12")) await check(page, buffer, vp.name, "after upload → Jan 12");
   if (await clickDay(page, "Jan 13", vp.name, "after upload → Jan 13")) await check(page, buffer, vp.name, "after upload → Jan 13");
+  await noAlert(page, vp.name, "after upload → Jan 13");
+  // Load the rest of the mission and click the Jan 14 tab: the dialog must not come back.
+  await page.getByRole("button", { name: /Load recorded days through/ }).click();
+  if (await clickDay(page, "Jan 14", vp.name, "after upload → Jan 14")) await check(page, buffer, vp.name, "after upload → Jan 14");
+  await noAlert(page, vp.name, "after upload → Jan 14");
 
   await browser.close();
 }

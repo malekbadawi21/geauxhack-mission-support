@@ -3,11 +3,23 @@
 // How it fits: components never format numbers or dates themselves; they call these helpers so
 // "75 %", "~360 L" and "Jan 13" look the same everywhere. Display only: rounding here is for reading,
 // the analysis keeps the full values. Also holds the quote-verification lookup the flags and report
-// panels share. Browser-safe.
+// panels share, and which flags go in the critical-alert dialog. Browser-safe.
 
 import type { Resource, SavedExtraction } from "../lib/schema.ts";
 import type { NormalizedUnit } from "../lib/normalize.ts";
-import type { SeriesPoint } from "../lib/analyze.ts";
+import type { Flag, SeriesPoint } from "../lib/analyze.ts";
+
+// Readable names for the flag types (the raw type stays visible in the flag id). Shared by the Flags
+// table and the critical-alert dialog, so both title a flag the same way.
+export const TYPE_LABEL: Record<Flag["type"], string> = {
+  TANK_EMPTY_REPORTED: "Tank reported empty",
+  LOW_LEVEL: "Low level",
+  RUNS_OUT_BEFORE_MISSION_END: "Runs out before mission end",
+  USAGE_SPIKE: "Usage spike",
+  MISSING_READING: "Missing reading",
+  UNVERIFIED_QUOTE: "Unverified quote",
+  CREW_REPORTED_EVENT: "Crew-reported event",
+};
 
 // Plain-English names for each resource, as the crew would say them.
 export const RESOURCE_LABEL: Record<Resource, string> = {
@@ -109,3 +121,11 @@ export function readableMessage(message: string): string {
 
 /** The HTML id each flag row gets, so the daily report's concern links can scroll to it. */
 export const flagAnchor = (id: string) => `flag-${id}`;
+
+/**
+ * Which flags go in the critical-alert dialog: the critical ones not acknowledged yet, in the order given.
+ * Why it exists: the rule is small but it decides when the crew is interrupted, so it is tested.
+ */
+export function flagsForAlert(flags: Flag[], acknowledged: Set<string>): Flag[] {
+  return flags.filter((f) => f.severity === "critical" && !acknowledged.has(f.id));
+}

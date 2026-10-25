@@ -13,6 +13,8 @@ import { analyzeCrew } from "../src/lib/analyze.ts";
 import { CREW_147, type CrewConfig } from "../src/lib/constants.ts";
 import { DailyReportSchema } from "../src/lib/report-types.ts";
 import type { WaterStatus } from "../src/lib/water.ts";
+import type { Flag } from "../src/lib/analyze.ts";
+import { flagsForAlert } from "../src/ui/format.ts";
 import type { SavedExtraction, VerifiedEvent, VerifiedReading } from "../src/lib/schema.ts";
 
 /** A verified reading with sensible defaults; pass only the fields a test cares about. */
@@ -375,5 +377,19 @@ describe("DailyReportSchema", () => {
     const base = { as_of: "2015-01-13", overall: "critical", status_line: "x", concerns: [], crew_actions: [], decisions_for_earth: [], grounding: { numbers_checked: 0, ungrounded: [] } };
     expect(DailyReportSchema.safeParse({ ...base, message_to_earth: "word ".repeat(120) }).success).toBe(true);
     expect(DailyReportSchema.safeParse({ ...base, message_to_earth: "word ".repeat(121) }).success).toBe(false);
+  });
+});
+
+describe("flagsForAlert (critical-alert dialog)", () => {
+  /** A flag with just an id and severity; the other fields don't matter to the rule. */
+  const flag = (id: string, severity: Flag["severity"]): Flag => ({ id, type: "CREW_REPORTED_EVENT", severity, resource: null, message: id, evidence: [] });
+  const flags = [flag("a", "critical"), flag("b", "warning"), flag("c", "critical"), flag("d", "info")];
+
+  it("keeps only critical flags", () => {
+    expect(flagsForAlert(flags, new Set()).map((f) => f.id)).toEqual(["a", "c"]);
+  });
+  it("leaves out flags already acknowledged", () => {
+    expect(flagsForAlert(flags, new Set(["a"])).map((f) => f.id)).toEqual(["c"]);
+    expect(flagsForAlert(flags, new Set(["a", "c"]))).toEqual([]);
   });
 });

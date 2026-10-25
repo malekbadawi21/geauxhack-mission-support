@@ -1191,6 +1191,52 @@ mark.ungrounded {
   font-size: 0.9rem;
 }
 
+/* ---------- Critical-alert dialog ---------- */
+.overlay--alert {
+  z-index: 30; /* above the upload dialog's overlay */
+}
+.alert {
+  max-height: calc(100vh - 2 * var(--s3));
+  overflow-y: auto;
+  border-color: var(--critical);
+  border-left-width: 4px;
+}
+.alert__title {
+  display: flex;
+  align-items: center;
+  gap: var(--s1);
+  color: var(--critical);
+}
+.alert__flag {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  padding: var(--s2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--critical-bg);
+}
+.alert__flag-title {
+  font-weight: 500;
+}
+.alert__msg {
+  margin: 0;
+}
+.alert__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+/* "Acknowledged" tag on a flag row the crew acknowledged in the dialog. */
+.ack-tag {
+  margin-left: var(--s1);
+  padding: 1px 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  color: var(--text-dim);
+  font-family: var(--mono);
+  white-space: nowrap;
+}
+
 /* ---------- Motion (pipeline only) ---------- */
 @keyframes appear {
   from {

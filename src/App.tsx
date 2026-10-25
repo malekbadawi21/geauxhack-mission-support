@@ -5,7 +5,9 @@
 //   - asOf: the day being viewed (chosen in the scrubber),
 //   - runs: the agent's daily reports produced by an upload in this session (Replay or Live). In Replay,
 //     every other report day shows its recorded run from data/demo/run-<date>.json (DEMO_RUNS),
-//   - mode, the upload dialog, the pipeline panel, and which flag rows are open.
+//   - mode, the upload dialog, the pipeline panel, and which flag rows are open,
+//   - alertDay / acknowledged: the critical-alert dialog shown when an upload finishes, and the
+//     critical flag ids the crew acknowledged this session (so they aren't shown again).
 // Everything the page shows is derived from analyzeCrew(received, asOf, CREW_147), re-run whenever
 // the day or the data changes — the same function the CLI and the agent use (CLAUDE.md rule), so the
 // dashboard can never disagree with them. Reports dated after asOf are ignored by analyzeCrew.
@@ -18,7 +20,7 @@ import type { DemoRun } from "./lib/report-types.ts";
 import { ALL_EXTRACTIONS, DEMO_RUNS, MANIFEST, PRELOADED, quoteCounts, savedExtractionFor } from "./ui/data.ts";
 import { LIVE_TRACE_STEP_MS, REPLAY_MS } from "./ui/config.ts";
 import { liveDailyReport, liveExtract, sleep, type Mode, type PipelineState, type UploadFile } from "./ui/pipeline.ts";
-import { flagAnchor, longDate } from "./ui/format.ts";
+import { flagAnchor, flagsForAlert, longDate } from "./ui/format.ts";
 import { Header } from "./components/Header.tsx";
 import { StatusStrip } from "./components/StatusStrip.tsx";
 import { ResourceCards } from "./components/ResourceCards.tsx";
@@ -29,6 +31,7 @@ import { AgentTrace } from "./components/AgentTrace.tsx";
 import { UploadPanel } from "./components/UploadPanel.tsx";
 import { PipelinePanel } from "./components/PipelinePanel.tsx";
 import { ErrorBoundary } from "./components/ErrorBoundary.tsx";
+import { CriticalAlertDialog } from "./components/CriticalAlertDialog.tsx";
 
 /** Adds new extractions to a list, replacing any with the same source file (a re-upload wins). */
 function mergeExtractions(list: SavedExtraction[], added: SavedExtraction[]): SavedExtraction[] {
@@ -59,6 +62,8 @@ function App() {
   const [uploadOpen, setUploadOpen] = useState(false);
   const [pipeline, setPipeline] = useState<PipelineState | null>(null);
   const [openFlags, setOpenFlags] = useState<Set<string>>(new Set());
+  const [alertDay, setAlertDay] = useState<string | null>(null); // set when an upload finishes; null = no alert
+  const [acknowledged, setAcknowledged] = useState<Set<string>>(new Set());
   // useRef keeps a value across renders without re-rendering. runId lets a newer pipeline run tell an
   // older one (still sleeping) to stop; lastUpload is kept so "Switch to replay" can redo the same files.
   const runId = useRef(0);
@@ -73,6 +78,9 @@ function App() {
   // busy, so the Jan 13 upload still reveals its report through the staged animation. Live mode never
   // shows a recorded run, so a replay can't pass for a live answer.
   const run = runs[asOf] ?? (mode === "replay" && !busy ? DEMO_RUNS[asOf] : undefined) ?? null;
+  // The critical-alert dialog: only for the day an upload just finished (never when a day tab is
+  // clicked), and only the critical flags not acknowledged yet. Empty list = no dialog.
+  const alertFlags = alertDay === asOf ? flagsForAlert(analysis.flags, acknowledged) : [];
 
   // Recorded days not loaded yet (Replay only): lets the scrubber reach the rest of the mission.
   const notLoaded = ALL_EXTRACTIONS.filter((x) => !received.some((r) => r.source_file === x.source_file));
@@ -140,6 +148,7 @@ function App() {
       if (!agentRun) {
         // Replay only has recorded runs for some days; say so instead of inventing a report.
         patch(id, { stage: "ready", note: `No recorded agent run for ${longDate(day)}. The analysis is updated; there is no daily report for this day in replay.` });
+        setAlertDay(day);
         return;
       }
       patch(id, { run: agentRun });
@@ -154,6 +163,7 @@ function App() {
       // 5. Daily report ready.
       setRuns((r) => ({ ...r, [day]: agentRun }));
       patch(id, { stage: "ready" });
+      setAlertDay(day); // processing finished: show this day's critical flags, if any
     } catch (e) {
       // Only Live calls can throw here; show the message as is.
       patch(id, { error: e instanceof Error ? e.message : String(e) });
@@ -247,7 +257,7 @@ function App() {
           <HeroSection analysis={analysis} startDate={dates[0] ?? asOf} />
         </ErrorBoundary>
         <ErrorBoundary name="Flags" resetKey={asOf}>
-          <FlagsList flags={analysis.flags} received={received} open={openFlags} onToggle={toggleFlag} />
+          <FlagsList flags={analysis.flags} received={received} open={openFlags} onToggle={toggleFlag} acknowledged={acknowledged} />
         </ErrorBoundary>
         <ErrorBoundary name="Daily report" resetKey={asOf}>
           <DailyReportPanel run={run} asOf={asOf} crew={CREW_147} flags={analysis.flags} onFlagClick={showFlag} />
@@ -261,6 +271,17 @@ function App() {
         </footer>
       </main>
       {uploadOpen && <UploadPanel mode={mode} onClose={() => setUploadOpen(false)} onSubmit={handleUpload} />}
+      {alertFlags.length > 0 && (
+        <CriticalAlertDialog
+          asOf={asOf}
+          flags={alertFlags}
+          received={received}
+          onAcknowledge={() => {
+            setAcknowledged((s) => new Set([...s, ...alertFlags.map((f) => f.id)])); // a new Set: state is replaced, not changed
+            setAlertDay(null);
+          }}
+        />
+      )}
     </>
   );
 }
