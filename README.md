@@ -1,4 +1,103 @@
-# geauxhack-mission-support
+# Mission Support
+
+**Team Arab Algorithm** · GeauxHack 2026
+Live app: https://geauxhack-mission-support.vercel.app
+
+## Elevator pitch
+
+On Mars, the crew is also Mission Control: on top of science and repairs, they have to track every
+tank and gauge and notice when something starts going wrong. Mission Support takes that off their
+plate. The crew records their daily readings; Mission Support tracks every supply, flags problems
+with the crew's own words as evidence, and writes the daily update for Earth.
+
+## Team
+
+- **Malek Badawi** — engineering
+- **Ali Ismail** — research, pitch, testing
+
+## About the project
+
+### The problem
+A message from Mars to Earth takes up to 22 minutes, and there are weeks with no contact at all, so
+crews have to manage their own life support. Crews practising this today in Mars analog habitats
+track water and fuel by hand in daily written reports.
+
+### What it does
+Built and tested on the real daily reports of **MDRS Crew 147** (Mars Desert Research Station, Utah,
+January 2015), whose water resupply tank ruptured on Jan 13 with about 360 L left and 10 days to go.
+
+- **Upload the day's reports** (engineering + commander) — that is all the crew has to do.
+- **Tracks supplies:** diesel, propane and water charted over the mission, with how long each will last.
+- **Flags problems** from fixed rules: empty tanks, sudden usage spikes, low levels, supplies that run
+  out before the mission ends. Each flag shows the exact report sentence behind it.
+- **Critical alerts** pop up and must be acknowledged, so they can't be missed.
+- **Water status:** projects days of water from the crew's estimate at two reference rates, and never
+  claims a "water remaining" number it doesn't have (after a refill it asks the crew for an estimate).
+- **Daily report and message to Earth**, written by an AI agent after investigating the flags.
+- **Replay mode** plays back saved runs instantly; **Live mode** runs the full pipeline on uploaded reports.
+
+### How it works
+1. **Read (AI):** Gemini extracts each reading from the report, with the sentence it came from.
+2. **Verify (code):** every quote must appear word for word in the report, or it is rejected.
+3. **Analyze (code):** unit normalization, forecasts and flag rules are plain TypeScript.
+4. **Investigate and write (AI):** an agent calls our tools, then writes the daily report.
+5. **Check (code):** every number in the report must appear in the data its tools returned.
+
+The AI only reads and writes; every number comes from our code.
+
+## Tech stack
+
+React 19 · TypeScript · Vite · Recharts · lucide-react · zod · Vercel (hosting + serverless
+functions in `api/`) · Google Gemini via `@google/genai` · Vitest and Playwright for tests and QA.
+
+## External APIs
+
+- **Google Gemini API** — our only external API. Used in `api/extract.ts` (report extraction) and
+  `api/daily-report.ts` (the agent). All mission data is bundled in `data/`; the app makes no other
+  network calls at runtime.
+
+## Data sources
+
+- Crew 147 daily reports: Mars Society MDRS archive, https://mdrs2013.marssociety.org/home/crew-147
+  (every file and its URL is listed in `data/SOURCES.md`).
+- Reference water use, 12.12 L/person/sol: FMARS Arctic analog study, https://core.ac.uk/works/63185982
+- Minimum potable water, 2.5 L/person/day: NASA-STD-3001 technical brief,
+  https://www.nasa.gov/wp-content/uploads/2023/12/ochmo-tb-002-eclss.pdf
+
+## Prerequisites
+
+- Node.js 20.19+ (or 22.12+) and npm
+- A Gemini API key — only needed for Live mode and the extraction/agent scripts
+- Vercel CLI (`npm i -g vercel`) — only needed to run Live mode locally
+
+## Build from source
+
+```bash
+git clone https://github.com/malekbadawi21/geauxhack-mission-support.git
+cd geauxhack-mission-support
+npm install
+cp .env.example .env        # then set GEMINI_API_KEY and GEMINI_MODEL (Live mode only)
+
+npm run dev                 # app at http://localhost:5173 — Replay mode works with no key
+vercel dev                  # app + api/ functions at http://localhost:3000 — needed for Live mode
+```
+
+Other commands: `npm test` (unit tests) · `npm run typecheck` · `npm run build` ·
+`npm run qa` (Playwright sweep; start `npm run dev` first) ·
+`npm run daily-report -- crew-147 --all` (regenerate the saved agent runs; uses the Gemini key).
+
+## Limitations
+
+- One crew water-volume estimate (~360 L, Jan 13) exists for the whole mission.
+- Tank sizes are unknown, so tank levels show trends, not litres.
+- Crew size is fixed at seven (from the Final Mission Report roster).
+- The reference water rate comes from a different analog station; projections are not predictions.
+- Extraction accuracy has not yet been scored against hand-labeled reports.
+
+## Images and favicon
+
+The project contains no AI-generated images or video. Visuals are Recharts charts, lucide-react
+icons and CSS. The favicon is a hand-written one-line SVG circle in `index.html`.
 
 ## AI-assisted code
 
