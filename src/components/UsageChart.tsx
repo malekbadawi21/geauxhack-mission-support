@@ -337,14 +337,34 @@ function CrewNotes({ notes, startDate, xEnd }: { notes: SeriesPoint[]; startDate
  * Rows for resources the crew only ever described in words (no number up to the as-of date), e.g. the
  * loft tank "half-empty" → "full". An empty chart would say nothing, so each gets one compact row:
  * its name and a dated pill per note, in the same pill styles as the charts' Crew notes row.
- * @param series  The words-only series, in display order.
+ * The first row lists the crew's total-water estimates (water_total), which are never charted.
+ * @param series     The words-only series, in display order.
+ * @param estimates  water_total points with a number ("~360 L" on Jan 13); empty = none reported yet.
  */
-export function CrewNotesOnly({ series }: { series: ResourceSeries[] }) {
+export function CrewNotesOnly({ series, estimates }: { series: ResourceSeries[]; estimates: SeriesPoint[] }) {
   return (
     <section className="notes-only panel" aria-label="Crew notes only">
       <div className="notes-only__head">
-        <h3>Crew notes only</h3>
-        <span className="dim small">No numeric readings yet, so no chart. Hover a note for the quote.</span>
+        <h3>Crew notes and estimates</h3>
+        <span className="dim small">Not charted: words only, or occasional volume estimates. Hover for the quote.</span>
+      </div>
+      {/* The crew's total-water estimates, listed rather than plotted (an estimate is not a measurement). */}
+      <div className="notes-only__row volume-estimates">
+        <span className="notes-only__name">Crew volume estimates: {estimates.length}</span>
+        <div className="notes-only__pills">
+          {estimates.length === 0 ? (
+            <span className="dim small">No volume estimate reported yet.</span>
+          ) : (
+            <>
+              {estimates.map((p) => (
+                <span key={p.date} className="note-pill note-pill--inline mono" title={`${shortDate(p.date)} — “${p.source_quote}” (${p.report_kind} report)`}>
+                  {pointValueText(p)} <span className="note-pill__date">on {shortDate(p.date)}</span>
+                </span>
+              ))}
+              <span className="dim small">No later estimate — see the Water panel.</span>
+            </>
+          )}
+        </div>
       </div>
       {series.map((s) => (
         <div className="notes-only__row" key={s.resource}>

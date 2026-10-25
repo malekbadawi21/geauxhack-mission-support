@@ -62,10 +62,12 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - At the end of every phase, rewrite the Current state section (replace it, don't append).
 
 ## Current state
-- **Status:** Phase 7 complete (water panel redesign + chart cleanup). `npm run qa` (needs `npm run dev`) passes:
-  168 checks, 0 problems at 1920 and 1280, including no overlapping x-axis labels, no chart without a
-  number, Jan 14 ≠ Jan 15 water values, since-refill mode on Jan 18+. Type check, build, 50 tests, lint,
-  browser-safety grep and `vercel build` pass. Not committed.
+- **Status:** Phase 8 (bug fixes) complete and pushed. `npm run qa` 168 checks, 0 problems at 1920 and
+  1280; type check, build, 51 tests, lint, `vercel build` pass.
+- **Phase 8:** grounding.ts checks clock times as one value (all 11 saved runs still 0 ungrounded); agent
+  told not to state times/schedules absent from tools or UI terms. "Water on hand" is no longer charted:
+  a "Crew volume estimates" row lists them. api/daily-report does NOT re-run on ungrounded numbers
+  (only the CLI does); a live run shows them instead.
 - **Water (water.ts):** `waterStatus(series, forecasts, asOf, crew)` → `analysis.water`, three modes.
   "projected" (Jan 13–16): the ~360 L estimate minus crew × rate × days since it, per FMARS/NASA rate;
   remaining clamps at 0; `runs_out_on` fixed from the estimate date; `budget_to_mission_end` (null once

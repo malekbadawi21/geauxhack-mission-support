@@ -8,6 +8,7 @@
 //
 // Dates need no special case: a date in the data ("2015-01-17") contributes 2015, 1 and 17, so
 // "Jan 17" or "2015" in the report is grounded when that date appears in a tool output.
+// Clock times are the exception: "19:00" is checked as one time, never as 19 and 0.
 // Pure and browser-safe: no file, network or clock access.
 
 import type { DailyReport } from "./report-types.ts";
@@ -22,6 +23,27 @@ const NUMBER_RE = /\d+(?:,\d{3})*(?:\.\d+)?/g;
 /** Every number written in a string, as the text that was written ("12.12", "1,000"). */
 function numbersIn(text: string): string[] {
   return text.match(NUMBER_RE) ?? []; // match with /g returns all matches, or null if none
+}
+
+// Regex for a clock time: "19:00", "8:00", "12:35pm", "10:30 AM". A time is ONE value, so "08:00" can't
+// be grounded by an unrelated 8 and 0 in the data. (?<![\d:]) = not preceded by a digit or colon;
+// (\d{1,2}):(\d{2}) = hours and minutes; (?!\d) = no third minute digit; then an optional am/pm that
+// is not the start of a longer word ("12:35 amount" has no "am"). g = all matches, i = any case.
+const TIME_RE = /(?<![\d:])(\d{1,2}):(\d{2})(?!\d)(?:\s?([ap]m)(?![a-z]))?/gi;
+
+/**
+ * Every clock time in a string, as 24-hour "HH:MM", so "12:35pm" and "12:35" compare equal.
+ * Why it exists: the agent once wrote "by 08:00 tomorrow", a time no report gave.
+ */
+function timesIn(text: string): { written: string; time: string }[] {
+  // matchAll gives each match with its groups: m[1] hours, m[2] minutes, m[3] "am"/"pm" or undefined.
+  return [...text.matchAll(TIME_RE)].map((m) => {
+    let hour = Number(m[1]);
+    const ampm = m[3]?.toLowerCase();
+    if (ampm === "pm" && hour < 12) hour += 12; // 7pm -> 19
+    if (ampm === "am" && hour === 12) hour = 0; // 12am -> 00
+    return { written: m[0], time: `${String(hour).padStart(2, "0")}:${m[2]}` };
+  });
 }
 
 /** Turns a written number into a value: "1,000" -> 1000. */
@@ -79,12 +101,18 @@ function reportTexts(report: Omit<DailyReport, "grounding">): string[] {
 export function checkGrounding(report: Omit<DailyReport, "grounding">, toolOutputs: unknown[]): Grounding {
   const known: number[] = [];
   collectNumbers(toolOutputs, known);
+  // Every time anywhere in the tool outputs (JSON.stringify reaches every nested string at once).
+  const knownTimes = new Set(timesIn(JSON.stringify(toolOutputs)).map((t) => t.time));
 
-  const written = reportTexts(report).flatMap(numbersIn);
+  const texts = reportTexts(report);
+  const times = texts.flatMap(timesIn);
+  // Times are checked whole, so they are blanked out before numbers are read from the text.
+  const written = texts.flatMap((t) => numbersIn(t.replace(TIME_RE, " ")));
   const ungrounded = new Set<string>(); // a Set keeps each distinct string once, in first-seen order
+  for (const t of times) if (!knownTimes.has(t.time)) ungrounded.add(t.written);
   for (const w of written) {
     const v = toValue(w);
     if (!known.some((k) => matchesWithinRounding(v, k))) ungrounded.add(w);
   }
-  return { numbers_checked: written.length, ungrounded: [...ungrounded] };
+  return { numbers_checked: times.length + written.length, ungrounded: [...ungrounded] };
 }

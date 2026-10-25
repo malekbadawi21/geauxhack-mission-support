@@ -122,6 +122,9 @@ async function checkLayout(page: Page, vp: string, day: string): Promise<void> {
   // UsageChart prints "no numeric readings" as its unit when it has nothing to plot: such a chart must not exist.
   const empty = await page.locator(".chart__unit", { hasText: "no numeric readings" }).count();
   if (empty > 0) problems.push({ viewport: vp, step: day, kind: "layout", message: `${empty} chart(s) with no numeric readings` });
+  // Volume estimates are listed in one row on every day, never drawn as a "Water on hand" chart.
+  if ((await page.locator(".volume-estimates").count()) !== 1) problems.push({ viewport: vp, step: day, kind: "layout", message: "no Crew volume estimates row" });
+  if ((await page.locator(".chart h3", { hasText: "Water on hand" }).count()) > 0) problems.push({ viewport: vp, step: day, kind: "layout", message: "Water on hand is drawn as a chart" });
 }
 
 /** Expands every collapsed flag row, then clicks every concern link in the daily report. */

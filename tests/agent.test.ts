@@ -48,6 +48,16 @@ describe("checkGrounding", () => {
     expect(checkGrounding(reportSaying("Runs out Jan 19."), tools).ungrounded).toEqual(["19"]);
   });
 
+  it("checks clock times as one value: invented times fail, a quoted 12:35pm passes", () => {
+    // 8, 0 and 19 all appear as plain numbers in these tools, so only the whole-time check catches them.
+    const withNumbers = [...tools, { values: [8, 0, 19] }, { quote: "At 12:35pm we received a message from Mission Support" }];
+    const g = checkGrounding(reportSaying("Approve by 08:00 tomorrow. Next update at 19:00."), withNumbers);
+    expect(g).toEqual({ numbers_checked: 2, ungrounded: ["08:00", "19:00"] });
+    expect(checkGrounding(reportSaying("Notified at 12:35pm."), withNumbers).ungrounded).toEqual([]);
+    expect(checkGrounding(reportSaying("Notified at 12:35."), withNumbers).ungrounded).toEqual([]); // same time, no am/pm
+    expect(checkGrounding(reportSaying("Propane 40%, 360 L."), withNumbers)).toEqual({ numbers_checked: 2, ungrounded: [] }); // plain numbers unchanged
+  });
+
   it("checks every text field, not just the status line", () => {
     const r = { ...reportSaying(""), message_to_earth: "Need 999 L.", crew_actions: ["Use 360 L."] };
     expect(checkGrounding(r, tools)).toEqual({ numbers_checked: 2, ungrounded: ["999"] });

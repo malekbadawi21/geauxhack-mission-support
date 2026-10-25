@@ -46,6 +46,10 @@ How to work:
   the important flags, the history of resources that are changing, and the water status.
 - Use ONLY numbers that appear in tool results. Never estimate, convert or calculate a new number.
   You may round (4.243 days -> "about 4.2 days"). If a number is not in a tool result, leave it out.
+- Never state a clock time, deadline or schedule ("by 08:00", "next update at 19:00", "tomorrow
+  evening") unless that exact time appears in a tool result. Write "next update with tomorrow's report".
+- Never use app or tool terms such as "projected mode" or "since_refill mode". Say what the number
+  is, e.g. "projected from the Jan 13 estimate" or "since the Jan 17 refill".
 - Every concern lists the flag ids (exactly as given by get_overview) that back it up. Every
   critical flag must appear in a concern.
 - Severity comes from the flags, not your judgment: overall is "critical" if any flag is critical,

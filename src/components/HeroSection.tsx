@@ -3,7 +3,8 @@
 // How it fits: lays out one UsageChart per resource in analysis.series that has at least one number
 // (headline resources first), then one compact "Crew notes only" row per resource the crew only ever
 // described in words (Phase 7: loft and trailer tanks — an empty chart told the judge nothing), and the
-// WaterPanel. On wide screens the water panel sits in its own column beside the charts; below ~1600px
+// WaterPanel. The crew's total-water estimates are listed in that panel, never charted (bug fix: the
+// one-point "Water on hand" chart looked empty). On wide screens the water panel sits in its own column beside the charts; below ~1600px
 // it moves under them (see .hero in app.css).
 
 import type { Analysis } from "../lib/analyze.ts";
@@ -22,7 +23,11 @@ export function HeroSection({ analysis, startDate }: { analysis: Analysis; start
     const i = RESOURCE_ORDER.indexOf(r);
     return i === -1 ? RESOURCE_ORDER.length : i;
   };
-  const sorted = [...analysis.series].sort((a, b) => rank(a.resource) - rank(b.resource));
+  // water_total is never charted: it holds the crew's occasional volume ESTIMATES (one all mission for
+  // Crew 147), and a one-dot chart read as a bug. They are listed in the row below the charts instead.
+  const sorted = [...analysis.series].filter((s) => s.resource !== "water_total").sort((a, b) => rank(a.resource) - rank(b.resource));
+  // The crew's stated volumes: the same water_total points water.ts reads its estimate from.
+  const estimates = analysis.series.find((s) => s.resource === "water_total")?.points.filter((p) => p.value !== null) ?? [];
   // A chart needs at least one number up to the as-of date; the rest get a notes-only row.
   const hasNumber = (s: Analysis["series"][number]) => s.points.some((p) => p.value !== null);
   const series = sorted.filter(hasNumber);
@@ -52,7 +57,7 @@ export function HeroSection({ analysis, startDate }: { analysis: Analysis; start
               asOf={analysis.asOf}
             />
           ))}
-          {wordsOnly.length > 0 && <CrewNotesOnly series={wordsOnly} />}
+          <CrewNotesOnly series={wordsOnly} estimates={estimates} />
         </div>
         <div className="hero__water">
           <WaterPanel water={analysis.water} />
