@@ -1,0 +1,119 @@
+{
+  "as_of": "2015-01-22",
+  "report": {
+    "as_of": "2015-01-22",
+    "overall": "nominal",
+    "status_line": "Overall nominal with 1 day remaining; static tank water transfer failed and quadcopter grounded.",
+    "concerns": [
+      {
+        "title": "Water transfer failure from static tank",
+        "detail": "The crew was unable to pump water from the static tank to the loft tank before the 10am EVA. The static tank level was measured at 38 cm from the top.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-22"
+        ]
+      },
+      {
+        "title": "Quadcopter flight contingency",
+        "detail": "The quadcopter had a flight contingency on high-risk terrain and will not be able to fly again before the end of the mission.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-22:3"
+        ]
+      },
+      {
+        "title": "ATV fuel awaiting delivery",
+        "detail": "The crew reported that they are awaiting additional fuel for the ATVs with 1 day remaining in the mission.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-22:2"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Inspect and troubleshoot the static tank pump, valve alignment, and transfer lines to restore water flow to the loft tank.",
+      "Ground the quadcopter for the remainder of the mission and log incident details.",
+      "Inventory remaining cleaning supplies and clarify handover requirements during end-of-mission wrap-up."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Confirm whether ATV fuel resupply will be delivered before mission end on 2015-01-23.",
+        "why": "The crew is awaiting additional fuel for the ATVs with 1 day remaining in the mission."
+      },
+      {
+        "decision": "Provide technical guidance on static water pump maintenance if loft tank refills remain blocked.",
+        "why": "Water failed to flow from the static tank during the transfer attempt before the 10am EVA."
+      }
+    ],
+    "message_to_earth": "Overall habitat status is nominal with 1 day remaining, but water transfer to the loft tank has failed. Water did not flow from the static tank during a transfer attempt before the 10am EVA, while static tank depth measured 38 cm from the top. The quadcopter also suffered a contingency and cannot fly again before mission end. The crew is troubleshooting the static tank water pump and awaiting ATV fuel. Other systems are nominal, with diesel at 55% and propane at 31%. Please confirm by tomorrow morning whether ATV fuel will be delivered before mission end on 2015-01-23. The crew will report again tomorrow.",
+    "grounding": {
+      "numbers_checked": 17,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "19 reports, latest 2015-01-22 (engineering + commander); 3 flags: 0 critical, 0 warning, 3 info; 3 readings",
+      "ms": 0
+    },
+    {
+      "step": 2,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
+      "ms": 0
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-22\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-22 [info]: \"We attempted to fill the loft tank before the EVA at 10am, but water did not flow from the static tank.\" (engineer…",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-22:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-22:2 [info]: \"We are awaiting additional fuel.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-22:3\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-22:3 [info]: \"Unfortunately, on a high risk terrain, the quadcopter had a contingency and will not be able to fly again before…",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 10 days: ¼ → 15cm → 15cm → Less than 10cm → empty → Full → 13 cm → 20 cm → 20 cm → 38 cm",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 10 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾ → 60% → 60% → 55%",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 10 days: 45% → 40% → 40% → 40% → 39% → 37% → 36% → 35% → 32% → 31%",
+      "ms": 0
+    },
+    {
+      "step": 9,
+      "tool": "submit_daily_report",
+      "input_summary": "overall nominal, 3 concerns",
+      "output_summary": "report accepted",
+      "ms": 0
+    }
+  ],
+  "generated_at": "2026-10-25T01:49:10.603Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}

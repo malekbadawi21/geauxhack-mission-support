@@ -6,7 +6,8 @@
 // plain arithmetic — no LLM. Browser-safe.
 //
 // The method, step by step (thresholds are in constants.ts):
-//   1. Start from the latest reading that has a number.
+//   1. Start from the latest reading that has a number. If the crew later described the tank in
+//      words ("empty", "full", "less than ¾"), that number is out of date: no rate (Phase 6, Q1/Q3).
 //   2. Walk backwards, collecting earlier readings, and stop at the most recent refill — so a tank
 //      that was just filled isn't averaged with its pre-fill level. Also stop at a reading measured
 //      differently (e.g. "15cm" with no reference vs "13 cm from the top"), because those numbers
@@ -100,6 +101,19 @@ export function forecastResource(resource: Resource, readings: NormalizedReading
     return { resource, latest: null, first: null, rate_per_day: null, days_to_empty: null, points_used: 0, reason: "no numeric readings" };
   }
   const latest = readings[latestIdx];
+
+  // Words AFTER the latest number (15 cm on Jan 14, then "empty" Jan 16 and "full" Jan 17; or diesel
+  // 75% on Jan 15, then "less than ¾") mean the level changed in a way we can't put a number on, so
+  // the old trend would be shown as current. Only verified readings count: an unverified quote is
+  // never used (CLAUDE.md), not even to cancel a trend.
+  const laterWords = readings.slice(latestIdx + 1).findLast((r) => r.value === null && r.verified);
+  if (laterWords) {
+    const what = laterWords.status ? `reported it ${laterWords.status.toUpperCase()}` : `wrote "${laterWords.raw_text}"`;
+    return {
+      resource, latest, first: latest, rate_per_day: null, days_to_empty: null, points_used: 1,
+      reason: `crew ${what} on ${laterWords.date}, after the last numeric reading (${latest.date})`,
+    };
+  }
 
   // Step 2: walk backwards from the latest reading and build the post-refill window.
   const window: NormalizedReading[] = [latest];

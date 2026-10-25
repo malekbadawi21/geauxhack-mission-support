@@ -570,6 +570,15 @@ button:disabled {
   font-weight: 500;
   line-height: 1.2;
 }
+/* A value that predates a refill (Phase 6, K2): dimmed and struck through, so it can't pass for current. */
+.card__value--stale {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+.card__stale {
+  align-self: flex-start;
+}
 .card__trend {
   display: flex;
   align-items: center;
@@ -1254,4 +1263,83 @@ mark.ungrounded {
   font-family: var(--sans);
   font-size: 1.25rem;
   font-weight: 400;
+}
+
+/* Error boundary (ErrorBoundary.tsx): one section failed, the rest of the page still works. */
+.section-error {
+  display: flex;
+  gap: var(--s1);
+  align-items: flex-start;
+  padding: var(--s2) var(--s3);
+  border-color: var(--critical);
+  color: var(--critical);
+}
+.section-error .dim {
+  margin-top: 4px;
+  word-break: break-word;
+}
+
+/* Crew notes row under each chart's x-axis (UsageChart.tsx, Phase 6 K4): days the crew described the
+ * level in words. Padding = the plot area's offsets, so inside .crew-notes__track 0%–100% is exactly
+ * the x-axis from the first report day to mission end. Two lanes: odd days drop to the lower one. */
+.crew-notes {
+  position: relative;
+  margin-top: -4px;
+}
+.crew-notes__label {
+  position: absolute;
+  left: 0;
+  top: 2px;
+  padding-right: 6px;
+  text-align: right;
+  font-size: 0.62rem;
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.crew-notes__track {
+  position: relative;
+  height: 44px;
+}
+.note-pill {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%); /* centered on its day; max-width is set per pill in UsageChart.tsx */
+  overflow: hidden;
+  text-overflow: ellipsis; /* longer text ends in "…"; the title attribute shows all of it */
+  white-space: nowrap;
+  padding: 1px 6px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--panel-2);
+  color: var(--text-dim);
+  font-size: 0.68rem;
+  line-height: 1.4;
+  cursor: help;
+}
+.note-pill--lower {
+  top: 22px;
+}
+/* First and last day: anchored inside the plot instead of centered, so they never stick out of it. */
+.note-pill--start {
+  transform: none;
+}
+.note-pill--end {
+  transform: translateX(-100%);
+}
+.note-pill--critical {
+  color: var(--critical);
+  border-color: var(--critical);
+  background: var(--critical-bg);
+}
+.note-pill--warning {
+  color: var(--warning);
+  border-color: var(--warning);
+  background: var(--warning-bg);
+}
+.note-pill--nominal {
+  color: var(--nominal);
+  border-color: var(--nominal);
+  background: var(--nominal-bg);
 }

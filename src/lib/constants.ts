@@ -45,6 +45,13 @@ export const DAILY_ENGINEERING_RESOURCES: Resource[] = ["diesel", "propane", "wa
 export const CRITICAL_EVENT_KEYWORDS = ["ruptur", "leak", "burst", "fire", "injur"];
 export const WARNING_EVENT_KEYWORDS = ["fail", "broke", "empty", "frozen", "block", "not working", "not start", "shut down"];
 
+// Malek's decision (Phase 6, K7): the engineering and commander reports often describe the same event
+// (Jan 13: "the trailer tank had ruptured" / "The trailer tank … was broken on route"). Two
+// crew-reported events on the same day, from DIFFERENT reports, whose verified quotes both name one of
+// these things are shown as one flag with both quotes. Matched case-insensitively ("ATV" ⊂ "ATVs").
+// "headset" was added after the QA sweep: Jan 15 reports the same broken microphones in both reports.
+export const EVENT_KEY_NOUNS = ["trailer tank", "static tank", "loft tank", "ATV", "propane", "diesel", "water heater", "headset"];
+
 // --- Crew identity ---
 // Crew name, size and mission end come from this config, never from an extraction: Gemini read page
 // numbers ("115", "117") as the crew on two commander reports. Each fact carries where it came from.

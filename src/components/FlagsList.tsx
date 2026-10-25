@@ -7,7 +7,7 @@
 import { ChevronRight } from "lucide-react";
 import type { Flag } from "../lib/analyze.ts";
 import type { SavedExtraction } from "../lib/schema.ts";
-import { RESOURCE_LABEL, flagAnchor, quoteVerified } from "../ui/format.ts";
+import { RESOURCE_LABEL, flagAnchor, quoteVerified, readableMessage } from "../ui/format.ts";
 import { Quote } from "./Quote.tsx";
 
 type Props = {
@@ -52,7 +52,7 @@ export function FlagsList({ flags, received, open, onToggle }: Props) {
                   <span className={`sev sev--${f.severity}`}>{f.severity.toUpperCase()}</span>
                   <span className="flag__type">{TYPE_LABEL[f.type]}</span>
                   <span className="flag__res">{f.resource ? RESOURCE_LABEL[f.resource] : ""}</span>
-                  <span className="flag__msg">{f.message}</span>
+                  <span className="flag__msg">{readableMessage(f.message)}</span>
                   <span className="flag__n small dim mono">
                     {f.evidence.length} quote{f.evidence.length === 1 ? "" : "s"}
                   </span>

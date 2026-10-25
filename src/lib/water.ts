@@ -10,7 +10,7 @@
 // the volume was stated, we return null with a reason instead of a misleading number.
 
 import type { CrewConfig } from "./constants.ts";
-import type { ResourceSeries } from "./flags.ts";
+import type { ResourceSeries, SeriesPoint } from "./flags.ts";
 import { convertValue } from "./normalize.ts";
 import { addDays, daysBetween } from "./dates.ts";
 import {
@@ -48,6 +48,34 @@ export type WaterScenarioResult = { value: WaterScenarios; reason: null } | { va
 // The series that hold water. A refill in any of them makes an earlier total volume stale.
 const WATER_RESOURCES = ["water_total", "water_static", "water_loft", "water_trailer"];
 
+/** The latest volume reading and the first refill after it — see latestWaterVolume(). */
+export type WaterVolumeStatus = {
+  reading: SeriesPoint | null; // latest water_total point with a number in liters, on or before asOf
+  refilled_on: string | null; // first refill in any water series after that reading (on or before asOf)
+};
+
+/**
+ * Finds the crew's latest total water volume and whether a refill has made it stale.
+ * @param series  analyzeCrew's chart series.
+ * @param asOf    YYYY-MM-DD; only readings and refills up to this date count.
+ * @returns       { reading, refilled_on }: reading null = no volume yet; refilled_on non-null = the
+ *                volume predates that refill and must not be shown as current.
+ * Why it exists: the one staleness rule shared by waterScenarios() below and the "Water on hand"
+ * card in the UI, so the card can never show a volume the scenarios refused to use (Phase 6, K2).
+ */
+export function latestWaterVolume(series: ResourceSeries[], asOf: string): WaterVolumeStatus {
+  const totals = series.find((s) => s.resource === "water_total")?.points ?? [];
+  const reading =
+    totals.findLast((p) => p.date <= asOf && p.value !== null && p.unit !== null && convertValue(p.value, p.unit, "L") !== null) ?? null;
+  if (!reading) return { reading: null, refilled_on: null };
+  // A refill (status "full" after a fall, or a jump in level) after the volume was stated makes it stale.
+  const refills = series
+    .filter((s) => WATER_RESOURCES.includes(s.resource))
+    .flatMap((s) => s.points.filter((p) => p.refill && p.date > reading.date && p.date <= asOf).map((p) => p.date))
+    .sort(); // ISO dates sort correctly as strings; [0] is the earliest
+  return { reading, refilled_on: refills[0] ?? null };
+}
+
 /**
  * Builds the water scenarios from the most recent total-volume reading on or before asOf.
  * @param series  analyzeCrew's chart series (already limited to days on or before asOf).
@@ -57,20 +85,11 @@ const WATER_RESOURCES = ["water_total", "water_static", "water_loft", "water_tra
  * Why it exists: the one place a water volume becomes "days left", so the UI and agent can't disagree.
  */
 export function waterScenarios(series: ResourceSeries[], asOf: string, crew: CrewConfig): WaterScenarioResult {
-  // The latest water_total point with a number we can express in liters.
-  const totals = series.find((s) => s.resource === "water_total")?.points ?? [];
-  const reading = totals.findLast(
-    (p) => p.date <= asOf && p.value !== null && p.unit !== null && convertValue(p.value, p.unit, "L") !== null,
-  );
+  const { reading, refilled_on } = latestWaterVolume(series, asOf);
   if (!reading || reading.value === null || reading.unit === null || reading.source_quote === null) {
     return { value: null, reason: "no total water volume reported on or before this date" };
   }
-
-  // A refill (status "full" after a fall, or a jump in level) after the volume was stated makes it stale.
-  const refilledAfter = series
-    .filter((s) => WATER_RESOURCES.includes(s.resource))
-    .some((s) => s.points.some((p) => p.refill && p.date > reading.date && p.date <= asOf));
-  if (refilledAfter) return { value: null, reason: "last volume estimate predates a refill" };
+  if (refilled_on) return { value: null, reason: `last volume estimate (${reading.date}) predates the ${refilled_on} refill` };
 
   const volume = convertValue(reading.value, reading.unit, "L")!; // `!`: checked non-null in findLast above
   const daysToEnd = daysBetween(reading.date, crew.mission_end);

@@ -6,6 +6,7 @@
 
 import type { Analysis } from "../lib/analyze.ts";
 import type { Resource } from "../lib/schema.ts";
+import { latestWaterVolume } from "../lib/water.ts";
 import { RESOURCE_ORDER } from "../ui/format.ts";
 import { UsageChart } from "./UsageChart.tsx";
 import { WaterScenarios } from "./WaterScenarios.tsx";
@@ -48,7 +49,12 @@ export function HeroSection({ analysis, startDate }: { analysis: Analysis; start
           ))}
         </div>
         <div className="hero__water">
-          <WaterScenarios value={analysis.waterScenarios} reason={analysis.waterScenariosReason} crew={analysis.crew} />
+          <WaterScenarios
+            value={analysis.waterScenarios}
+            reason={analysis.waterScenariosReason}
+            volume={latestWaterVolume(analysis.series, analysis.asOf)}
+            crew={analysis.crew}
+          />
         </div>
       </div>
     </section>

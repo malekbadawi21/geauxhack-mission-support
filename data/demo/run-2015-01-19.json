@@ -1,0 +1,96 @@
+{
+  "as_of": "2015-01-19",
+  "report": {
+    "as_of": "2015-01-19",
+    "overall": "nominal",
+    "status_line": "Nominal status with 4 days until mission end; crew investigating low water flow and monitoring ATV 2 fuel valve.",
+    "concerns": [
+      {
+        "title": "Low Water Flow Under Investigation",
+        "detail": "The commander reported that water flow in the habitat is very low and currently under investigation. Static water tank depth was measured at 20 cm from the top, compared to 13 cm on the previous day.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-19:2"
+        ]
+      },
+      {
+        "title": "ATV 2 Ignition Issue During EVA",
+        "detail": "Trouble starting ATV 2 occurred during today's EVA, which was resolved by switching the fuel cock to the RES position.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-19"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Continue investigating the cause of low water flow in the habitat plumbing system.",
+      "Inspect ATV 2 fuel level and fuel lines prior to the next EVA.",
+      "Review local habitat documentation regarding recommended equipment storing procedures."
+    ],
+    "decisions_for_earth": [],
+    "message_to_earth": "Overall habitat status is nominal, with an ongoing investigation into low water flow. The commander reported very low water flow today, while static water tank depth measured 20 cm from the top. During today's EVA, ATV 2 had trouble starting until the fuel cock was switched to the RES position. The crew is investigating the plumbing system for restrictions and operating ATV 2 on reserve fuel. Power and heating systems are nominal, with diesel at 60% and propane at 35%. No operational decisions are required from Earth at this time. Next update will be sent tomorrow following evening reports.",
+    "grounding": {
+      "numbers_checked": 12,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "16 reports, latest 2015-01-19 (engineering + commander); 2 flags: 0 critical, 0 warning, 2 info; 3 readings",
+      "ms": 0
+    },
+    {
+      "step": 2,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-19\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-19 [info]: \"We had trouble starting ATV 2 during today’s EVA. This issue was resolved by switching the fuel cock to the RES po…",
+      "ms": 1
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-19:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-19:2 [info]: \"We're still investigating the reason for the water flow to be so low.\" (commander)",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 8 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾ → 60%",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 8 days: 45% → 40% → 40% → 40% → 39% → 37% → 36% → 35%",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 8 days: ¼ → 15cm → 15cm → Less than 10cm → empty → Full → 13 cm → 20 cm",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "submit_daily_report",
+      "input_summary": "overall nominal, 2 concerns",
+      "output_summary": "report accepted",
+      "ms": 0
+    }
+  ],
+  "generated_at": "2026-10-25T01:47:48.564Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}

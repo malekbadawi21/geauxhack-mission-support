@@ -1,0 +1,119 @@
+{
+  "as_of": "2015-01-14",
+  "report": {
+    "as_of": "2015-01-14",
+    "overall": "nominal",
+    "status_line": "Habitat systems nominal with static tank resupply pending schedule and EVA requested for Jan 15.",
+    "concerns": [
+      {
+        "title": "Static Tank Resupply Schedule",
+        "detail": "The crew was notified by Mission Control at 10:30 that a static tank resupply will take place in the near future, but no clear delivery schedule has been provided. Water level in the static tank was measured at 15 cm, and total water was estimated at ~360 L on 2015-01-13, which provides about 4.2 days of supply for the 7 crew members at the Arctic analog average rate of 12.12 L per person per day.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-14:3"
+        ]
+      },
+      {
+        "title": "Hot Water System Inoperative",
+        "detail": "The crew reported that hot water has still not been attained and requested advice from Mission Support on additional troubleshooting procedures to attempt.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-14"
+        ]
+      },
+      {
+        "title": "ATV 3 and ATV 5 Maintenance",
+        "detail": "ATV 3 and ATV 5 are currently not running and require oil level checks and mitigation strategies to return to operational service.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-14:2"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Check oil levels and assess operational status of ATV 3 and ATV 5.",
+      "Continue troubleshooting procedures for the hot water heater system.",
+      "Maintain water conservation measures while static tank resupply is pending."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Approve EVA scheduled for Jan 15th 2015.",
+        "why": "The crew requested approval to conduct an EVA to inspect ATV oil levels and support field operations."
+      },
+      {
+        "decision": "Provide delivery schedule for the static water tank resupply.",
+        "why": "The crew was notified of an upcoming resupply at 10:30 but has no delivery timeline while static tank water lasts about 4.2 days at reference rates."
+      }
+    ],
+    "message_to_earth": "Overall habitat status is nominal, with static tank resupply pending a delivery schedule. At 10:30, the crew received notice of an upcoming static tank resupply; static water measured 15 cm and total water was estimated at ~360 L. At 12.12 L per person per day for 7 crew members, this volume lasts about 4.2 days. The crew is conserving water and preparing to check oil levels on ATV 3 and ATV 5. Propane is at 40%, diesel is at 75%, hot water remains unavailable, and other systems are nominal. Please approve the EVA requested for Jan 15th 2015 and provide the resupply schedule by tomorrow morning. Next report will follow tomorrow evening.",
+    "grounding": {
+      "numbers_checked": 35,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "6 reports, latest 2015-01-14 (engineering + commander); 3 flags: 0 critical, 0 warning, 3 info; 3 readings",
+      "ms": 0
+    },
+    {
+      "step": 2,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-14\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-14 [info]: \"The hot water has still not been attained.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-14:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-14:2 [info]: \"We will check the oil level of ATV 3 and 5 on the EVA conducted tomorrow (1/15/2015). Do you have additional mit…",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-14:3\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-14:3 [info]: \"We received notice from Mission control at 10:30 that a resupply mission\nof the Static Tank will be done in the …",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 3 days: ¼ → 15cm → 15cm",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "~360 L on 2015-01-13 for 7 crew; fmars_average → 2015-01-17, nasa_minimum → 2015-02-02",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 3 days: ¾ → ¾ → ¾",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 3 days: 45% → 40% → 40%",
+      "ms": 0
+    },
+    {
+      "step": 9,
+      "tool": "submit_daily_report",
+      "input_summary": "overall nominal, 3 concerns",
+      "output_summary": "report accepted",
+      "ms": 0
+    }
+  ],
+  "generated_at": "2026-10-25T01:44:04.632Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}

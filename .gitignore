@@ -16,3 +16,5 @@ dist/
 # OS / editor
 .DS_Store
 .idea/
+# QA screenshots and results (scripts/qa.ts)
+qa-output/

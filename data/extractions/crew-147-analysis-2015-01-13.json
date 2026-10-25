@@ -397,11 +397,15 @@
       "type": "CREW_REPORTED_EVENT",
       "severity": "critical",
       "resource": null,
-      "message": "crew reported (engineering): Trailer tank ruptured",
+      "message": "crew reported (engineering + commander): Trailer tank ruptured",
       "evidence": [
         {
           "report_kind": "engineering",
           "quote": "At 12:35pm we received a message from Mission Support stating the trailer tank had ruptured."
+        },
+        {
+          "report_kind": "commander",
+          "quote": "The trailer tank which left the surroundings of the Hab was broken en route and needs replacement."
         }
       ]
     },
@@ -432,19 +436,6 @@
       ]
     },
     {
-      "id": "CREW_REPORTED_EVENT:none:2015-01-13:4",
-      "type": "CREW_REPORTED_EVENT",
-      "severity": "warning",
-      "resource": null,
-      "message": "crew reported (commander): Water resupply mission delayed because the trailer tank broke en route and needs replacement.",
-      "evidence": [
-        {
-          "report_kind": "commander",
-          "quote": "The trailer tank which left the surroundings of the Hab was broken en route and needs replacement."
-        }
-      ]
-    },
-    {
       "id": "RUNS_OUT_BEFORE_MISSION_END:propane:2015-01-13",
       "type": "RUNS_OUT_BEFORE_MISSION_END",
       "severity": "warning",
@@ -462,7 +453,7 @@
       ]
     },
     {
-      "id": "CREW_REPORTED_EVENT:none:2015-01-13:5",
+      "id": "CREW_REPORTED_EVENT:none:2015-01-13:4",
       "type": "CREW_REPORTED_EVENT",
       "severity": "info",
       "resource": null,

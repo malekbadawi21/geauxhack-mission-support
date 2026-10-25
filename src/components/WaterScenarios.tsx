@@ -7,18 +7,36 @@
 // volume, the reason from water.ts is shown instead of a number.
 
 import type { WaterScenarios as Scenarios } from "../lib/analyze.ts";
+import type { WaterVolumeStatus } from "../lib/water.ts";
 import type { CrewConfig } from "../lib/constants.ts";
 import { addDays } from "../lib/dates.ts";
-import { longDate, num, shortDate } from "../ui/format.ts";
+import { longDate, num, pointValueText, shortDate } from "../ui/format.ts";
 
-type Props = { value: Scenarios | null; reason: string | null; crew: CrewConfig };
+type Props = { value: Scenarios | null; reason: string | null; volume: WaterVolumeStatus; crew: CrewConfig };
+
+/**
+ * Why there are no scenarios, as a sentence a judge can act on. After a refill it names the volume,
+ * its date and the refill date, all read from the data (Phase 6, K3); otherwise water.ts's reason.
+ */
+function unavailableText(reason: string | null, volume: WaterVolumeStatus): string {
+  const { reading, refilled_on } = volume;
+  if (reading && refilled_on) {
+    return (
+      `The crew's last volume estimate (${pointValueText(reading)} on ${shortDate(reading.date)}) predates the ` +
+      `${shortDate(refilled_on)} refill. No newer estimate was reported, so days-of-water can't be computed.`
+    );
+  }
+  // water.ts's own sentence, capitalized for display.
+  return reason ? `${reason[0].toUpperCase()}${reason.slice(1)}.` : "No water volume available.";
+}
 
 /**
  * Draws the water panel.
  * @param value   analysis.waterScenarios (null when not available)
  * @param reason  analysis.waterScenariosReason (why it is null)
+ * @param volume  latestWaterVolume() for the same day: the volume and any refill after it
  */
-export function WaterScenarios({ value, reason, crew }: Props) {
+export function WaterScenarios({ value, reason, volume, crew }: Props) {
   if (!value) {
     return (
       <section className="water panel" aria-labelledby="water-title">
@@ -27,8 +45,7 @@ export function WaterScenarios({ value, reason, crew }: Props) {
         </h3>
         <div className="water__unavailable">
           <span className="tag tag--muted">UNAVAILABLE</span>
-          {/* The reason is water.ts's own sentence, capitalized for display. */}
-          <p className="water__reason">{reason ? reason[0].toUpperCase() + reason.slice(1) : "No water volume available"}.</p>
+          <p className="water__reason">{unavailableText(reason, volume)}</p>
           <p className="dim small">
             Scenarios need a total water volume stated by the crew, with no refill since. Mission end {longDate(crew.mission_end)}.
           </p>
@@ -43,7 +60,10 @@ export function WaterScenarios({ value, reason, crew }: Props) {
   const pct = (days: number) => `${Math.min(100, (days / axisDays) * 100)}%`; // position on the axis as a CSS width
   // Tick every 5 days (every 2 when the axis is short) so labels never crowd.
   const step = axisDays > 14 ? 5 : 2;
-  const ticks = Array.from({ length: Math.floor(axisDays / step) + 1 }, (_, i) => i * step);
+  // A tick too close to the MISSION END label would print on top of it (Phase 6, Q5), so it is dropped.
+  const ticks = Array.from({ length: Math.floor(axisDays / step) + 1 }, (_, i) => i * step).filter(
+    (d) => Math.abs(d - value.days_until_mission_end) >= step / 2,
+  );
   const required = value.required_rate_to_mission_end_l_per_person_day;
 
   return (

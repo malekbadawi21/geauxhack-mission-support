@@ -1,0 +1,87 @@
+{
+  "as_of": "2015-01-17",
+  "report": {
+    "as_of": "2015-01-17",
+    "overall": "nominal",
+    "status_line": "Habitat nominal; water heater non-operational and proposed for replacement, static water refilled to full.",
+    "concerns": [
+      {
+        "title": "Water Heater Non-Operational",
+        "detail": "Engineering reported that hot water has still not been attained and deemed the water heater non-operational, proposing that it be replaced.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-17"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Continue operating habitat without hot water pending Mission Control guidance.",
+      "Check habitat inventory for compatible water heater replacement units and parts.",
+      "Monitor static and loft water levels following the recent tank refill."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Approve replacement of the habitat water heater or authorize continuing mission operations without hot water.",
+        "why": "The crew confirmed the water heater is non-operational and hot water is unavailable for the 7 crew members."
+      }
+    ],
+    "message_to_earth": "Habitat status is nominal overall, with the non-operational water heater being the primary concern for the crew. On 2015-01-17, engineering confirmed the water heater is non-operational with 6 days remaining in the mission. The crew has verified the heater failure and proposed replacing the unit. Other systems are nominal, with the static water tank refilled to full and propane at 37 percent, which provides about 23.1 days of supply. Please advise by tomorrow whether to approve replacing the water heater or proceed without hot water. The next crew update will follow tomorrow evening.",
+    "grounding": {
+      "numbers_checked": 7,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "12 reports, latest 2015-01-17 (engineering + commander); 1 flags: 0 critical, 0 warning, 1 info; 13 readings",
+      "ms": 0
+    },
+    {
+      "step": 2,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-17\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-17 [info]: \"The hot water has still not been attained. DG checked the water heater \nand has deemed it non-operational. He has …",
+      "ms": 0
+    },
+    {
+      "step": 3,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 6 days: 45% → 40% → 40% → 40% → 39% → 37%",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 6 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 6 days: ¼ → 15cm → 15cm → Less than 10cm → empty → Full",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "submit_daily_report",
+      "input_summary": "overall nominal, 1 concerns",
+      "output_summary": "report accepted",
+      "ms": 0
+    }
+  ],
+  "generated_at": "2026-10-25T01:46:37.209Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}

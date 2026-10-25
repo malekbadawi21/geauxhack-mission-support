@@ -62,36 +62,30 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - At the end of every phase, rewrite the Current state section (replace it, don't append).
 
 ## Current state
-- **Status:** Phase 5 complete: Phase 4 UI merged into main (no conflicts), UI wired to the real API, rule
-  check clean, deploy-ready. Type check, build, 42 tests, lint, browser-safety greps and `vercel build`
-  pass. Not committed, not pushed, not yet deployed.
+- **Status:** Phase 6 complete (QA sweep, bug fixes, a daily report per day). `npm run qa` (needs `npm run dev`)
+  passes: 144 checks, 0 console errors / exceptions / blank pages, a daily report on every day, both
+  viewports. Type check, build, 47 tests, lint, browser-safety grep and `vercel build` pass. Not committed.
+- **Bugs:** `docs/bugs.md` lists all 14 (7 known K1–K7, 7 found by QA Q1–Q7), all fixed.
+- **QA:** `scripts/qa.ts` (Playwright, dev-only) drives the local dev server; screenshots + results.json go
+  to `qa-output/` (gitignored). Chromium is installed with `npx playwright install chromium`.
 - **Gemini API:** paid tier, prepaid credits, auto-reload off. Model from env `GEMINI_MODEL`
   (`gemini-3.8-flash`). Called directly with `@google/genai` — no Vercel AI Gateway.
-- **Vercel:** CLI installed and linked (project `geauxhack-mission-support`, framework Vite, Node 24).
-  `GEMINI_API_KEY` and `GEMINI_MODEL` set for Production, Preview and Development. Deploy with
-  `vercel --prod` or a GitHub import; no other env vars needed.
-- **Vercel build gotcha (fixed):** Vercel compiles api/ with the ROOT tsconfig.json's compilerOptions and
-  ignores `references`. Root tsconfig.json now has its own compilerOptions (mirroring tsconfig.node.json)
-  with `rewriteRelativeImportExtensions`, so our `.ts` imports become `.js` in the output. Without it the
-  functions crash with ERR_MODULE_NOT_FOUND. Proven by running the `vercel build` output in Node.
-  `data/style/` reaches the daily-report function via `includeFiles` (shows as `filePathMap`).
-- **UI (`src/ui/`, `src/components/`):** Replay (default; saved extractions + `data/demo/run-*.json`) and
-  Live (`/api/extract` per file, then `/api/daily-report`). `pipeline.ts` validates both replies with zod
-  schemas matching the API exactly; the UI recomputes the Analysis itself with `analyzeCrew` (the API's
-  `analysis` field is ignored). SAMPLE badge only when `is_sample` is true.
-- **Competition rule (no AI images):** no image files; no hand-drawn SVG in src/. Charts are Recharts
-  (markers via its `Dot`/`Symbols`/`Text`/`Layer`), icons are lucide (brand mark = `Orbit`), the legend
-  swatch is CSS. The inline SVG favicon in index.html is Malek's to replace by hand.
-- **Data:** all 11 Crew 147 engineering reports and 10 commander reports extracted, every quote verified.
-- **Analysis (unchanged since 3a):** `analyzeCrew(extractions, asOf, CREW_147)` merges each day's reports
-  (engineering wins); flag ids `TYPE:resource|none:date`(+`:2`); RUNS_OUT critical only with ≥3 readings.
-- **Agent (`src/lib/agent/`, server-only):** ≤5 tool turns + forced submit, one validation retry,
-  grounding check. `decisions_for_earth` ≤ 3 (`MAX_DECISIONS_FOR_EARTH`, enforced in `DailyReportSchema`):
-  only Earth-authority decisions on crew safety, water, power or schedule; minor logistics → crew_actions.
-- **Demo replay:** `data/demo/run-2015-01-13.json` regenerated (real run): 13 trace steps, 3 concerns,
-  3 decisions, 99-word message, 51 numbers checked, 0 ungrounded.
-- **Live timings (vercel dev):** extract 9–32 s per report, daily-report ~110 s (limit 300 s). Live runs vary
-  from the saved record (once 7 flags instead of 6) — Replay stays the demo default.
-- **Still not forecastable:** water_static, water_loft/water_trailer, gasoline, water_total (scenarios only).
-- **Next:** Malek reviews, commits and pushes; deploy (`vercel --prod`) and smoke-test both modes on the
-  deployed URL; replace the favicon; pick the product name (`src/ui/config.ts`).
+- **Vercel:** CLI linked (project `geauxhack-mission-support`, Vite, Node 24). `GEMINI_API_KEY` and
+  `GEMINI_MODEL` set for all environments. Root tsconfig.json has its own compilerOptions with
+  `rewriteRelativeImportExtensions` (Vercel compiles api/ with it and ignores `references`).
+  `data/style/` reaches the daily-report function via `includeFiles`.
+- **UI:** every section sits in an `ErrorBoundary` ("This section failed to render" + message, resets on
+  day change). Replay shows `data/demo/run-<date>.json` for the selected day instantly; only the Jan 13
+  upload plays the staged animation; Live never shows a recorded run. Chart words (EMPTY/HALF/FULL, "less
+  than ¾") are a "Crew notes" row of CSS pills under the x-axis; no custom SVG anywhere.
+- **Analysis changes this phase:** same-day engineering + commander events sharing a key noun
+  (`EVENT_KEY_NOUNS`, constants.ts) merge into one flag; forecasts give no rate when the crew described
+  the level in words after the last number; `latestWaterVolume()` (water.ts) is the one staleness rule
+  for the water card and the scenarios (reason now names both dates).
+- **Demo replay:** one real run per report day (Jan 12–23, 11 files), regenerated with
+  `npm run daily-report -- crew-147 --all --force` against the final flags: 0 ungrounded numbers on every
+  day, ≤3 decisions, 93–116-word messages, every cited flag id exists, every critical flag cited.
+- **Still not forecastable:** water_static (cm, top/bottom unstated before Jan 18; from-top after),
+  water_loft/water_trailer, gasoline, water_total (scenarios only).
+- **Next:** Malek reviews and commits; deploy (`vercel --prod`) and smoke-test both modes; replace the
+  favicon; pick the product name (`src/ui/config.ts`).

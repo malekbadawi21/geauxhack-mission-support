@@ -3,10 +3,13 @@
 // How it fits: reads analysis.series (for the latest reading of each resource) and
 // analysis.forecasts (for the rate and days-to-empty). When the forecast can't give a countdown, the
 // card shows forecast.reason in plain words instead of a number (CLAUDE.md: missing stays missing).
+// "Water on hand" uses water.ts's latestWaterVolume(), the same staleness rule as the water scenarios:
+// a volume stated before a refill is dimmed and labeled STALE, never shown as current (Phase 6, K2).
 
 import { ArrowDownRight, ArrowRight, ArrowUpRight, Minus } from "lucide-react";
 import type { Analysis } from "../lib/analyze.ts";
 import type { Resource } from "../lib/schema.ts";
+import { latestWaterVolume } from "../lib/water.ts";
 import { RESOURCE_LABEL, num, pointValueText, shortDate, unitText } from "../ui/format.ts";
 
 // The four resources the crew and Earth care about most (prompts/phase-4.md).
@@ -36,6 +39,8 @@ function ResourceCard({ resource, analysis }: { resource: Resource; analysis: An
   const value = latest ? pointValueText(latest) : null;
   const rate = forecast?.rate_per_day ?? null;
   const stale = latest && latest.date !== analysis.latestReportDate; // value is from an earlier day
+  // Water on hand only: the date of a refill after the volume was stated (null = still current).
+  const refilledOn = resource === "water_total" ? latestWaterVolume(analysis.series, analysis.asOf).refilled_on : null;
 
   // Trend arrow plus a text label, so the trend is never shown by icon or color alone.
   const trend =
@@ -53,7 +58,8 @@ function ResourceCard({ resource, analysis }: { resource: Resource; analysis: An
         <h3>{RESOURCE_LABEL[resource]}</h3>
         {latest && <span className="mono dim small">{latest.report_kind}</span>}
       </header>
-      <div className="card__value mono">{value ?? <span className="dim">No reading</span>}</div>
+      <div className={`card__value mono ${refilledOn ? "card__value--stale" : ""}`}>{value ?? <span className="dim">No reading</span>}</div>
+      {refilledOn && <span className="tag tag--warning card__stale">STALE — predates the {shortDate(refilledOn)} refill</span>}
       <div className="card__meta small">
         {latest ? (
           <span className={stale ? "warn-text" : "dim"}>
@@ -69,7 +75,9 @@ function ResourceCard({ resource, analysis }: { resource: Resource; analysis: An
         <span>{trend.text}</span>
       </div>
       <div className="card__countdown">
-        {forecast?.days_to_empty != null ? (
+        {refilledOn ? (
+          <span className="small dim">No current volume estimate: the crew hasn't stated one since the refill.</span>
+        ) : forecast?.days_to_empty != null ? (
           <>
             <span className="card__days mono">~{num(forecast.days_to_empty)}</span>
             <span className="small">

@@ -86,5 +86,17 @@ export function quoteVerified(received: SavedExtraction[], reportKind: string, q
   return found;
 }
 
+/**
+ * A flag message for display: resource ids ("water_static") become their names ("static water tank").
+ * Why it exists: flags.ts writes ids, which the agent needs to match data; people need names (Q6).
+ */
+export function readableMessage(message: string): string {
+  // Each id is matched as a whole word (\b) so "water_total" never matches inside another word.
+  return (Object.keys(RESOURCE_LABEL) as Resource[]).reduce(
+    (text, id) => text.replace(new RegExp(`\\b${id}\\b`, "g"), RESOURCE_LABEL[id].toLowerCase()),
+    message,
+  );
+}
+
 /** The HTML id each flag row gets, so the daily report's concern links can scroll to it. */
 export const flagAnchor = (id: string) => `flag-${id}`;

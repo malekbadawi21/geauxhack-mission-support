@@ -1,0 +1,103 @@
+{
+  "as_of": "2015-01-18",
+  "report": {
+    "as_of": "2015-01-18",
+    "overall": "nominal",
+    "status_line": "Nominal operations with water pump behavior and tap pressure under investigation",
+    "concerns": [
+      {
+        "title": "Water Pump Behavior and Tap Pressure Limitation",
+        "detail": "The crew reported that the water pump began behaving differently yesterday afternoon, causing a technical issue that prevents using any tap for long periods of time. The engineering team questioned whether the lack of water pressure is caused by the backup generator, and DG has proposed replacing the water heater. The static water tank was measured at 13 cm following the refill on 2015-01-17.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-18",
+          "CREW_REPORTED_EVENT:none:2015-01-18:2",
+          "CREW_REPORTED_EVENT:none:2015-01-18:3"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Limit tap usage to short intervals to avoid straining the water system.",
+      "Inspect the water pump and electrical connections to the backup generator for irregular operation.",
+      "Monitor static water tank levels and daily consumption following the 2015-01-17 refill."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Authorize replacement of the habitat water heater as proposed by the crew.",
+        "why": "The crew is experiencing altered water pump behavior and water pressure issues that prevent prolonged tap usage."
+      }
+    ],
+    "message_to_earth": "Overall habitat status is nominal, with a water delivery issue being the primary concern. Yesterday afternoon the water pump began behaving differently, creating a technical issue that prevents using any tap for long periods, while static water level is 13 cm. The crew is restricting tap run times and has proposed replacing the water heater. Other systems are nominal, with propane at 36 percent providing 24 days of supply and diesel at less than ¾. Please authorize replacing the water heater and advise whether backup generator operation causes this pressure drop by tomorrow morning. The crew will report again tomorrow.",
+    "grounding": {
+      "numbers_checked": 10,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "14 reports, latest 2015-01-18 (engineering + commander); 3 flags: 0 critical, 0 warning, 3 info; 3 readings",
+      "ms": 0
+    },
+    {
+      "step": 2,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-18\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-18 [info]: \"The water pump started behaving differently yesterday afternoon.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-18:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-18:2 [info]: \"DG has proposed for the water heater to be replaced.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-18:3\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-18:3 [info]: \"However we experience since yesterday a technical issue which prevents us from using any tap for long periods of…",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 7 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 7 days: 45% → 40% → 40% → 40% → 39% → 37% → 36%",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 7 days: ¼ → 15cm → 15cm → Less than 10cm → empty → Full → 13 cm",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
+      "ms": 0
+    },
+    {
+      "step": 9,
+      "tool": "submit_daily_report",
+      "input_summary": "overall nominal, 1 concerns",
+      "output_summary": "report accepted",
+      "ms": 0
+    }
+  ],
+  "generated_at": "2026-10-25T01:47:12.962Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}

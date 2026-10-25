@@ -1,0 +1,126 @@
+{
+  "as_of": "2015-01-12",
+  "report": {
+    "as_of": "2015-01-12",
+    "overall": "caution",
+    "status_line": "Caution: Main water tank is empty, ATVs 3 and 5 fail to start, and water heater is non-functional.",
+    "concerns": [
+      {
+        "title": "Main water tank empty",
+        "detail": "The engineering report indicates that the main water tank is empty, leaving the static tank at ¼.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-12"
+        ]
+      },
+      {
+        "title": "ATVs 3 and 5 not starting",
+        "detail": "ATVs 3 and 5 are not starting, which impacts vehicular mobility and field operations.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-12:2"
+        ]
+      },
+      {
+        "title": "Water heater failure",
+        "detail": "The water heater was checked by crew, but the water is still not heating up.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-12:3"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Troubleshoot ATVs 3 and 5, checking battery connections, spark plugs, and fuel levels.",
+      "Inspect the water heater electrical connections, thermostat, and heating elements.",
+      "Implement water conservation procedures while static water remains at ¼."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Approve or deny the morning EVA planned for Jan 13th 2015 by Rebeca, Renee, Wissam, and Romain.",
+        "why": "Off-habitat operations require Earth mission schedule authorization and safety review given vehicle issues."
+      },
+      {
+        "decision": "Coordinate resupply delivery for habitat water and fuel resources as requested.",
+        "why": "The main water tank is reported empty and requires external logistics support."
+      }
+    ],
+    "message_to_earth": "STATUS: Habitat status is caution due to an empty main water tank. WHAT HAPPENED: On 2015-01-12, the engineering report confirmed the main water tank is empty, with the static tank at ¼. WHAT THE CREW IS DOING: The crew is conserving water, checked the water heater, and inspected the vehicles. OTHER SYSTEMS: Diesel is at 75 percent and propane is at 45 percent, but ATVs 3 and 5 are not starting and the water heater is not heating. REQUEST: Earth approval is requested by tonight for the EVA planned for Rebeca, Renee, Wissam, and Romain on Jan 13th 2015. NEXT UPDATE: Next update will follow tomorrow evening.",
+    "grounding": {
+      "numbers_checked": 19,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "2 reports, latest 2015-01-12 (engineering + commander); 3 flags: 0 critical, 2 warning, 1 info; 3 readings",
+      "ms": 1
+    },
+    {
+      "step": 2,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-12\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-12 [warning]: \"The main water tank is empty.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-12:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-12:2 [warning]: \"ATV’s 3 and 5 are not starting.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-12:3\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-12:3 [info]: \"The water is still not heating up.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 1 days: ¼",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 1 days: ¾",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 1 days: 45%",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "unavailable: no total water volume reported on or before this date",
+      "ms": 0
+    },
+    {
+      "step": 9,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_total\"}",
+      "output_summary": "error: no series for \"water_total\"",
+      "ms": 1
+    },
+    {
+      "step": 10,
+      "tool": "submit_daily_report",
+      "input_summary": "overall caution, 3 concerns",
+      "output_summary": "report accepted",
+      "ms": 0
+    }
+  ],
+  "generated_at": "2026-10-25T01:42:34.603Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}

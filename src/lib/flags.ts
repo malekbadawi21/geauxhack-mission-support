@@ -18,6 +18,7 @@ import { daysBetween } from "./dates.ts";
 import {
   CRITICAL_EVENT_KEYWORDS,
   DAILY_ENGINEERING_RESOURCES,
+  EVENT_KEY_NOUNS,
   LOW_LEVEL_PERCENT,
   MIN_DROPS_FOR_SPIKE,
   MIN_POINTS_FOR_CRITICAL_FORECAST,
@@ -246,15 +247,48 @@ function unverifiedFlags(day: ReportDay): FlagDraft[] {
     }));
 }
 
-/** CREW_REPORTED_EVENT: every event in today's reports, with severity from our keyword rules. */
+/** The key nouns (EVENT_KEY_NOUNS) a quote names, lowercased. Used to spot one event told twice. */
+function keyNouns(quote: string): string[] {
+  const q = quote.toLowerCase();
+  return EVENT_KEY_NOUNS.map((n) => n.toLowerCase()).filter((n) => q.includes(n));
+}
+
+/**
+ * CREW_REPORTED_EVENT: every event in today's reports, with severity from our keyword rules.
+ * When the engineering and commander reports describe the same event (same key noun in both verified
+ * quotes), they become ONE flag: the higher severity, its description, and both quotes as evidence.
+ * Events from the same report are never merged: "ATV 3 shut down" and "ATV 5 failed to start" in one
+ * engineering report are two different breakdowns.
+ */
 function eventFlags(day: ReportDay): FlagDraft[] {
-  return day.events.map((e) => ({
+  type Group = { severity: Severity; description: string; kinds: string[]; nouns: string[]; evidence: Evidence[] };
+  const groups: Group[] = [];
+  for (const e of day.events) {
+    // An unverified quote can't be trusted to set severity (it also gets an UNVERIFIED_QUOTE flag),
+    // nor to say what the event was about, so it never merges.
+    const severity: Severity = e.verified ? eventSeverity(e.source_quote) : "info";
+    const nouns = e.verified ? keyNouns(e.source_quote) : [];
+    // Same event = a group from another report kind that shares at least one key noun.
+    const same = groups.find((g) => !g.kinds.includes(e.report_kind) && g.nouns.some((n) => nouns.includes(n)));
+    if (!same) {
+      groups.push({ severity, description: e.description, kinds: [e.report_kind], nouns, evidence: [toEvidence(e)] });
+      continue;
+    }
+    if (SEVERITY_ORDER[severity] < SEVERITY_ORDER[same.severity]) {
+      // The new report sounds more serious: keep its severity and its wording.
+      same.severity = severity;
+      same.description = e.description;
+    }
+    same.kinds.push(e.report_kind);
+    same.nouns = [...new Set([...same.nouns, ...nouns])];
+    same.evidence.push(toEvidence(e));
+  }
+  return groups.map((g) => ({
     type: "CREW_REPORTED_EVENT",
-    // An unverified quote can't be trusted to set severity; it also gets an UNVERIFIED_QUOTE flag.
-    severity: e.verified ? eventSeverity(e.source_quote) : "info",
+    severity: g.severity,
     resource: null,
-    message: `crew reported (${e.report_kind}): ${e.description}`,
-    evidence: [toEvidence(e)],
+    message: `crew reported (${g.kinds.join(" + ")}): ${g.description}`,
+    evidence: g.evidence,
   }));
 }
 

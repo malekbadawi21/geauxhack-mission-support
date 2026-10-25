@@ -58,7 +58,8 @@ describe("agent tools on the Jan 13 analysis", () => {
   it("get_overview lists every flag with id, severity and message, plus counts", () => {
     const o = getOverview(jan13);
     expect(o.flags.map((f) => f.id)).toEqual(jan13.flags.map((f) => f.id));
-    expect(o.flag_counts).toEqual({ critical: 1, warning: 4, info: 1 });
+    // 3 warnings, not 4: the commander's trailer-tank warning merged into the critical event (Phase 6, K7).
+    expect(o.flag_counts).toEqual({ critical: 1, warning: 3, info: 1 });
     expect(o.days_until_mission_end).toBe(10);
     expect(o.latest_readings.find((r) => r.resource === "water_total")?.raw_text).toBe("~360l");
     expect(o.forecasts.find((f) => f.resource === "propane")).toMatchObject({ latest_value: 40, rate_per_day: -5, days_to_empty: 8 });

@@ -38,7 +38,7 @@ function demoFile(name: string): unknown {
 
 export const MANIFEST = demoFile("manifest.json") as DemoManifest; // `as`: trusted file we wrote ourselves
 
-/** Recorded agent runs by as-of date (today just 2015-01-13), each validated against the contract. */
+/** Recorded agent runs by as-of date (one per report day, Phase 6 Part C), each validated against the contract. */
 export const DEMO_RUNS: Record<string, DemoRun> = Object.fromEntries(
   Object.entries(demoFiles)
     .filter(([path]) => /\/run-[\d-]+\.json$/.test(path)) // regex: "/run-" + date digits/dashes + ".json"

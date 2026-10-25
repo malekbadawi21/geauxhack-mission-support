@@ -12,6 +12,7 @@ import { forecastResource } from "../src/lib/forecast.ts";
 import { analyzeCrew } from "../src/lib/analyze.ts";
 import { CREW_147, type CrewConfig } from "../src/lib/constants.ts";
 import { DailyReportSchema } from "../src/lib/report-types.ts";
+import { latestWaterVolume } from "../src/lib/water.ts";
 import type { SavedExtraction, VerifiedEvent, VerifiedReading } from "../src/lib/schema.ts";
 
 /** A verified reading with sensible defaults; pass only the fields a test cares about. */
@@ -251,13 +252,70 @@ describe("water scenarios (Phase 3a)", () => {
     expect(analyzeCrew(all, "2015-01-16", CREW_147).waterScenarios).not.toBeNull(); // before the refill: still usable
     const after = analyzeCrew(all, "2015-01-17", CREW_147);
     expect(after.waterScenarios).toBeNull();
-    expect(after.waterScenariosReason).toBe("last volume estimate predates a refill");
+    expect(after.waterScenariosReason).toBe("last volume estimate (2015-01-13) predates the 2015-01-17 refill");
+  });
+
+  it("latestWaterVolume names the refill that made the volume stale (shared with the Water on hand card)", () => {
+    const tank = (date: string, raw: string) =>
+      savedReport(date, "engineering", [reading({ resource: "water_static", raw_text: raw, source_quote: `Static tank: ${raw}` })]);
+    const a = analyzeCrew([jan13, tank("2015-01-16", "empty"), tank("2015-01-17", "Full")], "2015-01-17", CREW_147);
+    const v = latestWaterVolume(a.series, a.asOf);
+    expect(v.reading?.date).toBe("2015-01-13");
+    expect(v.refilled_on).toBe("2015-01-17");
   });
 
   it("returns null with a reason when no volume was ever reported", () => {
     const a = analyzeCrew([report("2015-01-12", 45)], "2015-01-12", CREW_147);
     expect(a.waterScenarios).toBeNull();
     expect(a.waterScenariosReason).not.toBeNull();
+  });
+});
+
+describe("crew-reported events", () => {
+  /** A verified event from one report. */
+  const event = (description: string, quote: string): VerifiedEvent => ({ type: "other", description, source_quote: quote, verified: true });
+
+  it("merges the same event from the engineering and commander reports into one flag (K7)", () => {
+    const eng = savedReport("2015-01-13", "engineering", [], [event("Trailer tank ruptured", "the trailer tank had ruptured")]);
+    const cmd = savedReport("2015-01-13", "commander", [], [event("Resupply delayed", "The trailer tank was broken on route")]);
+    const flags = analyzeCrew([eng, cmd], "2015-01-13", CREW_147).flags.filter((f) => f.type === "CREW_REPORTED_EVENT");
+    expect(flags).toHaveLength(1);
+    expect(flags[0].severity).toBe("critical"); // "ruptur" beats "broke": the higher severity is kept
+    expect(flags[0].evidence.map((e) => e.report_kind)).toEqual(["engineering", "commander"]);
+    expect(flags[0].message).toBe("crew reported (engineering + commander): Trailer tank ruptured");
+  });
+
+  it("keeps two events from the same report apart, even with the same key noun", () => {
+    const eng = savedReport("2015-01-13", "engineering", [], [
+      event("ATV 3 shut down", "ATV 3 powered on, but after 20 seconds shut down"),
+      event("ATV 5 failed", "ATV 5 failed to start completely"),
+    ]);
+    expect(analyzeCrew([eng], "2015-01-13", CREW_147).flags.filter((f) => f.type === "CREW_REPORTED_EVENT")).toHaveLength(2);
+  });
+});
+
+describe("forecastResource after a state word", () => {
+  it("gives no rate when the crew described the tank in words after the last number (Q1)", () => {
+    const cm = (date: string, value: number, over: Partial<NormalizedReading> = {}) =>
+      point(date, value, { resource: "water_static", unit: "cm", raw_text: `${value}cm`, source_quote: `Static: ${value}cm`, ...over });
+    const f = forecastResource("water_static", [
+      cm("2015-01-13", 15),
+      cm("2015-01-14", 15),
+      cm("2015-01-16", 0, { value: null, status: "empty", raw_text: "empty" }),
+      cm("2015-01-17", 0, { value: null, status: "full", raw_text: "Full" }),
+    ]);
+    expect(f.rate_per_day).toBeNull(); // not "steady, 0 cm/day" from the pre-refill readings
+    expect(f.reason).toBe("crew reported it FULL on 2015-01-17, after the last numeric reading (2015-01-14)");
+  });
+
+  it('gives no rate when a later reading has words but no number, like "less than ¾" (Q3)', () => {
+    const f = forecastResource("diesel", [
+      point("2015-01-14", 75, { resource: "diesel" }),
+      point("2015-01-15", 75, { resource: "diesel" }),
+      point("2015-01-16", 0, { resource: "diesel", value: null, raw_text: "less than ¾" }),
+    ]);
+    expect(f.rate_per_day).toBeNull(); // not "steady" while the crew says it dropped below ¾
+    expect(f.reason).toBe('crew wrote "less than ¾" on 2015-01-16, after the last numeric reading (2015-01-15)');
   });
 });
 

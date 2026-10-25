@@ -1,0 +1,142 @@
+{
+  "as_of": "2015-01-15",
+  "report": {
+    "as_of": "2015-01-15",
+    "overall": "caution",
+    "status_line": "Static water tank critically low with one day of supply remaining; 3 EVA headset microphones and 2 ATVs non-functional.",
+    "concerns": [
+      {
+        "title": "Depleted Static Water Reserves and Lack of Hot Water",
+        "detail": "The static water tank has dropped to Less than 10cm, with the crew reporting tomorrow is the last day with sufficient water supplies under water-saving measures. Additionally, hot water has still not been attained.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-15:5",
+          "CREW_REPORTED_EVENT:none:2015-01-15:3"
+        ]
+      },
+      {
+        "title": "Defective EVA Headset Microphones",
+        "detail": "Testing concluded that the microphones on 3 out of 6 EVA headsets are defective and not functioning, restricting communications capability on EVAs.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-15:2"
+        ]
+      },
+      {
+        "title": "Mobility Impairments from ATV Malfunctions",
+        "detail": "ATV 5 failed to start and is not functioning, while ATV 3 starts but shuts down immediately once the throttle is released.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-15",
+          "CREW_REPORTED_EVENT:none:2015-01-15:4"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Continue enforcing strict water-saving protocols.",
+      "Quarantine defective headsets and restrict EVA team sizes to members with verified functional communications gear.",
+      "Troubleshoot ATV 3 throttle issues and consult available technical documentation for ATV 5."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Confirm the water resupply schedule and approve scheduling a water recovery activity for tomorrow's EVA.",
+        "why": "The static water tank reading is Less than 10cm and the crew identified tomorrow as the final day of sufficient supplies."
+      },
+      {
+        "decision": "Approve a near-future resupply of EVA communications equipment including at least 3 replacement headsets.",
+        "why": "Three of six headset microphones are non-functional, which limits safe crew communications during surface operations."
+      }
+    ],
+    "message_to_earth": "Status is caution due to critically low water supplies. On 2015-01-15, static tank water dropped to less than 10cm, leaving tomorrow as the final day with sufficient water under rationing. ATV 5 failed to start, ATV 3 shuts down when throttle is released, and 3 out of 6 EVA headset microphones are defective. The crew is enforcing water-saving protocols and isolating defective equipment. Propane is at 40%, diesel is at 75%, and other station systems are nominal, though hot water is not attained. Please confirm the water resupply delivery and approve a water recovery EVA by tomorrow morning. Next report will be submitted tomorrow evening.",
+    "grounding": {
+      "numbers_checked": 21,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "8 reports, latest 2015-01-15 (engineering + commander); 5 flags: 0 critical, 2 warning, 3 info; 3 readings",
+      "ms": 0
+    },
+    {
+      "step": 2,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15 [warning]: \"ATV 3 started, but it immediately shut down as soon as the throttle was released.\" (engineering); \"Rebeca was\na…",
+      "ms": 0
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:2 [warning]: \"In conclusion, three of the headset microphones were found to be defective and not functioning.\" (engineering…",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:3\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:3 [info]: \"The hot water has still not been attained.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:4\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:4 [info]: \"We were not able to start ATV 5.\" (engineering)",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-15:5\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-15:5 [info]: \"The tank is still low with water. Our crew continues to follow the \"Water saving\" scenario but, as explained on …",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 4 days: ¼ → 15cm → 15cm → Less than 10cm",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_total\"}",
+      "output_summary": "water_total: 4 days: — → ~360l → — → —",
+      "ms": 0
+    },
+    {
+      "step": 9,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 4 days: 45% → 40% → 40% → 40%",
+      "ms": 0
+    },
+    {
+      "step": 10,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 4 days: ¾ → ¾ → ¾ → ¾",
+      "ms": 0
+    },
+    {
+      "step": 11,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "~360 L on 2015-01-13 for 7 crew; fmars_average → 2015-01-17, nasa_minimum → 2015-02-02",
+      "ms": 0
+    },
+    {
+      "step": 12,
+      "tool": "submit_daily_report",
+      "input_summary": "overall caution, 3 concerns",
+      "output_summary": "report accepted",
+      "ms": 1
+    }
+  ],
+  "generated_at": "2026-10-25T01:44:42.829Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}

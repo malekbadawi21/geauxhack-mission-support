@@ -3,7 +3,8 @@
 // How it fits: main.tsx renders this into index.html. The state is small:
 //   - received: the saved extractions loaded so far (the preloaded history, plus uploads),
 //   - asOf: the day being viewed (chosen in the scrubber),
-//   - runs: the agent's daily reports by as-of date (recorded in Replay, from the API in Live),
+//   - runs: the agent's daily reports produced by an upload in this session (Replay or Live). In Replay,
+//     every other report day shows its recorded run from data/demo/run-<date>.json (DEMO_RUNS),
 //   - mode, the upload dialog, the pipeline panel, and which flag rows are open.
 // Everything the page shows is derived from analyzeCrew(received, asOf, CREW_147), re-run whenever
 // the day or the data changes — the same function the CLI and the agent use (CLAUDE.md rule), so the
@@ -27,6 +28,7 @@ import { DailyReportPanel } from "./components/DailyReportPanel.tsx";
 import { AgentTrace } from "./components/AgentTrace.tsx";
 import { UploadPanel } from "./components/UploadPanel.tsx";
 import { PipelinePanel } from "./components/PipelinePanel.tsx";
+import { ErrorBoundary } from "./components/ErrorBoundary.tsx";
 
 /** Adds new extractions to a list, replacing any with the same source file (a re-upload wins). */
 function mergeExtractions(list: SavedExtraction[], added: SavedExtraction[]): SavedExtraction[] {
@@ -65,8 +67,12 @@ function App() {
   // useMemo re-runs analyzeCrew only when the data or the day changes, not on every render.
   const analysis = useMemo(() => analyzeCrew(received, asOf, CREW_147), [received, asOf]);
   const dates = useMemo(() => [...new Set(received.map((x) => x.date))].sort(), [received]);
-  const run = runs[asOf] ?? null; // the daily report for the day on screen, if any
   const busy = pipeline !== null && pipeline.stage !== "ready" && pipeline.error === null;
+  // The daily report for the day on screen: one produced by an upload this session wins; otherwise, in
+  // Replay, the recorded run for that day appears instantly when scrubbing. Not while the pipeline is
+  // busy, so the Jan 13 upload still reveals its report through the staged animation. Live mode never
+  // shows a recorded run, so a replay can't pass for a live answer.
+  const run = runs[asOf] ?? (mode === "replay" && !busy ? DEMO_RUNS[asOf] : undefined) ?? null;
 
   // Recorded days not loaded yet (Replay only): lets the scrubber reach the rest of the mission.
   const notLoaded = ALL_EXTRACTIONS.filter((x) => !received.some((r) => r.source_file === x.source_file));
@@ -218,20 +224,37 @@ function App() {
         onLoadMore={() => setReceived((r) => mergeExtractions(r, notLoaded))}
       />
       <main className="page">
+        {/* Each section has its own ErrorBoundary: if one throws while rendering, only that section
+            shows "This section failed to render" and the rest of the page keeps working. resetKey={asOf}
+            gives a failed section a fresh try when another day is picked. */}
         {pipeline && (
-          <PipelinePanel
-            state={pipeline}
-            onClose={() => setPipeline(null)}
-            onSwitchToReplay={switchToReplay}
-            onViewReport={() => document.getElementById("report")?.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth" })}
-          />
+          <ErrorBoundary name="Upload pipeline" resetKey={asOf}>
+            <PipelinePanel
+              state={pipeline}
+              onClose={() => setPipeline(null)}
+              onSwitchToReplay={switchToReplay}
+              onViewReport={() => document.getElementById("report")?.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth" })}
+            />
+          </ErrorBoundary>
         )}
-        <StatusStrip analysis={analysis} report={run?.report ?? null} />
-        <ResourceCards analysis={analysis} />
-        <HeroSection analysis={analysis} startDate={dates[0] ?? asOf} />
-        <FlagsList flags={analysis.flags} received={received} open={openFlags} onToggle={toggleFlag} />
-        <DailyReportPanel run={run} asOf={asOf} crew={CREW_147} flags={analysis.flags} onFlagClick={showFlag} />
-        <AgentTrace steps={run?.trace ?? null} model={run?.model ?? null} />
+        <ErrorBoundary name="Status" resetKey={asOf}>
+          <StatusStrip analysis={analysis} report={run?.report ?? null} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Resource cards" resetKey={asOf}>
+          <ResourceCards analysis={analysis} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Consumables" resetKey={asOf}>
+          <HeroSection analysis={analysis} startDate={dates[0] ?? asOf} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Flags" resetKey={asOf}>
+          <FlagsList flags={analysis.flags} received={received} open={openFlags} onToggle={toggleFlag} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Daily report" resetKey={asOf}>
+          <DailyReportPanel run={run} asOf={asOf} crew={CREW_147} flags={analysis.flags} onFlagClick={showFlag} />
+        </ErrorBoundary>
+        <ErrorBoundary name="Agent trace" resetKey={asOf}>
+          <AgentTrace steps={run?.trace ?? null} model={run?.model ?? null} />
+        </ErrorBoundary>
         <footer className="page__foot small dim">
           Data: MDRS Crew 147 engineering and commander reports, January 2015 (bundled). Readings extracted by Gemini, every quote
           checked against the report text; all forecasts and flags computed by deterministic code.

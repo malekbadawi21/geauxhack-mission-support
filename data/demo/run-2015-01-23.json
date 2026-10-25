@@ -1,0 +1,145 @@
+{
+  "as_of": "2015-01-23",
+  "report": {
+    "as_of": "2015-01-23",
+    "overall": "caution",
+    "status_line": "Crew 147 concludes mission under caution due to depleted ATV fuel, an inoperable water trailer, and a static tank flow failure.",
+    "concerns": [
+      {
+        "title": "Depleted ATV Fuel and Tank Moisture Accumulation",
+        "detail": "ATVs remain empty without requested fuel resupply, and moisture is slowly building up inside the fuel tanks.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-23"
+        ]
+      },
+      {
+        "title": "Inoperable Water Trailer Tank",
+        "detail": "The water trailer tank is broken, leaving habitat water transport unresolved prior to handover to Crew 148.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-23:2"
+        ]
+      },
+      {
+        "title": "Static Tank Water Transfer Failure",
+        "detail": "Water failed to flow from the static tank when attempting to fill the loft tank in the morning; static tank level is measured at 38 cm depth from the top.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-23:3"
+        ]
+      },
+      {
+        "title": "Hygiene and Cleaning Supplies Shortage",
+        "detail": "No resupplies have been received for toilet paper or cleaning supplies required to maintain habitat sanitation ahead of Crew 148 arrival.",
+        "flag_ids": [
+          "CREW_REPORTED_EVENT:none:2015-01-23:4",
+          "CREW_REPORTED_EVENT:none:2015-01-23:5"
+        ]
+      }
+    ],
+    "crew_actions": [
+      "Inspect static tank transfer pump, valves, and plumbing lines to determine why water failed to flow to the loft tank.",
+      "Inspect ATV fuel tanks for moisture buildup and prepare vehicles for crew handover.",
+      "Compile mission logs and brief incoming Crew 148 on equipment status and consumable levels."
+    ],
+    "decisions_for_earth": [
+      {
+        "decision": "Establish water delivery procedures or repair the trailer tank for Crew 148.",
+        "why": "The trailer tank is broken, leaving the incoming crew without a functional method to haul water."
+      },
+      {
+        "decision": "Authorize and dispatch an immediate ATV fuel resupply.",
+        "why": "The ATVs are empty and risk moisture damage, preventing vehicular EVA support for Crew 148."
+      },
+      {
+        "decision": "Arrange delivery of toilet paper and cleaning supplies for Crew 148.",
+        "why": "Habitat sanitation stocks are exhausted prior to the crew transition."
+      }
+    ],
+    "message_to_earth": "Habitat status is caution on the final mission day due to empty ATV fuel tanks and a broken water trailer tank. Static water tank reading remains at 38 cm, but water failed to flow when attempting to fill the loft tank this morning. ATV tanks remain empty with moisture accumulating, and trailer tank repairs are unresolved prior to handover. The crew is preparing handover documentation and troubleshooting the static water line to the loft tank. Propane is at 30% and diesel is at 50%, while toilet paper and cleaning supplies remain unreplenished. Please approve water delivery logistics and fuel resupply arrangements for incoming Crew 148 by tomorrow morning. Crew 148 will report tomorrow following crew handover.",
+    "grounding": {
+      "numbers_checked": 13,
+      "ungrounded": []
+    }
+  },
+  "trace": [
+    {
+      "step": 1,
+      "tool": "get_overview",
+      "input_summary": "(none)",
+      "output_summary": "21 reports, latest 2015-01-23 (engineering + commander); 5 flags: 0 critical, 2 warning, 3 info; 3 readings",
+      "ms": 0
+    },
+    {
+      "step": 2,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-23\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-23 [warning]: \"We are awaiting fuel for the ATV’s.\" (engineering); \"Our crew engineering already notified that the ATVs were e…",
+      "ms": 0
+    },
+    {
+      "step": 3,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-23:2\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-23:2 [warning]: \"Broken trailer tank\" (commander)",
+      "ms": 0
+    },
+    {
+      "step": 4,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-23:3\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-23:3 [info]: \"This morning, we attempted to fill the loft tank before the EVA, but water did not flow from the static tank.\" (…",
+      "ms": 0
+    },
+    {
+      "step": 5,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-23:4\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-23:4 [info]: \"A new crew is arriving and we didn't get any toilet paper resupply.\" (commander)",
+      "ms": 0
+    },
+    {
+      "step": 6,
+      "tool": "get_flag_evidence",
+      "input_summary": "{\"flag_id\":\"CREW_REPORTED_EVENT:none:2015-01-23:5\"}",
+      "output_summary": "CREW_REPORTED_EVENT:none:2015-01-23:5 [info]: \"We didn't get any answer regarding the cleaning supplies necessary to keep the Hab clean.\" (commander)",
+      "ms": 0
+    },
+    {
+      "step": 7,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"water_static\"}",
+      "output_summary": "water_static: 11 days: ¼ → 15cm → 15cm → Less than 10cm → empty → Full → 13 cm → 20 cm → 20 cm → 38 cm → 38 cm",
+      "ms": 0
+    },
+    {
+      "step": 8,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"diesel\"}",
+      "output_summary": "diesel: 11 days: ¾ → ¾ → ¾ → ¾ → less than ¾ → less than ¾ → less than ¾ → 60% → 60% → 55% → 50%",
+      "ms": 0
+    },
+    {
+      "step": 9,
+      "tool": "get_resource_history",
+      "input_summary": "{\"resource\":\"propane\"}",
+      "output_summary": "propane: 11 days: 45% → 40% → 40% → 40% → 39% → 37% → 36% → 35% → 32% → 31% → 30%",
+      "ms": 0
+    },
+    {
+      "step": 10,
+      "tool": "get_water_scenarios",
+      "input_summary": "(none)",
+      "output_summary": "unavailable: last volume estimate (2015-01-13) predates the 2015-01-17 refill",
+      "ms": 0
+    },
+    {
+      "step": 11,
+      "tool": "submit_daily_report",
+      "input_summary": "overall caution, 4 concerns",
+      "output_summary": "report accepted",
+      "ms": 0
+    }
+  ],
+  "generated_at": "2026-10-25T01:49:45.522Z",
+  "model": "gemini-3.8-flash",
+  "is_sample": false
+}
