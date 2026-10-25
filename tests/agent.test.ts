@@ -112,4 +112,10 @@ describe("validateSubmission", () => {
     expect(validateSubmission({ ...good, concerns: [{ title: "x", detail: "y", flag_ids: ["MADE_UP"] }] }, jan13).error)
       .toMatch(/unknown flag ids: MADE_UP.*critical flags not covered/);
   });
+
+  it("rejects more than 3 decisions for Earth", () => {
+    const decision = { decision: "Approve EVA.", why: "Crew asked." };
+    expect(validateSubmission({ ...good, decisions_for_earth: Array(3).fill(decision) }, jan13).error).toBeUndefined();
+    expect(validateSubmission({ ...good, decisions_for_earth: Array(4).fill(decision) }, jan13).error).toContain("at most 3 items");
+  });
 });

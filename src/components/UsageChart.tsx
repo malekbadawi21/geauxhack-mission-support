@@ -16,9 +16,13 @@
 import {
   CartesianGrid,
   ComposedChart,
+  Dot,
+  Layer,
   Line,
   ReferenceLine,
   ResponsiveContainer,
+  Symbols,
+  Text,
   Tooltip,
   XAxis,
   YAxis,
@@ -38,6 +42,9 @@ type Props = {
 // One row per calendar day. g0, g1, … hold the value for each comparable group (null = gap);
 // lane holds the y of the marker band when that day has a reading without a number.
 type Row = { x: number; date: string; lane: number | null; [group: string]: number | string | null };
+
+// Every mark below is a Recharts component (Dot, Symbols, Text, Layer = an SVG group): we choose
+// sizes and colors but draw no shapes by hand (competition rule: no hand-made SVG drawings).
 
 // Colors for the chart's SVG (CSS variables don't reach every Recharts attribute, so they are
 // repeated here; keep in sync with src/styles/app.css).
@@ -112,36 +119,36 @@ export function UsageChart({ series, forecast, startDate, endDate, asOf }: Props
   const laneDot = (props: { cx?: number; cy?: number; index?: number }) => {
     const p = props.index !== undefined ? byDate.get(rows[props.index].date) : undefined;
     // Recharts calls this for every row; rows without a marker draw an empty group.
-    if (!p || props.cx === undefined || props.cy === undefined || rows[props.index!].lane === null) return <g key={props.index} />;
+    if (!p || props.cx === undefined || props.cy === undefined || rows[props.index!].lane === null) return <Layer key={props.index} />;
     const { cx, cy } = props;
     const labelY = rows[props.index!].x % 2 === 0 ? cy - 9 : cy + 17; // % 2 = even/odd day
     return (
-      <g key={props.index}>
-        {/* A diamond: a square rotated 45° around its center. */}
-        <rect x={cx - 4} y={cy - 4} width={8} height={8} transform={`rotate(45 ${cx} ${cy})`} fill={p.status ? C.lane : "none"} stroke={C.lane} strokeWidth={1.5} />
+      <Layer key={props.index}>
+        {/* Recharts' built-in diamond symbol; size is its area in px² (64 ≈ an 8×8 square). */}
+        <Symbols cx={cx} cy={cy} type="diamond" size={64} fill={p.status ? C.lane : "none"} stroke={C.lane} strokeWidth={1.5} />
         {p.status && (
-          <text x={cx} y={labelY} textAnchor="middle" fill={C.lane} fontSize={10} fontFamily="IBM Plex Mono" letterSpacing={0.5}>
+          <Text x={cx} y={labelY} textAnchor="middle" fill={C.lane} fontSize={10} fontFamily="IBM Plex Mono" letterSpacing={0.5}>
             {p.status.toUpperCase()}
-          </text>
+          </Text>
         )}
-      </g>
+      </Layer>
     );
   };
 
   /** Value dot: solid for an exact reading, hollow with "~" for an approximate one. */
   const valueDot = (color: string) => (props: { cx?: number; cy?: number; index?: number; value?: unknown }) => {
     const p = props.index !== undefined ? byDate.get(rows[props.index].date) : undefined;
-    if (!p || props.cx === undefined || props.cy === undefined || props.value === null || props.value === undefined) return <g key={props.index} />;
+    if (!p || props.cx === undefined || props.cy === undefined || props.value === null || props.value === undefined) return <Layer key={props.index} />;
     const { cx, cy } = props;
     return (
-      <g key={props.index}>
-        <circle cx={cx} cy={cy} r={4} fill={p.approximate ? "#151a21" : color} stroke={color} strokeWidth={2} />
+      <Layer key={props.index}>
+        <Dot cx={cx} cy={cy} r={4} fill={p.approximate ? "#151a21" : color} stroke={color} strokeWidth={2} />
         {p.approximate && (
-          <text x={cx} y={cy - 9} textAnchor="middle" fill={color} fontSize={12} fontFamily="IBM Plex Mono">
+          <Text x={cx} y={cy - 9} textAnchor="middle" fill={color} fontSize={12} fontFamily="IBM Plex Mono">
             ~
-          </text>
+          </Text>
         )}
-      </g>
+      </Layer>
     );
   };
 
@@ -217,9 +224,8 @@ function ChartFooter({ series, forecast, groups }: { series: ResourceSeries; for
       {groups.length > 1 &&
         groups.map((g, i) => (
           <span key={g} className="legend-item">
-            <svg width="22" height="8" aria-hidden="true">
-              <line x1="0" y1="4" x2="22" y2="4" stroke={i === 0 ? C.line : C.line2} strokeWidth="2.5" strokeDasharray={i === 0 ? undefined : "6 4"} />
-            </svg>
+            {/* Line sample as a CSS border (solid = first group, dashed = second), matching the chart lines. */}
+            <span className={`legend-swatch ${i === 0 ? "" : "legend-swatch--dashed"}`} aria-hidden="true" />
             {groupLabel(g)}
           </span>
         ))}

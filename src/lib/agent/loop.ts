@@ -18,7 +18,7 @@ import { join } from "node:path";
 import { ApiError, FunctionCallingConfigMode, GoogleGenAI, type Content, type Part } from "@google/genai";
 import type { Analysis } from "../analyze.ts";
 import type { AgentTraceStep, DailyReport } from "../report-types.ts";
-import { MESSAGE_TO_EARTH_MAX_WORDS, countWords } from "../report-types.ts";
+import { MAX_DECISIONS_FOR_EARTH, MESSAGE_TO_EARTH_MAX_WORDS, countWords } from "../report-types.ts";
 import { checkGrounding } from "../grounding.ts";
 import { SUBMIT_TOOL, SubmittedReportSchema, TOOL_DECLARATIONS, runTool, summarizeInput, summarizeOutput, type SubmittedReport } from "./tools.ts";
 
@@ -50,9 +50,12 @@ How to work:
   critical flag must appear in a concern.
 - Severity comes from the flags, not your judgment: overall is "critical" if any flag is critical,
   "caution" if any is a warning, otherwise "nominal" (our code enforces this).
-- crew_actions: things the crew can do now without waiting for Earth.
-- decisions_for_earth: only things that need human authority on Earth (resupply, approvals,
-  procedures the crew asked for). Each has a one-sentence why.
+- crew_actions: things the crew can do now without waiting for Earth, including minor logistics
+  (equipment checks, small setup changes, routine requests).
+- decisions_for_earth: at most ${MAX_DECISIONS_FOR_EARTH}, most important first. Only decisions that need Earth's
+  authority on crew safety, water, power, or the mission schedule (for example resupply, EVA
+  approval, ending the mission early). Minor logistics go in crew_actions instead, even if the crew
+  asked about them. Each has a one-sentence why.
 - message_to_earth is read on its own by Mission Control: self-contained, at most
   ${MESSAGE_TO_EARTH_MAX_WORDS} words, because each reply takes 20+ minutes each way from Mars. No markdown.
 - You have at most ${MAX_TURNS} turns. Ask for several tools at once (in parallel) to save turns.

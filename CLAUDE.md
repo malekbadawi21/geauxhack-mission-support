@@ -62,43 +62,36 @@ The LLM reads and orchestrates. Deterministic code does all math.
 - At the end of every phase, rewrite the Current state section (replace it, don't append).
 
 ## Current state
-- **Status:** Phase 3b complete (agent + API + real demo run). Phase 4 (UI) is being built in a parallel
-  session. Data contract unchanged (`report-types.ts`, `Analysis`). Type check, build, 41 tests, lint and
-  the browser-safety greps pass. Not committed.
-- **Gemini API:** paid tier, prepaid credits, auto-reload off. Model `gemini-3.8-flash` (from `.env`).
-- **Data:** all 11 Crew 147 engineering reports (Jan 12–19, 21–23) and 10 commander reports (Jan 12–19,
-  22, 23) extracted, every quote verified. `final-mission-report.txt` is reference only.
-- **Analysis (Phase 3a, unchanged):** `analyzeCrew(extractions, asOf, CREW_147)` merges each day's
-  engineering + commander reports (engineering wins, commander fills gaps); flag ids `TYPE:resource|none:date`
-  (+`:2`, `:3`); RUNS_OUT critical only with ≥3 readings; water scenarios from the last `water_total`
-  (null after a refill). Crew identity from `CREW_147`, never from extractions.
-- **Agent (`src/lib/agent/`, server-only, excluded from the browser tsconfig):**
-  - `tools.ts`: `get_overview`, `get_resource_history`, `get_flag_evidence`, `get_water_scenarios` — pure
-    reads of an Analysis; `submit_daily_report` takes `DailyReportSchema` minus `grounding`.
-  - `loop.ts`: `runAgent` = ≤5 AUTO function-calling turns, then one forced (ANY) submit. The turn before
-    the forced call gets a plain "submit the complete report now" note — without it Gemini answered the
-    forced call with an empty stub every time. Validation: zod + flag ids exist + every critical flag in a
-    concern + status_line ≥3 words + message ≥40 words (our floors); `as_of` and `overall` are set by our
-    code (overall from flag severities). One retry with the error. `runDailyReport` adds grounding.
-  - System instruction includes `data/style/ideal-message-2015-01-13.md` as rules (bundled via vercel.json).
-  - Temperature left at the SDK default (Gemini 3 guidance); runs vary, the saved run is the record.
-- **Grounding (`src/lib/grounding.ts`, browser-safe):** every number in the report's text vs every number
-  (fields and numbers inside strings) in the tool outputs the agent received; exact, ±0.5, or 1% above 50.
-  Dates ground through their parts. Word numbers ("two") are not checked. In testing it caught an invented
-  "19:00" next-update time.
-- **API (`api/`):** Web-standard `export function POST(request)`, `config.maxDuration = 300`, no Vercel
-  package. `extract.ts`: `{ filename, text }` → `{ extraction, verification, report_date, kind }`, kind from
-  filename then the report's first 200 chars; `source_file` is canonical `<date>-<kind>.txt` (analyzeCrew reads
-  the kind from it); 400 empty/>50 KB/bad body/no kind, 502 Gemini failure. `daily-report.ts`:
-  `{ extractions, as_of }` → `{ analysis, report, trace }`. `vercel` CLI isn't installed: both handlers were
-  tested by calling `POST(new Request(...))` directly in Node (all status codes as expected). Not yet tested
-  on Vercel itself — `.ts` import extensions and the project-references tsconfig are the deploy risks.
-- **Demo fixtures:** `data/demo/run-2015-01-13.json` is now a REAL run (`is_sample: false`): 13 trace steps,
-  4 concerns, 93-word message, 53 numbers checked, 0 ungrounded. Regenerate with
-  `npm run daily-report -- crew-147 --as-of 2015-01-13` (output varies per run). `analysis-*.json` via
-  `npm run build-demo`. A live re-extraction of Jan 13 can differ from the saved one (once 5 flags, not 6).
-- **Still not forecastable:** water_static (no total depth), water_loft/water_trailer (no unit), gasoline,
-  water_total (one point — scenarios only).
-- **Other decisions kept:** rates are change per day (negative = used up); event severity from keyword rules
-  on verified quotes; `.npmrc` legacy-peer-deps; `/lib/` anchored in `.gitignore`; Gemini's `crew` ignored.
-- **Next:** Phase 4 UI wiring to the API / replay files; a Vercel deploy check.
+- **Status:** Phase 5 complete: Phase 4 UI merged into main (no conflicts), UI wired to the real API, rule
+  check clean, deploy-ready. Type check, build, 42 tests, lint, browser-safety greps and `vercel build`
+  pass. Not committed, not pushed, not yet deployed.
+- **Gemini API:** paid tier, prepaid credits, auto-reload off. Model from env `GEMINI_MODEL`
+  (`gemini-3.8-flash`). Called directly with `@google/genai` — no Vercel AI Gateway.
+- **Vercel:** CLI installed and linked (project `geauxhack-mission-support`, framework Vite, Node 24).
+  `GEMINI_API_KEY` and `GEMINI_MODEL` set for Production, Preview and Development. Deploy with
+  `vercel --prod` or a GitHub import; no other env vars needed.
+- **Vercel build gotcha (fixed):** Vercel compiles api/ with the ROOT tsconfig.json's compilerOptions and
+  ignores `references`. Root tsconfig.json now has its own compilerOptions (mirroring tsconfig.node.json)
+  with `rewriteRelativeImportExtensions`, so our `.ts` imports become `.js` in the output. Without it the
+  functions crash with ERR_MODULE_NOT_FOUND. Proven by running the `vercel build` output in Node.
+  `data/style/` reaches the daily-report function via `includeFiles` (shows as `filePathMap`).
+- **UI (`src/ui/`, `src/components/`):** Replay (default; saved extractions + `data/demo/run-*.json`) and
+  Live (`/api/extract` per file, then `/api/daily-report`). `pipeline.ts` validates both replies with zod
+  schemas matching the API exactly; the UI recomputes the Analysis itself with `analyzeCrew` (the API's
+  `analysis` field is ignored). SAMPLE badge only when `is_sample` is true.
+- **Competition rule (no AI images):** no image files; no hand-drawn SVG in src/. Charts are Recharts
+  (markers via its `Dot`/`Symbols`/`Text`/`Layer`), icons are lucide (brand mark = `Orbit`), the legend
+  swatch is CSS. The inline SVG favicon in index.html is Malek's to replace by hand.
+- **Data:** all 11 Crew 147 engineering reports and 10 commander reports extracted, every quote verified.
+- **Analysis (unchanged since 3a):** `analyzeCrew(extractions, asOf, CREW_147)` merges each day's reports
+  (engineering wins); flag ids `TYPE:resource|none:date`(+`:2`); RUNS_OUT critical only with ≥3 readings.
+- **Agent (`src/lib/agent/`, server-only):** ≤5 tool turns + forced submit, one validation retry,
+  grounding check. `decisions_for_earth` ≤ 3 (`MAX_DECISIONS_FOR_EARTH`, enforced in `DailyReportSchema`):
+  only Earth-authority decisions on crew safety, water, power or schedule; minor logistics → crew_actions.
+- **Demo replay:** `data/demo/run-2015-01-13.json` regenerated (real run): 13 trace steps, 3 concerns,
+  3 decisions, 99-word message, 51 numbers checked, 0 ungrounded.
+- **Live timings (vercel dev):** extract 9–32 s per report, daily-report ~110 s (limit 300 s). Live runs vary
+  from the saved record (once 7 flags instead of 6) — Replay stays the demo default.
+- **Still not forecastable:** water_static, water_loft/water_trailer, gasoline, water_total (scenarios only).
+- **Next:** Malek reviews, commits and pushes; deploy (`vercel --prod`) and smoke-test both modes on the
+  deployed URL; replace the favicon; pick the product name (`src/ui/config.ts`).

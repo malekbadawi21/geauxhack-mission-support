@@ -218,6 +218,10 @@ button:disabled {
   gap: 10px;
   min-width: 0;
 }
+.brand__mark {
+  color: var(--accent);
+  flex-shrink: 0;
+}
 .brand__name {
   font-weight: 600;
   font-size: 1.05rem;
@@ -645,6 +649,14 @@ button:disabled {
   display: inline-flex;
   align-items: center;
   gap: 6px;
+}
+/* A 22px line sample drawn with a top border; colors match C.line / C.line2 in UsageChart.tsx. */
+.legend-swatch {
+  width: 22px;
+  border-top: 2.5px solid #6cb4ee;
+}
+.legend-swatch--dashed {
+  border-top: 2.5px dashed #b6d7f2;
 }
 /* Recharts draws axis text as SVG; this keeps it in the data font. */
 .recharts-text {

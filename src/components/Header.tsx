@@ -4,7 +4,7 @@
 // (a replay must never pass for live). The scrubber's second row lists the report days loaded so far;
 // clicking one makes App.tsx re-run analyzeCrew for that as-of date (no look-ahead).
 
-import { Upload } from "lucide-react";
+import { Orbit, Upload } from "lucide-react";
 import { PRODUCT_NAME } from "../ui/config.ts";
 import { longDate, shortDate } from "../ui/format.ts";
 import type { Mode } from "../ui/pipeline.ts";
@@ -28,11 +28,8 @@ export function Header(p: Props) {
     <header className="topbar">
       <div className="topbar__row">
         <div className="brand">
-          {/* Hand-written mark: a filled circle (Mars) inside a thin ring (an orbit). */}
-          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-            <circle cx="11" cy="11" r="10" fill="none" stroke="#6cb4ee" strokeWidth="1.2" />
-            <circle cx="11" cy="11" r="5" fill="#c1440e" />
-          </svg>
+          {/* Brand mark: a lucide icon, colored by .brand__mark (competition rule: no drawn logos). */}
+          <Orbit className="brand__mark" size={22} aria-hidden="true" />
           <span className="brand__name">{PRODUCT_NAME}</span>
           <span className="brand__crew">{p.crewName}</span>
         </div>

@@ -14,6 +14,9 @@ export const MESSAGE_TO_EARTH_MAX_WORDS = 120;
 /** Counts words: runs of non-space characters. Regex /\S+/g = every run of non-whitespace. */
 export const countWords = (s: string) => s.match(/\S+/g)?.length ?? 0;
 
+// Malek's limit (Phase 5): Earth gets at most 3 decisions a day, so the important ones aren't buried.
+export const MAX_DECISIONS_FOR_EARTH = 3;
+
 // The agent's daily report for one as-of date.
 export const DailyReportSchema = z.object({
   as_of: z.string(), // YYYY-MM-DD, same as Analysis.asOf
@@ -22,7 +25,10 @@ export const DailyReportSchema = z.object({
   // Each concern points at the flags (by Flag.id) that back it up, so every claim traces to a rule.
   concerns: z.array(z.object({ title: z.string(), detail: z.string(), flag_ids: z.array(z.string()) })),
   crew_actions: z.array(z.string()), // what the crew can do now, without waiting for Earth
-  decisions_for_earth: z.array(z.object({ decision: z.string(), why: z.string() })), // only what a human on Earth must decide
+  // Only what a human on Earth must decide; .max(n, message) rejects a longer list.
+  decisions_for_earth: z
+    .array(z.object({ decision: z.string(), why: z.string() }))
+    .max(MAX_DECISIONS_FOR_EARTH, `decisions_for_earth must have at most ${MAX_DECISIONS_FOR_EARTH} items`),
   // .refine(check, message) adds a custom rule zod runs after the type check.
   message_to_earth: z
     .string()

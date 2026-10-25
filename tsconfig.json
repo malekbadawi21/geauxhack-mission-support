@@ -1,4 +1,24 @@
+// tsconfig.json — the root config. It has two separate jobs:
+//
+// 1. For us (`tsc -b`, `npm run typecheck`): "files": [] + "references" make this a "solution" file
+//    that only points at the real configs — tsconfig.app.json (browser) and tsconfig.node.json
+//    (scripts, tests, api/). It type-checks nothing itself.
+// 2. For Vercel: when it builds the functions in api/, Vercel compiles each .ts file with the
+//    compilerOptions of THIS file and does not follow "references" (Vercel docs). So the options
+//    below are what the deployed api/ code is compiled with. They mirror tsconfig.node.json.
 {
+  "compilerOptions": {
+    "target": "es2023",
+    "lib": ["ES2023"], // es2023 adds Array.findLast(), which forecast.ts and water.ts use
+    "module": "nodenext",
+    "types": ["node"],
+    "strict": true,
+    "skipLibCheck": true,
+    // Our imports end in ".ts" (so tsx and Vite can run the files directly). When Vercel compiles to
+    // JavaScript, this rewrites "../src/lib/extract.ts" to "../src/lib/extract.js" in the output;
+    // without it the deployed function crashes with ERR_MODULE_NOT_FOUND. (TypeScript 5.7+.)
+    "rewriteRelativeImportExtensions": true
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },

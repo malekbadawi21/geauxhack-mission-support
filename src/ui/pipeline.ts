@@ -6,12 +6,13 @@
 // serverless functions /api/extract and /api/daily-report, called here. These are our own endpoints
 // (the Gemini key stays on the server); no third-party service is called from the browser.
 //
-// Phase 3b is built in parallel, so the responses are validated with the frozen zod schemas and any
-// mismatch becomes a plain error message the UI shows (with "Switch to replay").
+// Each reply is validated with a zod schema matching exactly what api/extract.ts and
+// api/daily-report.ts send, so a mismatch becomes a plain error message the UI shows (with
+// "Switch to replay") instead of a half-rendered dashboard.
 
-import { SavedExtractionSchema, VerifiedExtractionSchema, type SavedExtraction } from "../lib/schema.ts";
+import { z } from "zod";
+import { SavedExtractionSchema, type SavedExtraction } from "../lib/schema.ts";
 import { AgentTraceStepSchema, DailyReportSchema, type DemoRun } from "../lib/report-types.ts";
-import { dateFromFilename, normalizeDate } from "../lib/dates.ts";
 
 export type Mode = "replay" | "live";
 
@@ -73,33 +74,34 @@ async function postJson(url: string, body: unknown): Promise<unknown> {
   return json;
 }
 
+// What /api/extract replies with. The server already builds the saved form (canonical source_file,
+// normalized date), so `extraction` is used as is. `verification` holds counts for logging; the UI
+// counts quotes itself from the extraction (quoteCounts in data.ts). z.object ignores extra keys.
+const ExtractReplySchema = z.object({
+  extraction: SavedExtractionSchema,
+  verification: z.object({ total: z.number(), verified: z.number(), unverified_quotes: z.array(z.string()) }),
+  report_date: z.string(),
+  kind: z.enum(["engineering", "commander"]),
+});
+
+// What /api/daily-report replies with. It also sends `analysis`, but App.tsx computes the same
+// Analysis itself with analyzeCrew() on the same extractions, so we only take the report and trace.
+const DailyReportReplySchema = z.object({
+  report: DailyReportSchema,
+  trace: z.array(AgentTraceStepSchema),
+});
+
 /**
- * Live: sends one report's text to /api/extract and turns the reply into a SavedExtraction.
- * @param filename  The uploaded file's name (used for the date if the report has none).
+ * Live: sends one report's text to /api/extract and returns its verified extraction.
+ * @param filename  The uploaded file's name (the server uses it for the kind, and the date if the
+ *                  report has none).
  * @param text      The report text.
  * @returns         The extraction in the same saved shape analyzeCrew() reads from data/extractions/.
- * Reply shape (prompts/phase-3b.md): { extraction, verification, report_date, kind }. We accept the
- * verified extraction under either `extraction` or `verification`, and build the saved form ourselves.
  */
 export async function liveExtract(filename: string, text: string): Promise<SavedExtraction> {
-  const reply = (await postJson("/api/extract", { filename, text })) as Record<string, unknown>;
-  // If the server already sent the saved form, use it as is.
-  const saved = SavedExtractionSchema.safeParse(reply.extraction);
-  if (saved.success) return saved.data;
-  // Otherwise find the verified extraction (items carry `verified`) in whichever field holds it.
-  const verified = [reply.verification, reply.extraction].map((v) => VerifiedExtractionSchema.safeParse(v)).find((r) => r.success);
-  if (!verified?.data) throw new Error("/api/extract reply did not contain a verified extraction");
-  const date = normalizeDate(typeof reply.report_date === "string" ? reply.report_date : null) ?? dateFromFilename(filename);
-  if (!date) throw new Error(`no usable date for ${filename} (report_date: ${String(reply.report_date)})`);
-  const kind = reply.kind === "commander" ? "commander" : "engineering";
-  return {
-    ...verified.data,
-    date,
-    date_from_filename: normalizeDate(typeof reply.report_date === "string" ? reply.report_date : null) === null,
-    // analyzeCrew reads the report kind from source_file ("YYYY-MM-DD-<kind>.txt"), so we store the
-    // canonical name even if the uploaded file was called something else.
-    source_file: `${date}-${kind}.txt`,
-  };
+  const reply = ExtractReplySchema.safeParse(await postJson("/api/extract", { filename, text }));
+  if (!reply.success) throw new Error(`/api/extract sent a reply that doesn't match the contract: ${reply.error.message}`);
+  return reply.data.extraction;
 }
 
 /**
@@ -107,15 +109,12 @@ export async function liveExtract(filename: string, text: string): Promise<Saved
  * @returns  A DemoRun-shaped record (is_sample false) so Live and Replay render the same way.
  */
 export async function liveDailyReport(extractions: SavedExtraction[], asOf: string): Promise<DemoRun> {
-  const reply = (await postJson("/api/daily-report", { extractions, as_of: asOf })) as Record<string, unknown>;
-  const report = DailyReportSchema.safeParse(reply.report);
-  if (!report.success) throw new Error(`/api/daily-report sent a report that doesn't match the contract: ${report.error.message}`);
-  const trace = AgentTraceStepSchema.array().safeParse(reply.trace ?? []); // .array() = a list of that schema
-  if (!trace.success) throw new Error(`/api/daily-report sent a trace that doesn't match the contract: ${trace.error.message}`);
+  const reply = DailyReportReplySchema.safeParse(await postJson("/api/daily-report", { extractions, as_of: asOf }));
+  if (!reply.success) throw new Error(`/api/daily-report sent a reply that doesn't match the contract: ${reply.error.message}`);
   return {
     as_of: asOf,
-    report: report.data,
-    trace: trace.data,
+    report: reply.data.report,
+    trace: reply.data.trace,
     generated_at: new Date().toISOString(),
     model: "live run",
     is_sample: false,
